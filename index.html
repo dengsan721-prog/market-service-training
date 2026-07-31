@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>幸福驿站市场服务实战训练</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      --ink: #1d1d1f;
+      --muted: #666b70;
+      --hairline: rgba(0, 0, 0, .08);
+      --paper: rgba(255, 255, 255, .94);
+      --page: #f6f7f4;
+      --blue: #007aff;
+      --green: #2f9e5c;
+      --green-soft: #e8f6ed;
+      --yellow: #d99b00;
+      --yellow-soft: #fff4ce;
+      --pink: #c74b7b;
+      --pink-soft: #ffe6ef;
+      --red: #d93c35;
+      --shadow: 0 18px 48px rgba(25, 37, 30, .10);
+      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    html,
+    body {
+      max-width: 100%;
+      overflow-x: clip;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 50% -120px, rgba(255, 255, 255, .98), transparent 280px),
+        linear-gradient(180deg, var(--page) 0%, #ffffff 55%, #edf4ef 100%);
+    }
+
+    button,
+    textarea { font: inherit; }
+
+    button { cursor: pointer; }
+
+    .shell {
+      width: min(100% - 18px, 440px);
+      margin: 0 auto;
+      padding: 10px 0 32px;
+    }
+
+    .top {
+      display: grid;
+      gap: 10px;
+      padding: 8px 0 12px;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    h1 {
+      margin: 0;
+      min-width: 0;
+      font-size: clamp(14px, 4vw, 22px);
+      line-height: 1.1;
+      letter-spacing: 0;
+      white-space: nowrap;
+    }
+
+    .score {
+      flex: 0 0 auto;
+      min-width: 66px;
+      padding: 7px 9px;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .88);
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .07);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .score-tools {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--hairline);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .88);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .06);
+    }
+
+    .score-rule {
+      min-width: 0;
+      color: #3a3a3c;
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .reset-button,
+    .secondary-button,
+    .viewer-button {
+      min-height: 38px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(0, 122, 255, .10);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .reset-button,
+    .secondary-button,
+    .viewer-button { padding: 8px 12px; }
+
+    .coach-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .coach-chip {
+      min-height: 58px;
+      padding: 9px 10px;
+      border: 1px solid var(--hairline);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .86);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, .06);
+    }
+
+    .coach-chip span {
+      display: block;
+      color: #777b80;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .coach-chip strong {
+      display: block;
+      margin-top: 4px;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.22;
+    }
+
+    .mode-tabs {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 4px;
+      padding: 4px;
+      border-radius: 15px;
+      background: rgba(118, 118, 128, .12);
+    }
+
+    .mode-tabs button {
+      min-width: 0;
+      min-height: 38px;
+      border: 0;
+      border-radius: 12px;
+      background: transparent;
+      color: #3a3a3c;
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .mode-tabs button.active {
+      background: #ffffff;
+      color: var(--blue);
+      box-shadow: 0 3px 12px rgba(0, 0, 0, .10);
+    }
+
+    .panel {
+      display: none;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 24px;
+      background: var(--paper);
+      box-shadow: var(--shadow);
+    }
+
+    .panel.active { display: grid; gap: 12px; }
+
+    .block {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .image-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .image-viewer {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      grid-template-rows: auto 1fr;
+      background: rgba(0, 0, 0, .86);
+    }
+
+    .image-viewer.open { display: grid; }
+
+    .viewer-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+      padding: 10px;
+      background: rgba(20, 20, 22, .88);
+    }
+
+    .viewer-button {
+      background: rgba(255, 255, 255, .16);
+      color: #ffffff;
+    }
+
+    .viewer-canvas {
+      overflow: auto;
+      display: grid;
+      place-items: start center;
+      padding: 14px;
+    }
+
+    .viewer-sheet {
+      width: min(760px, 100%);
+      transform-origin: top center;
+      transition: transform .18s ease;
+      padding: 14px;
+      border-radius: 14px;
+      background: #ffffff;
+    }
+
+    .mini-flow,
+    .viewer-flow {
+      display: grid;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #ffffff, #f7f9f7);
+      min-width: 0;
+    }
+
+    .viewer-flow { padding: 0; }
+
+    .flow-lane {
+      display: grid;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .lane-title {
+      color: #777b80;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .node-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .node {
+      flex: 1 1 94px;
+      min-width: 0;
+      min-height: 40px;
+      padding: 9px 10px;
+      border: 0;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.2;
+      background: var(--green-soft);
+      box-shadow: inset 0 0 0 1px rgba(47, 158, 92, .22);
+      overflow-wrap: anywhere;
+    }
+
+    .node.yellow {
+      background: var(--yellow-soft);
+      color: #805000;
+      box-shadow: inset 0 0 0 1px rgba(217, 155, 0, .28);
+    }
+
+    .node.pink {
+      background: var(--pink-soft);
+      color: #7b174d;
+      box-shadow: inset 0 0 0 1px rgba(199, 75, 123, .20);
+    }
+
+    .node.long { flex-basis: 138px; }
+    .node.medium { flex-basis: 118px; }
+
+    .node.active {
+      outline: 3px solid rgba(0, 122, 255, .24);
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 122, 255, .45),
+        0 8px 20px rgba(0, 122, 255, .16);
+    }
+
+    .note-box {
+      min-height: 78px;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, .78);
+      border: 1px solid var(--hairline);
+    }
+
+    .note-box h2 { font-size: 17px; }
+
+    .task-card {
+      display: grid;
+      gap: 8px;
+      min-height: 112px;
+      padding: 14px;
+      border: 2px solid rgba(0, 122, 255, .30);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(240, 248, 255, .94));
+      box-shadow: 0 12px 30px rgba(0, 122, 255, .12);
+      min-width: 0;
+    }
+
+    .task-card.next-target { border-color: rgba(0, 122, 255, .68); }
+
+    .step-counter {
+      width: fit-content;
+      max-width: 100%;
+      min-height: 28px;
+      padding: 6px 9px;
+      border-radius: 999px;
+      background: rgba(0, 122, 255, .10);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .task-card strong {
+      min-width: 0;
+      color: var(--ink);
+      font-size: 17px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+
+    .blank-grid,
+    .choice-grid,
+    .recall-grid,
+    .path-options,
+    .challenge-list,
+    .answer-grid {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .blank,
+    .choice,
+    .recall-item,
+    .challenge-button {
+      width: 100%;
+      min-width: 0;
+      min-height: 48px;
+      padding: 10px 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 16px;
+      background: #ffffff;
+      color: var(--ink);
+      text-align: left;
+      font-weight: 850;
+      line-height: 1.3;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, .05);
+      overflow-wrap: anywhere;
+    }
+
+    .blank span,
+    .recall-item span {
+      display: block;
+      margin-bottom: 4px;
+      color: #777b80;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .blank strong,
+    .recall-item strong {
+      display: block;
+      color: var(--ink);
+      font-size: 15px;
+    }
+
+    .chip {
+      min-height: 38px;
+      padding: 8px 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 850;
+      text-align: left;
+    }
+
+    .chip.selected,
+    .challenge-button.active {
+      border-color: rgba(0, 122, 255, .55);
+      color: var(--blue);
+      background: rgba(0, 122, 255, .08);
+    }
+
+    .choice.next-target,
+    .blank.next-target,
+    .recall-item.next-target {
+      border-color: rgba(0, 122, 255, .48);
+      box-shadow: 0 10px 26px rgba(0, 122, 255, .12);
+    }
+
+    .correct {
+      border-color: rgba(47, 158, 92, .45) !important;
+      background: rgba(47, 158, 92, .12) !important;
+    }
+
+    .wrong {
+      border-color: rgba(217, 60, 53, .38) !important;
+      background: rgba(217, 60, 53, .08) !important;
+    }
+
+    .path-stage {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      min-width: 0;
+    }
+
+    .path-pill {
+      min-height: 34px;
+      max-width: 100%;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(118, 118, 128, .12);
+      color: #3a3a3c;
+      font-size: 13px;
+      font-weight: 850;
+      overflow-wrap: anywhere;
+    }
+
+    .path-pill.done {
+      background: rgba(0, 122, 255, .10);
+      color: var(--blue);
+    }
+
+    .feedback {
+      min-height: 24px;
+      color: #3a3a3c;
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    .textarea {
+      width: 100%;
+      min-height: 124px;
+      resize: vertical;
+      padding: 12px;
+      border: 1px solid var(--hairline);
+      border-radius: 18px;
+      background: #ffffff;
+      color: var(--ink);
+      line-height: 1.5;
+      outline: none;
+    }
+
+    .textarea:focus {
+      border-color: rgba(0, 122, 255, .46);
+      box-shadow: 0 0 0 4px rgba(0, 122, 255, .10);
+    }
+
+    @media (max-width: 374px) {
+      .shell { width: min(100% - 12px, 440px); }
+      h1 { font-size: 13px; }
+      .score { min-width: 58px; padding-inline: 7px; font-size: 11px; }
+      .score-tools { grid-template-columns: 1fr; }
+      .coach-strip { grid-template-columns: 1fr; }
+      .mode-tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .mode-tabs button { font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="top" aria-label="幸福驿站市场服务训练">
+      <div class="title-row">
+        <h1>幸福驿站市场服务实战训练</h1>
+        <div class="score" aria-live="polite">本轮得分 <span id="score">0</span></div>
+      </div>
+      <div class="coach-strip" aria-label="训练目标">
+        <div class="coach-chip">
+          <span>核心逻辑</span>
+          <strong>自己看见，自己说服自己</strong>
+        </div>
+        <div class="coach-chip">
+          <span>训练抓手</span>
+          <strong>提要求、布置作业、完成作业</strong>
+        </div>
+        <div class="coach-chip">
+          <span>复制标准</span>
+          <strong>严格复制，不随意发挥</strong>
+        </div>
+      </div>
+      <div class="score-tools">
+        <div class="score-rule" id="scoreRule">一轮挑战包含流程总览、话术填空、标准判断、流程走关、复盘通关。答对 +10，答错 -2，重新挑战清零。</div>
+        <button class="reset-button" type="button" id="resetChallenge">重新挑战</button>
+      </div>
+      <nav class="mode-tabs" aria-label="训练模式">
+        <button class="active" type="button" data-mode="map">总览</button>
+        <button type="button" data-mode="fill">填空</button>
+        <button type="button" data-mode="judge">判断</button>
+        <button type="button" data-mode="path">走关</button>
+        <button type="button" data-mode="recall">复盘</button>
+      </nav>
+    </section>
+
+    <section class="panel active" id="mode-map" data-panel="map">
+      <div class="block">
+        <h2>流程总览</h2>
+        <p>这套训练不改市场验证过的内容，只练一件事：能背、能判、能走、能复盘，能照标准服务陌生学员到报名。</p>
+      </div>
+      <div class="image-actions">
+        <button class="secondary-button" type="button" id="openImageViewer">全屏看图</button>
+      </div>
+      <div class="mini-flow" id="flowBoard" aria-label="可高亮服务流程"></div>
+      <div class="note-box" id="nodeExplain" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="mode-fill" data-panel="fill">
+      <div class="block">
+        <h2>话术填空</h2>
+        <p>直接照搬核心话术和标准，练到出口就是原话。</p>
+      </div>
+      <div class="task-card next-target" id="fillTask"></div>
+      <div class="answer-grid" id="answerChips"></div>
+      <div class="feedback" id="fillFeedback" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="mode-judge" data-panel="judge">
+      <div class="block">
+        <h2>标准判断</h2>
+        <p>看场景，判断是按流程服务，还是进入具体咨询，还是放松标准。</p>
+      </div>
+      <div class="task-card next-target">
+        <div class="step-counter" id="decisionCounter"></div>
+        <strong id="decisionScenario"></strong>
+        <p id="decisionHint"></p>
+      </div>
+      <div class="answer-grid" id="decisionOptions"></div>
+      <div class="feedback" id="decisionFeedback" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="mode-path" data-panel="path">
+      <div class="block">
+        <h2>流程走关</h2>
+        <p>把陌生学员、沙龙、7天营和榜样复制四条路径走熟。</p>
+      </div>
+      <div class="challenge-list" id="pathChallenges"></div>
+      <div class="task-card next-target">
+        <div class="step-counter" id="pathCounter"></div>
+        <strong id="scenarioText"></strong>
+        <p id="currentPathStep"></p>
+        <div class="path-stage" id="pathStage"></div>
+      </div>
+      <div class="answer-grid" id="pathOptions"></div>
+      <div class="feedback" id="pathFeedback" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="mode-recall" data-panel="recall">
+      <div class="block">
+        <h2>复盘通关</h2>
+        <p>按顺序点亮，核对自己是否真正掌握“流程帮助客户”的核心逻辑。</p>
+      </div>
+      <div class="task-card next-target" id="recallTask"></div>
+      <div class="recall-grid" id="recallGrid"></div>
+      <textarea class="textarea" id="recallNote" placeholder="复盘提示：我有没有严格按照流程？有没有一次一次提要求？有没有布置作业、收作业、复盘调整？有没有让学员在互动学习中知道自己的错误，然后决定行动？"></textarea>
+      <div class="feedback" id="recallFeedback" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <div class="image-viewer" id="imageViewer" aria-hidden="true">
+    <div class="viewer-bar">
+      <button class="viewer-button" type="button" data-zoom="out">缩小</button>
+      <button class="viewer-button" type="button" data-zoom="in">放大</button>
+      <button class="viewer-button" type="button" id="closeImageViewer">关闭</button>
+    </div>
+    <div class="viewer-canvas">
+      <div class="viewer-sheet" id="viewerImage">
+        <div class="viewer-flow" id="viewerFlow"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SCORE_CORRECT = 10;
+    const SCORE_WRONG = -2;
+
+    const nodes = [
+      { id: 'attract', label: '吸引破冰', color: 'yellow', size: '', note: '用案例或痛点吸引有真实幸福需求的人。只服务有需求的人，遇到抗拒态度人员直接淘汰。' },
+      { id: 'need', label: '问需求', color: 'yellow', size: '', note: '问对方需要解决什么问题，或转介绍客户带着什么问题来，让顾客重视自己的问题。' },
+      { id: 'salon', label: '免费幸福沙龙', color: 'green', size: 'medium', note: '咨询问题先进入免费沙龙体验，不在私聊里做具体诊断。' },
+      { id: 'invite', label: '邀约', color: 'green', size: '', note: '邀约公式：我学会了什么 + 解决了我什么问题 + 我为什么一定让你来 + 打消顾虑 + 限名额。' },
+      { id: 'heart', label: '讲发心', color: 'green', size: '', note: '讲为什么想开这样的沙龙，什么事情触动了你，立下了什么样的心愿。' },
+      { id: 'warm', label: '热场', color: 'green', size: '', note: '活跃气氛，有一个好的状态，打消紧张感。' },
+      { id: 'require', label: '提要求', color: 'green', size: '', note: '一次一次提要求：全程参与，手机静音，完全按照本次主题配合执行。' },
+      { id: 'theme', label: '主题', color: 'green', size: '', note: '一场沙龙只讲一个主题，紧扣本次主题，不能串主题。' },
+      { id: 'share', label: '分享', color: 'green', size: '', note: '按照文案引导顾客简单分享，让学员在互动学习中看见自己的状态。' },
+      { id: 'interview', label: '引导式采访', color: 'green', size: 'medium', note: '通过发问让学员知道自己的错误、看到后果、说出正确做法，完成自己说服自己。' },
+      { id: 'close', label: '心愿闭环', color: 'green', size: 'medium', note: '闭环下一次学习，拔高心愿，激活对方的善。' },
+      { id: 'homeworkSet', label: '布置作业', color: 'pink', size: '', note: '留作业、收作业。把学习落到一次真实表达和沟通。' },
+      { id: 'homeworkDone', label: '完成作业', color: 'pink', size: '', note: '交作业的标准：给哪一个家人表达、什么场景、说了什么、家人什么反馈、自己什么心情。' },
+      { id: 'review', label: '复盘调整', color: 'pink', size: '', note: '作业不理想就复盘原因，是不是没教明白，或顾客有什么顾虑，然后帮助解决。' },
+      { id: 'mindset', label: '心态调整', color: 'pink', size: '', note: '学员在一次次互动、作业、复盘中愿意放下情绪，愿意改变语言、语气、角度。' },
+      { id: 'camp', label: '7天幸福训练营', color: 'green', size: 'medium', note: '沙龙筛选学习态度好、有受益拿到幸福的顾客；转介绍客户可直接进入。' },
+      { id: 'model', label: '榜样采访', color: 'yellow', size: 'medium', note: '发现榜样、采访榜样、储存榜样，用榜样案例形成口碑，激活新资源。' },
+      { id: 'course', label: '幸福驿站大课', color: 'green', size: 'medium', note: '顾客自己愿意持续学习后进入更系统的大课、人才培养或复制路径。' },
+      { id: 'copy', label: '严格复制', color: 'yellow', size: 'medium', note: '严格按照8步标准流程，不敷衍，不放水，不随意发挥。' }
+    ];
+
+    const lanes = [
+      { title: '吸引进入', ids: ['attract', 'need', 'salon'] },
+      { title: '沙龙8步标准流程', ids: ['invite', 'heart', 'warm', 'require', 'theme', 'share', 'interview', 'close'] },
+      { title: '作业与心态循环', ids: ['homeworkSet', 'homeworkDone', 'review', 'mindset'] },
+      { title: '升级与复制', ids: ['camp', 'model', 'course', 'copy'] }
+    ];
+
+    const blanks = [
+      { clue: '咨询生人固定开口', answer: '你这个问题啊，其实很简单', ids: ['need', 'salon'] },
+      { clue: '沙龙后有转介绍的固定回应', answer: '您这个问题很简单，参加完我们的7天训练营，你自己都能找到原因，自己轻松解决', ids: ['camp'] },
+      { clue: '沙龙复制标准第一条', answer: '严格按照8步标准流程', ids: ['copy'] },
+      { clue: '市场服务的核心逻辑', answer: '自己说服自己', ids: ['interview', 'mindset'] },
+      { clue: '工具背后的服务原则', answer: '我们是用流程在帮助客户，不是用能力在帮助客户', ids: ['copy'] },
+      { clue: '幸福驿站解决关系问题的落点', answer: '愿意放下情绪，愿意改变语言、语气、角度', ids: ['mindset'] },
+      { clue: '每场学习结束必须做', answer: '留作业、收作业', ids: ['homeworkSet', 'homeworkDone'] },
+      { clue: '复制训练里坚决不要', answer: '不随意发挥', ids: ['copy'] }
+    ];
+
+    const decisionCases = [
+      {
+        scenario: '学员说：“我孩子天天玩手机，作业拖拉，我快崩溃了。”服务人员回答：“你这个问题啊，其实很简单，先参加一次免费幸福沙龙。”',
+        hint: '没有进入诊断，而是承接需求，引入体验。',
+        answer: '按流程服务',
+        result: '对：先引入沙龙，让学员在互动中自己看到原因。',
+        ids: ['need', 'salon']
+      },
+      {
+        scenario: '服务人员听完夫妻矛盾后，开始判断谁对谁错，并给出一套家庭分析。',
+        hint: '手册强调不靠个人能力解决客户，而是靠流程。',
+        answer: '进入具体咨询',
+        result: '警惕：这会把服务人员拖进咨询，不利于复制。',
+        ids: ['need', 'copy']
+      },
+      {
+        scenario: '沙龙结束后，学员说回家不想表达，服务人员说：“没事，不做作业也可以继续学。”',
+        hint: '作业是训练结果的关键抓手。',
+        answer: '放松标准',
+        result: '警惕：没有作业就没有行动，没有行动就没有结果。',
+        ids: ['homeworkSet', 'homeworkDone']
+      },
+      {
+        scenario: '顾客作业效果不理想，教练立刻复盘：是不是我们没教明白，顾客有什么顾虑。',
+        hint: '找教练和流程的问题，帮助顾客调整。',
+        answer: '按流程服务',
+        result: '对：复盘调整是拿结果的关键动作。',
+        ids: ['review']
+      },
+      {
+        scenario: '开沙龙的人临场加了很多自己理解的内容，主题从亲子说到夫妻、健康、产品。',
+        hint: '一场沙龙只讲一个主题，标准流程里没有的不要说，不要做。',
+        answer: '放松标准',
+        result: '警惕：串主题和个人发挥会破坏复制。',
+        ids: ['theme', 'copy']
+      },
+      {
+        scenario: '引导式采访时，服务人员让学员自己说出：错误方式继续下去会有什么后果，正确做法应该怎么做。',
+        hint: '这就是学员自己看见、自己决定行动。',
+        answer: '按流程服务',
+        result: '对：不是推销，是让学员自己说服自己。',
+        ids: ['interview', 'mindset']
+      },
+      {
+        scenario: '7天训练营里，负责人每天课前通关，课后收作业，晚上复盘服务反馈和落地反馈。',
+        hint: '这正是严格精密流程让人相信并拿结果。',
+        answer: '按流程服务',
+        result: '对：反复提要求、完成作业、复盘反馈，才会立竿见影。',
+        ids: ['camp', 'homeworkSet', 'review']
+      },
+      {
+        scenario: '市场人员觉得自己不自信，于是只学习话术，但不敢照流程邀约、提要求、收作业。',
+        hint: '看到才相信的人，需要先严格照流程做，结果会反过来建立相信。',
+        answer: '放松标准',
+        result: '警惕：只学不做，流程就不会产生结果。',
+        ids: ['copy', 'homeworkDone']
+      }
+    ];
+
+    const decisionOptions = ['按流程服务', '进入具体咨询', '放松标准'];
+
+    const pathChallenges = [
+      {
+        title: '陌生学员到7天营',
+        scenario: '陌生学员带着孩子、家庭、关系或心态问题来咨询。',
+        answer: [
+          { label: '吸引破冰', id: 'attract' },
+          { label: '问需求', id: 'need' },
+          { label: '免费幸福沙龙', id: 'salon' },
+          { label: '布置作业', id: 'homeworkSet' },
+          { label: '完成作业', id: 'homeworkDone' },
+          { label: '复盘调整', id: 'review' },
+          { label: '7天幸福训练营', id: 'camp' }
+        ]
+      },
+      {
+        title: '沙龙8步标准',
+        scenario: '开一场幸福沙龙，一场只讲一个主题。',
+        answer: [
+          { label: '邀约', id: 'invite' },
+          { label: '讲发心', id: 'heart' },
+          { label: '热场', id: 'warm' },
+          { label: '提要求', id: 'require' },
+          { label: '主题', id: 'theme' },
+          { label: '分享', id: 'share' },
+          { label: '引导式采访', id: 'interview' },
+          { label: '心愿闭环', id: 'close' },
+          { label: '布置作业', id: 'homeworkSet' }
+        ]
+      },
+      {
+        title: '7天营拿结果',
+        scenario: '7天训练营不是推销，而是让学员一次次行动、反馈、调整。',
+        answer: [
+          { label: '7天幸福训练营', id: 'camp' },
+          { label: '提要求', id: 'require' },
+          { label: '布置作业', id: 'homeworkSet' },
+          { label: '完成作业', id: 'homeworkDone' },
+          { label: '复盘调整', id: 'review' },
+          { label: '心态调整', id: 'mindset' },
+          { label: '榜样采访', id: 'model' },
+          { label: '幸福驿站大课', id: 'course' }
+        ]
+      },
+      {
+        title: '榜样到复制',
+        scenario: '学员通过学习拿到幸福后，继续激活使命感，帮助更多人。',
+        answer: [
+          { label: '榜样采访', id: 'model' },
+          { label: '严格复制', id: 'copy' },
+          { label: '吸引破冰', id: 'attract' },
+          { label: '免费幸福沙龙', id: 'salon' },
+          { label: '7天幸福训练营', id: 'camp' }
+        ]
+      }
+    ];
+
+    const recallItems = [
+      { label: '入口：吸引破冰 -> 问需求 -> 免费幸福沙龙', ids: ['attract', 'need', 'salon'] },
+      { label: '沙龙8步：邀约 -> 讲发心 -> 热场 -> 提要求 -> 主题 -> 分享 -> 引导式采访 -> 心愿闭环', ids: ['invite', 'heart', 'warm', 'require', 'theme', 'share', 'interview', 'close'] },
+      { label: '拿结果：一次一次提要求 -> 布置作业 -> 完成作业 -> 复盘调整', ids: ['require', 'homeworkSet', 'homeworkDone', 'review'] },
+      { label: '心态改变：互动学习中知道自己的错误，然后决定行动，自己说服自己', ids: ['share', 'interview', 'mindset'] },
+      { label: '升级：沙龙受益或转介绍 -> 7天幸福训练营 -> 榜样采访 -> 幸福驿站大课', ids: ['camp', 'model', 'course'] },
+      { label: '复制：严格按照8步标准流程，不随意发挥；标准里没有的，不要说，不要做', ids: ['copy'] }
+    ];
+
+    const pathOptionLabels = [
+      '吸引破冰',
+      '问需求',
+      '免费幸福沙龙',
+      '邀约',
+      '讲发心',
+      '热场',
+      '提要求',
+      '主题',
+      '分享',
+      '引导式采访',
+      '心愿闭环',
+      '布置作业',
+      '完成作业',
+      '复盘调整',
+      '心态调整',
+      '7天幸福训练营',
+      '榜样采访',
+      '幸福驿站大课',
+      '严格复制'
+    ];
+
+    let score = 0;
+    let selectedAnswer = '';
+    let fillIndex = 0;
+    let decisionIndex = 0;
+    let activePath = 0;
+    let pathIndex = 0;
+    let imageScale = 1;
+
+    function updateScore(points) {
+      score = Math.max(0, score + points);
+      document.getElementById('score').textContent = score;
+    }
+
+    function resetChallenge() {
+      score = 0;
+      selectedAnswer = '';
+      fillIndex = 0;
+      decisionIndex = 0;
+      activePath = 0;
+      pathIndex = 0;
+      document.getElementById('score').textContent = score;
+      document.getElementById('recallNote').value = '';
+      ['fillFeedback', 'decisionFeedback', 'pathFeedback', 'recallFeedback'].forEach((id) => {
+        document.getElementById(id).textContent = '';
+      });
+      renderFlowBoard();
+      renderFill();
+      renderDecision();
+      renderPathChallengeButtons();
+      renderPathChallenge();
+      renderRecall();
+      setMode('map');
+      explainNode('attract');
+    }
+
+    function openImageViewer() {
+      imageScale = 1;
+      document.getElementById('viewerImage').style.transform = `scale(${imageScale})`;
+      document.getElementById('imageViewer').classList.add('open');
+      document.getElementById('imageViewer').setAttribute('aria-hidden', 'false');
+    }
+
+    function closeImageViewer() {
+      document.getElementById('imageViewer').classList.remove('open');
+      document.getElementById('imageViewer').setAttribute('aria-hidden', 'true');
+    }
+
+    function zoomImage(direction) {
+      imageScale = Math.min(2.2, Math.max(.65, imageScale + direction * .18));
+      document.getElementById('viewerImage').style.transform = `scale(${imageScale})`;
+    }
+
+    function byId(id) {
+      return nodes.find((node) => node.id === id);
+    }
+
+    function idList(value) {
+      if (Array.isArray(value)) return value.flatMap(idList);
+      return String(value).split(' ').filter(Boolean);
+    }
+
+    function nodeClass(node) {
+      return ['node', node.color, node.size].filter(Boolean).join(' ');
+    }
+
+    function highlightFlow(ids) {
+      const activeIds = new Set(idList(ids));
+      document.querySelectorAll('[data-node]').forEach((node) => {
+        node.classList.toggle('active', activeIds.has(node.dataset.node));
+      });
+    }
+
+    function setNextTarget(selector, activeIndex) {
+      document.querySelectorAll(selector).forEach((item, index) => {
+        item.classList.toggle('next-target', index === activeIndex);
+      });
+    }
+
+    function buildOptions(correct, pool, seed) {
+      const uniquePool = [...new Set(pool)].filter((item) => item !== correct);
+      const start = uniquePool.length ? seed % uniquePool.length : 0;
+      const distractors = [...uniquePool.slice(start), ...uniquePool.slice(0, start)].slice(0, 3);
+      return [correct, ...distractors].sort((a, b) => (
+        (a.charCodeAt(0) + seed) % 7 - ((b.charCodeAt(0) + seed) % 7)
+      ));
+    }
+
+    function explainNode(id) {
+      const node = byId(id);
+      highlightFlow([id]);
+      document.getElementById('nodeExplain').innerHTML = `<h2>${node.label}</h2><p>${node.note}</p>`;
+    }
+
+    function setMode(mode) {
+      document.querySelectorAll('[data-mode]').forEach((button) => {
+        button.classList.toggle('active', button.dataset.mode === mode);
+      });
+      document.querySelectorAll('[data-panel]').forEach((panel) => {
+        panel.classList.toggle('active', panel.dataset.panel === mode);
+      });
+      if (mode === 'map') highlightFlow(['attract']);
+      if (mode === 'fill') renderSingleFill();
+      if (mode === 'judge') renderDecision();
+      if (mode === 'path') paintPathStage();
+      if (mode === 'recall') renderRecallTask();
+    }
+
+    function flowMarkup() {
+      return lanes.map((lane) => `
+        <div class="flow-lane">
+          <div class="lane-title">${lane.title}</div>
+          <div class="node-row">
+            ${lane.ids.map((id) => {
+              const node = byId(id);
+              return `<button type="button" class="${nodeClass(node)}" data-node="${node.id}">${node.label}</button>`;
+            }).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function renderFlowBoard() {
+      const board = document.getElementById('flowBoard');
+      board.innerHTML = flowMarkup();
+      document.getElementById('viewerFlow').innerHTML = flowMarkup();
+      document.querySelectorAll('[data-node]').forEach((button) => {
+        button.addEventListener('click', () => explainNode(button.dataset.node));
+      });
+    }
+
+    function renderFill() {
+      renderSingleFill();
+    }
+
+    function renderSingleFill() {
+      const blank = blanks[fillIndex];
+      document.getElementById('fillTask').innerHTML = `
+        <div class="step-counter">第 ${fillIndex + 1} / ${blanks.length} 题</div>
+        <strong>${blank.clue}</strong>
+        <p>${blank.answer.length > 16 ? '________________' : '________'}</p>
+      `;
+      highlightFlow(blank.ids);
+      selectedAnswer = '';
+      const chips = buildOptions(blank.answer, blanks.map((item) => item.answer), fillIndex);
+      document.getElementById('answerChips').innerHTML = chips.map((answer) => (
+        `<button type="button" class="choice" data-answer-option="${answer}">${answer}</button>`
+      )).join('');
+      document.getElementById('answerChips').querySelectorAll('[data-answer-option]').forEach((button) => {
+        button.addEventListener('click', () => advanceFill(button.dataset.answerOption));
+      });
+      document.getElementById('fillFeedback').textContent = '';
+    }
+
+    function checkFillAnswer(index) {
+      fillIndex = index;
+      advanceFill(selectedAnswer);
+    }
+
+    function advanceFill(answer) {
+      const blank = blanks[fillIndex];
+      const button = document.getElementById('answerChips').querySelector(`[data-answer-option="${CSS.escape(answer)}"]`);
+      if (answer === blank.answer) {
+        button.classList.add('correct');
+        highlightFlow(blank.ids);
+        updateScore(SCORE_CORRECT);
+        document.getElementById('fillFeedback').textContent = '照原话记住';
+        fillIndex = (fillIndex + 1) % blanks.length;
+        window.setTimeout(renderSingleFill, 680);
+      } else {
+        button.classList.add('wrong');
+        highlightFlow(blank.ids);
+        updateScore(SCORE_WRONG);
+        document.getElementById('fillFeedback').textContent = '再试一次，训练目标是原话脱口而出';
+      }
+    }
+
+    function renderDecision() {
+      const item = decisionCases[decisionIndex];
+      document.getElementById('decisionCounter').textContent = `第 ${decisionIndex + 1} / ${decisionCases.length} 题`;
+      document.getElementById('decisionScenario').textContent = item.scenario;
+      document.getElementById('decisionHint').textContent = item.hint;
+      document.getElementById('decisionOptions').innerHTML = decisionOptions.map((option) => (
+        `<button type="button" class="choice" data-answer-option="${option}" data-decision="${option}">${option}</button>`
+      )).join('');
+      document.querySelectorAll('[data-decision]').forEach((button) => {
+        button.addEventListener('click', () => selectDecision(button.dataset.decision));
+      });
+      highlightFlow(item.ids);
+      document.getElementById('decisionFeedback').textContent = '';
+    }
+
+    function selectDecision(label) {
+      const item = decisionCases[decisionIndex];
+      const button = document.querySelector(`[data-decision="${CSS.escape(label)}"]`);
+      if (label === item.answer) {
+        button.classList.add('correct');
+        highlightFlow(item.ids);
+        updateScore(SCORE_CORRECT);
+        document.getElementById('decisionFeedback').textContent = item.result;
+        decisionIndex = (decisionIndex + 1) % decisionCases.length;
+        window.setTimeout(renderDecision, 900);
+      } else {
+        button.classList.add('wrong');
+        highlightFlow(item.ids);
+        updateScore(SCORE_WRONG);
+        document.getElementById('decisionFeedback').textContent = '再试一次：不要靠感觉，要回到标准。';
+      }
+    }
+
+    function renderPathChallengeButtons() {
+      document.getElementById('pathChallenges').innerHTML = pathChallenges.map((challenge, index) => `
+        <button type="button" class="challenge-button ${index === activePath ? 'active' : ''}" data-challenge="${index}">
+          ${challenge.title}
+        </button>
+      `).join('');
+      document.querySelectorAll('[data-challenge]').forEach((button) => {
+        button.addEventListener('click', () => {
+          activePath = Number(button.dataset.challenge);
+          pathIndex = 0;
+          renderPathChallengeButtons();
+          renderPathChallenge();
+        });
+      });
+    }
+
+    function renderPathChallenge() {
+      const challenge = pathChallenges[activePath];
+      const expected = challenge.answer[pathIndex] || challenge.answer[0];
+      document.getElementById('scenarioText').textContent = challenge.scenario;
+      document.getElementById('pathOptions').innerHTML = buildOptions(expected.label, pathOptionLabels, activePath + pathIndex).map((option) => (
+        `<button type="button" class="choice" data-answer-option="${option}" data-path-option="${option}">${option}</button>`
+      )).join('');
+      document.querySelectorAll('[data-path-option]').forEach((button) => {
+        button.addEventListener('click', () => selectPathStep(button.dataset.pathOption));
+      });
+      document.getElementById('pathFeedback').textContent = '';
+      paintPathStage();
+    }
+
+    function selectPathStep(label) {
+      advancePath(label);
+    }
+
+    function advancePath(label) {
+      const challenge = pathChallenges[activePath];
+      const expected = challenge.answer[pathIndex];
+      const buttons = [...document.querySelectorAll('[data-path-option]')];
+      const button = buttons.find((item) => item.dataset.pathOption === label);
+      if (!expected) return;
+
+      if (label === expected.label) {
+        button.classList.add('correct');
+        pathIndex += 1;
+        updateScore(SCORE_CORRECT);
+        const completed = pathIndex === challenge.answer.length;
+        document.getElementById('pathFeedback').textContent = completed ? '本条完成' : '';
+        if (completed) {
+          paintPathStage();
+          window.setTimeout(() => {
+            activePath = (activePath + 1) % pathChallenges.length;
+            pathIndex = 0;
+            renderPathChallengeButtons();
+            renderPathChallenge();
+          }, 760);
+        } else {
+          renderPathChallenge();
+        }
+      } else {
+        button.classList.add('wrong');
+        updateScore(SCORE_WRONG);
+        const nextIds = expected ? expected.id : '';
+        highlightFlow(nextIds);
+        document.getElementById('pathFeedback').textContent = '再试一次，下一步必须按标准顺序走';
+      }
+    }
+
+    function paintPathStage() {
+      const challenge = pathChallenges[activePath];
+      const expected = challenge.answer[pathIndex];
+      const activeIds = challenge.answer.slice(0, pathIndex).map((item) => item.id);
+      highlightFlow(activeIds.length ? activeIds : challenge.answer[0].id);
+      document.getElementById('pathCounter').textContent = `第 ${Math.min(pathIndex + 1, challenge.answer.length)} / ${challenge.answer.length} 步`;
+      document.getElementById('currentPathStep').textContent = expected ? '请选择下一个标准动作' : '本条完成';
+      document.getElementById('pathStage').innerHTML = challenge.answer.map((item, index) => {
+        const text = index < pathIndex ? item.label : `第 ${index + 1} 步`;
+        const done = index < pathIndex ? 'done' : '';
+        return `<span class="path-pill ${done}">${text}</span>`;
+      }).join('');
+    }
+
+    function renderRecall() {
+      document.getElementById('recallGrid').innerHTML = recallItems.map((item, index) => (
+        `<button type="button" class="recall-item ${index === 0 ? 'next-target' : ''}" data-recall="${index}">
+          <span>${index + 1}</span>
+          <strong>${item.label}</strong>
+        </button>`
+      )).join('');
+      document.querySelectorAll('[data-recall]').forEach((button) => {
+        button.addEventListener('click', () => toggleRecall(Number(button.dataset.recall)));
+      });
+      renderRecallTask();
+    }
+
+    function renderRecallTask() {
+      const done = document.querySelectorAll('.recall-item.correct').length;
+      const next = recallItems[Math.min(done, recallItems.length - 1)];
+      document.getElementById('recallTask').innerHTML = `
+        <div class="step-counter">第 ${Math.min(done + 1, recallItems.length)} / ${recallItems.length} 段</div>
+        <strong>${next.label}</strong>
+      `;
+      setNextTarget('.recall-item', done);
+    }
+
+    function toggleRecall(index) {
+      const button = document.querySelector(`[data-recall="${index}"]`);
+      const item = recallItems[index];
+      button.classList.toggle('correct');
+      highlightFlow(item.ids);
+      const done = document.querySelectorAll('.recall-item.correct').length;
+      document.getElementById('recallFeedback').textContent = `已核对 ${done} / ${recallItems.length}`;
+      if (button.classList.contains('correct')) updateScore(SCORE_CORRECT);
+      renderRecallTask();
+    }
+
+    document.querySelectorAll('[data-mode]').forEach((button) => {
+      button.addEventListener('click', () => setMode(button.dataset.mode));
+    });
+    document.getElementById('resetChallenge').addEventListener('click', resetChallenge);
+    document.getElementById('openImageViewer').addEventListener('click', openImageViewer);
+    document.getElementById('closeImageViewer').addEventListener('click', closeImageViewer);
+    document.querySelectorAll('[data-zoom]').forEach((button) => {
+      button.addEventListener('click', () => zoomImage(button.dataset.zoom === 'in' ? 1 : -1));
+    });
+
+    renderFlowBoard();
+    renderFill();
+    renderDecision();
+    renderPathChallengeButtons();
+    renderPathChallenge();
+    renderRecall();
+    explainNode('attract');
+  </script>
+</body>
+</html>
