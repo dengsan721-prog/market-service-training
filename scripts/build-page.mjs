@@ -3,6 +3,48 @@ import path from 'node:path';
 
 const repoRoot = path.resolve(import.meta.dirname, '..');
 const outputFile = path.join(repoRoot, 'index.html');
+const assetsDir = path.join(repoRoot, 'assets');
+
+const assetFiles = [
+  {
+    key: 'logo',
+    title: '幸福驿站logo',
+    source: 'G:/幸福驿站logo/微信图片_20250211160633.png',
+    file: 'logo.png'
+  },
+  {
+    key: 'service123456',
+    title: '驿站主市场服务123456（3.0）',
+    source: 'C:/Users/Administrator/AppData/Local/Temp/codex-clipboard-713728d1-a101-490c-9375-f7ce0452f107.png',
+    file: 'market-service-123456.png'
+  },
+  {
+    key: 'serviceModel',
+    title: '幸福驿站市场服务模型',
+    source: 'G:/市场服务/市场服务模型.png',
+    file: 'market-service-model.png'
+  },
+  {
+    key: 'selfCheck',
+    title: '幸福自检表',
+    source: 'G:/市场服务/幸福自检表1125 (4)_00.png',
+    file: 'happiness-self-check.png'
+  },
+  {
+    key: 'strengthList',
+    title: '幸福赢行优点清单',
+    source: 'G:/市场服务/优点清单1125(4)_00.png',
+    file: 'strength-list.png'
+  }
+];
+
+fs.mkdirSync(assetsDir, { recursive: true });
+assetFiles.forEach((asset) => {
+  const target = path.join(assetsDir, asset.file);
+  if (fs.existsSync(asset.source)) {
+    fs.copyFileSync(asset.source, target);
+  }
+});
 
 const sourceFiles = [
   {
@@ -375,7 +417,153 @@ const scriptLibrary = [
   }
 ];
 
-const data = { modules, scriptLibrary, sources };
+const quickFlows = [
+  {
+    title: '生人咨询',
+    tag: '先入沙龙',
+    steps: ['问清问题', '不分析问题', '固定话术承接', '进入免费幸福沙龙'],
+    standard: '你这个问题啊，其实很简单。先参加一个免费幸福沙龙，你自己都能找到原因，自己解决。'
+  },
+  {
+    title: '沙龙前',
+    tag: '只做准备',
+    steps: ['确认真实需求', '确认参与身份', '准备发心故事', '准备一个主题'],
+    standard: '沙龙不是讲知识，是引导场景体验；一场只讲一个主题，不能随意发挥。'
+  },
+  {
+    title: '沙龙中',
+    tag: '严格8步',
+    steps: ['邀约', '讲发心', '热场', '提要求', '主题', '分享', '引导式采访', '心愿闭环'],
+    standard: '核心不是你讲得多好，而是学员有没有参与、有没有看见自己、有没有愿意行动。'
+  },
+  {
+    title: '沙龙后复盘',
+    tag: '留作业收作业',
+    steps: ['问还有哪些问题', '承接7天训练营', '布置作业', '约定提交时间', '收反馈', '复盘教练和流程'],
+    standard: '沙龙后必须闭环：不只是结束活动，而是让学员带着行动进入下一步。'
+  },
+  {
+    title: '7天训练营',
+    tag: '持续交付',
+    steps: ['开营发心', '每日提要求', '主题训练', '作业实践', '榜样采访', '闭环升级'],
+    standard: '每天都通过提要求、作业、复盘，让学员自己发现错误，自己决定改变。'
+  },
+  {
+    title: '报名承接',
+    tag: '自己愿意',
+    steps: ['确认受益', '确认行动', '确认家人支持', '说明持续学习', '进入大课或复制系统'],
+    standard: '不是推销东西，而是学员在流程里看见结果后，自己愿意继续走。'
+  }
+];
+
+const serviceFramework = [
+  {
+    number: '1',
+    title: '一个中心',
+    body: '扶正祛邪。不要先痴迷于方法，不管销售什么，顾客一定不喜欢满腹牢骚、眼里满是缺点的市场服务顾问。'
+  },
+  {
+    number: '2',
+    title: '两个基本点',
+    body: '转念：把注意力引回自己；做选择题：用标准帮助学员做选择题，自己听明白，自己想明白。'
+  },
+  {
+    number: '3',
+    title: '三种学员不收',
+    body: '家人反对坚决的不收；有经济负担的不收，不刷信用卡、不借钱学习；不愿为家庭付出、只想坐享其成的不收。只收一种学员：愿意为自己和家人的幸福负责，下定决心成长改变的人。'
+  },
+  {
+    number: '4',
+    title: '四个步骤',
+    body: '检测：幸福自检表，问题可视化；诊断：一正一反对比，问出核心点，让顾客知错；方案：基础群、公益课、专栏、研学班等不同阶段提升免疫力；陪伴：共同成长陪伴，接幸福回家。'
+  },
+  {
+    number: '5',
+    title: '五步人才培养',
+    body: '激活让学员感兴趣，排队让学员想学，筛选让学员改变，培养让学员帮助别人，裂变让伙伴重复以上四步。'
+  },
+  {
+    number: '6',
+    title: '六个销售武器',
+    body: '精通产品、销售问题、主线提问、销售流程、案例榜样、工具宝库。始终记得主要任务是让学员进入学习。'
+  },
+  {
+    number: '7',
+    title: '七步沙龙后复盘闭环',
+    body: '复盘需求、复盘提要求、复盘参与度、复盘作业、复盘反馈、复盘下一步承接、复盘教练是否严格按照流程。'
+  }
+];
+
+const salonReview = [
+  '角色定位是否清楚：你是站主/导师，不传授知识，只帮助找到问题、激活学习心态。',
+  '是否只做流程：没有陷入分析、安慰、辩论、证明自己专业。',
+  '是否完成8步：邀约、讲发心、热场、提要求、主题、分享、引导式采访、心愿闭环。',
+  '是否做到转念：点评引导顾客的注意力在自己身上，而不是抱怨家人。',
+  '是否做选择题：用张老师标准帮助学员选择，不替学员下结论。',
+  '是否布置作业：作业有对象、场景、原话、反馈、心情和提交时间。',
+  '是否收作业：沙龙结束不是结束，必须跟进作业和反馈。',
+  '是否承接下一步：根据顾客问题，引入7天幸福训练营。',
+  '是否复盘自己：效果不好先找教练和流程问题，不找客户原因。'
+];
+
+const expertQuestions = [
+  '你是在解决问题，还是在引导进入流程？',
+  '你有没有把顾客注意力从家人缺点，点评到他自己可以改变的语言、语气、角度？',
+  '你是否用幸福自检表让问题可视化，而不是靠自己判断？',
+  '你是否用了“转念”和“做选择题”，让学员自己知错、自己想明白？',
+  '沙龙结束后，是否布置作业并收作业？',
+  '你的闭环有没有把学员带到7天训练营，而不是停留在一次活动？',
+  '你有没有随意发挥、增加内容、弱化标准？',
+  '你能不能让一个新手驿站主照着你的复盘记录，复刻同样流程？'
+];
+
+const personaPaths = [
+  {
+    title: '新手驿站主',
+    need: '先不要追求会讲，先会按流程找标准。',
+    flow: ['看市场服务1234567', '照着快速找流程', '使用固定话术', '沙龙后按复盘清单核对']
+  },
+  {
+    title: '沙龙主持人',
+    need: '重点管住流程，不被现场问题带跑。',
+    flow: ['沙龙前确认角色定位', '沙龙中严格8步', '沙龙后留作业收作业', '用专家质询复盘']
+  },
+  {
+    title: '训练营带班人',
+    need: '每天持续提要求、收作业、找榜样。',
+    flow: ['第1天开营', '每日主题训练', '每日作业反馈', '榜样采访', '闭环升级']
+  },
+  {
+    title: '市场负责人',
+    need: '看团队有没有按标准复制，而不是看个人发挥。',
+    flow: ['检查三目标', '检查四步服务流程与人才漏斗', '检查五步人才培养', '检查六个销售武器', '检查每日反馈']
+  }
+];
+
+const toolbox = [
+  {
+    title: '驿站主市场服务123456（3.0）',
+    image: 'assets/market-service-123456.png',
+    text: '角色定位、两件主线任务、三个必做目标、四步服务流程与人才漏斗、五步人才培养、六个销售武器。'
+  },
+  {
+    title: '幸福驿站市场服务模型',
+    image: 'assets/market-service-model.png',
+    text: '一个中心、两个基本点、四个步骤、三种学员不收、只收一种学员，适用于一对一、沙龙、直播等客户服务过程。'
+  },
+  {
+    title: '幸福自检表',
+    image: 'assets/happiness-self-check.png',
+    text: '检测工具，覆盖亲子教育、夫妻相处、人际关系、身体健康、事业心态，让顾客的问题可视化。'
+  },
+  {
+    title: '幸福赢行优点清单',
+    image: 'assets/strength-list.png',
+    text: '训练看优点的工具。挑对方的缺点，痛苦缠上身；看对方的优点，幸福来敲门。'
+  }
+];
+
+const data = { modules, scriptLibrary, sources, quickFlows, serviceFramework, salonReview, expertQuestions, personaPaths, toolbox };
 
 function escapeHtml(value) {
   return String(value)
@@ -444,6 +632,11 @@ const html = `<!doctype html>
       min-width: 0;
       font-weight: 800;
       white-space: nowrap;
+    }
+    .brand-logo {
+      width: 132px;
+      height: auto;
+      display: block;
     }
     .brand-dot {
       width: 26px;
@@ -601,7 +794,7 @@ const html = `<!doctype html>
       gap: 12px;
       margin-top: 18px;
     }
-    .logic-card, .process-step {
+    .logic-card, .process-step, .flow-card, .framework-card, .persona-card {
       min-width: 0;
       border-radius: 22px;
       border: 1px solid var(--line);
@@ -623,6 +816,83 @@ const html = `<!doctype html>
       background: #111;
       color: #fff;
       font-size: 12px;
+      font-weight: 900;
+    }
+    .hero-logo {
+      width: min(360px, 82vw);
+      height: auto;
+      margin: 0 auto 30px;
+      display: block;
+    }
+    .entry-grid, .framework-grid, .persona-grid, .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .flow-card h3, .framework-card h3, .persona-card h3, .tool-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+    .flow-card ol, .persona-card ol, .review-list, .question-list {
+      margin: 12px 0 0;
+      padding-left: 20px;
+      color: #3a3a3c;
+      line-height: 1.65;
+      font-weight: 650;
+    }
+    .standard {
+      margin-top: 12px;
+      border-radius: 16px;
+      padding: 12px;
+      color: #1d1d1f;
+      background: rgba(0,113,227,.08);
+      font-weight: 800;
+      line-height: 1.55;
+    }
+    .framework-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+    }
+    .framework-number {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: #111;
+      font-weight: 900;
+    }
+    .review-list li, .question-list li {
+      margin: 10px 0;
+      border-radius: 16px;
+      padding: 12px 14px;
+      background: rgba(255,255,255,.78);
+      border: 1px solid var(--line);
+    }
+    .tool-card {
+      min-width: 0;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: #fff;
+      overflow: hidden;
+    }
+    .tool-card img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      background: #fff;
+    }
+    .tool-card-body { padding: 16px; }
+    .image-link {
+      display: inline-flex;
+      margin-top: 10px;
+      color: var(--blue);
+      text-decoration: none;
       font-weight: 900;
     }
     .module-grid {
@@ -805,9 +1075,10 @@ const html = `<!doctype html>
         width: auto;
         white-space: nowrap;
       }
-      .logic-grid, .process-map { grid-template-columns: 1fr; }
+      .logic-grid, .process-map, .entry-grid, .framework-grid, .persona-grid, .tool-grid { grid-template-columns: 1fr; }
       .module-head { grid-template-columns: 1fr; }
       .top-links { display: none; }
+      .brand-logo { width: 116px; }
     }
     @media (max-width: 420px) {
       .hero { padding-top: 42px; }
@@ -819,30 +1090,34 @@ const html = `<!doctype html>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand"><span class="brand-dot"></span><span>幸福驿站流程手册</span></div>
+      <div class="brand"><img class="brand-logo" src="assets/logo.png" alt="幸福驿站"></div>
       <nav class="top-links" aria-label="页面导航">
         <a href="#process">总流程</a>
+        <a href="#quickFlows">快速找流程</a>
+        <a href="#salonReview">沙龙后复盘</a>
+        <a href="#toolbox">工具与模型</a>
         <a href="#modules">完整流程手册</a>
         <a href="#scripts">原文话术库</a>
-        <a href="#raw">原文全文</a>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="hero">
-      <p class="eyebrow">市场验证内容不改，只把流程做成工具</p>
+      <img class="hero-logo" src="assets/logo.png" alt="幸福驿站">
+      <p class="eyebrow">核心是流程：能快速找到标准，沙龙后能照着复盘</p>
       <h1>幸福驿站市场服务流程手册</h1>
-      <p class="hero-copy">把原来需要翻文稿的内容，整理成能看、能找、能照着执行的流程系统。训练比重降低，核心是完整展示流程和标准。</p>
+      <p class="hero-copy">把原来需要翻文稿的内容，整理成驿站主市场服务工作台。10万驿站主使用时，第一秒要知道下一步做什么，沙龙后要能按流程标准复盘。</p>
       <div class="hero-actions">
-        <a class="pill-link" href="#modules">查看完整流程</a>
-        <a class="ghost-link" href="#scripts">找原文话术</a>
+        <a class="pill-link" href="#quickFlows">快速找流程</a>
+        <a class="ghost-link" href="#salonReview">沙龙后复盘</a>
+        <a class="ghost-link" href="#toolbox">工具与模型</a>
       </div>
     </section>
 
     <section class="layout">
       <aside class="sidebar">
-        <input class="search" id="manualSearch" type="search" placeholder="搜索流程、话术、作业、采访…" autocomplete="off">
+        <input class="search" id="manualSearch" type="search" placeholder="搜索流程、话术、作业、孩子、夫妻…" autocomplete="off">
         <nav class="module-nav" id="moduleNav" aria-label="模块导航"></nav>
       </aside>
 
@@ -859,7 +1134,53 @@ const html = `<!doctype html>
               <div class="process-step"><span>4</span><strong>7天幸福训练营</strong><p>持续互动、反馈、调整，让学员自己说服自己。</p></div>
               <div class="process-step"><span>5</span><strong>榜样采访</strong><p>形成案例口碑，激活榜样价值感。</p></div>
               <div class="process-step"><span>6</span><strong>大课与复制</strong><p>顾客自己愿意，进入幸福驿站大课和复制系统。</p></div>
+              <div class="process-step"><span>7</span><strong>市场服务1234567</strong><p>用123456定标准，用第7步沙龙后复盘闭环拿结果。</p></div>
             </div>
+          </div>
+        </section>
+
+        <section class="band" id="quickFlows">
+          <div class="band-inner">
+            <p class="eyebrow">快速找流程</p>
+            <h2>先按场景入口找标准，再进入完整文稿。</h2>
+            <p>这是给驿站主现场使用的第一层入口：顾客问什么不重要，重要的是服务人员能不能把对方带进正确流程。</p>
+            <div class="entry-grid" id="quickFlowGrid"></div>
+          </div>
+        </section>
+
+        <section class="band" id="service1234567">
+          <div class="band-inner">
+            <p class="eyebrow">市场服务1234567</p>
+            <h2>用一套数字框架管住全部市场服务动作。</h2>
+            <p>123456来自市场服务标准，新增第7步专门服务沙龙后复盘。核心是角色定位清楚、流程标准清楚、复盘动作清楚。</p>
+            <div class="framework-grid" id="frameworkGrid"></div>
+          </div>
+        </section>
+
+        <section class="band" id="salonReview">
+          <div class="band-inner">
+            <p class="eyebrow">沙龙后复盘</p>
+            <h2>活动结束后，对照复盘清单看是否按要求执行。</h2>
+            <p>复盘不是找客户原因，而是看自己有没有按流程标准做，哪里漏了，下一次怎么补。</p>
+            <ol class="review-list" id="reviewList"></ol>
+          </div>
+        </section>
+
+        <section class="band" id="expertQuestions">
+          <div class="band-inner">
+            <p class="eyebrow">专家质询</p>
+            <h2>用专家问题把执行动作问到底。</h2>
+            <p>这些问题模拟市场负责人和专家质询：一问就能知道你是在按流程服务，还是被现场情绪带跑。</p>
+            <ol class="question-list" id="questionList"></ol>
+          </div>
+        </section>
+
+        <section class="band" id="personaPaths">
+          <div class="band-inner">
+            <p class="eyebrow">10万驿站主使用体验模拟</p>
+            <h2>不同角色，只看自己当下最需要执行的流程。</h2>
+            <p>新手先找流程，主持人守沙龙，带班人抓作业，负责人看复制标准。场景入口清楚，使用才快。</p>
+            <div class="persona-grid" id="personaGrid"></div>
           </div>
         </section>
 
@@ -896,6 +1217,15 @@ const html = `<!doctype html>
           </div>
         </section>
 
+        <section class="band" id="toolbox">
+          <div class="band-inner">
+            <p class="eyebrow">工具与模型</p>
+            <h2>模型、表格和原图都放在这里，现场能直接对照。</h2>
+            <p>幸福自检表用于检测，优点清单用于转念，市场服务模型用于把客户服务过程统一到检测、诊断、方案、陪伴。</p>
+            <div class="tool-grid" id="toolGrid"></div>
+          </div>
+        </section>
+
         <section class="band" id="raw">
           <div class="band-inner">
             <p class="eyebrow">原文全文</p>
@@ -917,9 +1247,23 @@ const html = `<!doctype html>
     const rawManual = document.getElementById('rawManual');
     const search = document.getElementById('manualSearch');
     const emptyState = document.getElementById('emptyState');
+    const quickFlowGrid = document.getElementById('quickFlowGrid');
+    const frameworkGrid = document.getElementById('frameworkGrid');
+    const reviewList = document.getElementById('reviewList');
+    const questionList = document.getElementById('questionList');
+    const personaGrid = document.getElementById('personaGrid');
+    const toolGrid = document.getElementById('toolGrid');
 
     function normalizeText(value) {
       return String(value || '').toLowerCase().replace(/\\s+/g, '');
+    }
+
+    function safeHtml(value) {
+      return String(value || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
     }
 
     function moduleSearchText(module) {
@@ -968,6 +1312,57 @@ const html = `<!doctype html>
       });
     }
 
+    function renderQuickFlows() {
+      quickFlowGrid.innerHTML = manual.quickFlows.map((flow) => {
+        const searchText = [flow.title, flow.tag, flow.standard, flow.steps.join(' ')].join(' ');
+        return '<article class="flow-card" data-search-text="' + safeHtml(searchText) + '">' +
+          '<span class="tag">' + safeHtml(flow.tag) + '</span>' +
+          '<h3>' + safeHtml(flow.title) + '</h3>' +
+          '<ol>' + flow.steps.map((step) => '<li>' + safeHtml(step) + '</li>').join('') + '</ol>' +
+          '<div class="standard">流程标准：' + safeHtml(flow.standard) + '</div>' +
+        '</article>';
+      }).join('');
+    }
+
+    function renderFramework() {
+      frameworkGrid.innerHTML = manual.serviceFramework.map((item) => (
+        '<article class="framework-card" data-search-text="' + safeHtml([item.number, item.title, item.body].join(' ')) + '">' +
+          '<div class="framework-number">' + safeHtml(item.number) + '</div>' +
+          '<div><h3>' + safeHtml(item.title) + '</h3><p>' + safeHtml(item.body) + '</p></div>' +
+        '</article>'
+      )).join('');
+    }
+
+    function renderReviewTools() {
+      reviewList.innerHTML = manual.salonReview.map((item) => (
+        '<li data-search-text="' + safeHtml(item) + '">' + safeHtml(item) + '</li>'
+      )).join('');
+      questionList.innerHTML = manual.expertQuestions.map((item) => (
+        '<li data-search-text="' + safeHtml(item) + '">' + safeHtml(item) + '</li>'
+      )).join('');
+    }
+
+    function renderPersonas() {
+      personaGrid.innerHTML = manual.personaPaths.map((persona) => {
+        const searchText = [persona.title, persona.need, persona.flow.join(' ')].join(' ');
+        return '<article class="persona-card" data-search-text="' + safeHtml(searchText) + '">' +
+          '<h3>' + safeHtml(persona.title) + '</h3>' +
+          '<p>' + safeHtml(persona.need) + '</p>' +
+          '<ol>' + persona.flow.map((step) => '<li>' + safeHtml(step) + '</li>').join('') + '</ol>' +
+        '</article>';
+      }).join('');
+    }
+
+    function renderToolbox() {
+      toolGrid.innerHTML = manual.toolbox.map((tool) => (
+        '<article class="tool-card" data-search-text="' + safeHtml([tool.title, tool.text].join(' ')) + '">' +
+          '<a href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener"><img src="' + safeHtml(tool.image) + '" alt="' + safeHtml(tool.title) + '"></a>' +
+          '<div class="tool-card-body"><h3>' + safeHtml(tool.title) + '</h3><p>' + safeHtml(tool.text) + '</p>' +
+          '<a class="image-link" href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener">查看原图</a></div>' +
+        '</article>'
+      )).join('');
+    }
+
     function renderModules() {
       moduleGrid.innerHTML = manual.modules.map((module) => {
         const sections = module.sections.map((section) => (
@@ -1014,14 +1409,19 @@ const html = `<!doctype html>
         const haystack = normalizeText(item.dataset.searchText);
         const match = !query || haystack.includes(query);
         item.classList.toggle('hidden', !match);
-        if (match && item.matches('.module-card')) visible += 1;
+        if (match) visible += 1;
       });
       emptyState.classList.toggle('show', visible === 0);
     }
 
     renderNav();
+    renderQuickFlows();
+    renderFramework();
+    renderReviewTools();
+    renderPersonas();
     renderModules();
     renderScripts();
+    renderToolbox();
     renderRawManual();
     search.addEventListener('input', filterManual);
 
