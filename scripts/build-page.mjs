@@ -1146,6 +1146,20 @@ const html = `<!doctype html>
       padding-top: 8px;
       border-top: 1px dashed rgba(0,0,0,.08);
     }
+    .split-lines {
+      display: grid;
+      gap: 7px;
+      color: #2c2c2e;
+      line-height: 1.66;
+      font-size: 15px;
+    }
+    .split-line {
+      margin: 0;
+    }
+    .split-line + .split-line {
+      padding-top: 7px;
+      border-top: 1px dashed rgba(0,0,0,.07);
+    }
     .module-grid {
       display: grid;
       gap: 18px;
@@ -1663,7 +1677,7 @@ const html = `<!doctype html>
       frameworkGrid.innerHTML = manual.serviceFramework.map((item) => (
         '<article class="framework-card" data-search-text="' + safeHtml([item.number, item.title, item.body].join(' ')) + '">' +
           '<div class="framework-number">' + safeHtml(item.number) + '</div>' +
-          '<div><h3>' + safeHtml(item.title) + '</h3><p>' + safeHtml(item.body) + '</p></div>' +
+          '<div><h3>' + safeHtml(item.title) + '</h3>' + formatDisplayText(item.body) + '</div>' +
         '</article>'
       )).join('');
     }
@@ -1672,7 +1686,7 @@ const html = `<!doctype html>
       thinkingGrid.innerHTML = manual.directorThinking.map((item) => (
         '<article class="framework-card" data-search-text="' + safeHtml([item.title, item.body].join(' ')) + '">' +
           '<div class="framework-number">•</div>' +
-          '<div><h3>' + safeHtml(item.title) + '</h3><p>' + safeHtml(item.body) + '</p></div>' +
+          '<div><h3>' + safeHtml(item.title) + '</h3>' + formatDisplayText(item.body) + '</div>' +
         '</article>'
       )).join('');
     }
@@ -1688,8 +1702,8 @@ const html = `<!doctype html>
         '<article class="collection-card" data-search-text="' + safeHtml([step.title, step.body, step.purpose].join(' ')) + '">' +
           '<span class="tag">第' + (index + 1) + '步</span>' +
           '<h3>' + safeHtml(step.title) + '</h3>' +
-          '<p>' + safeHtml(step.body) + '</p>' +
-          '<div class="standard">' + safeHtml(step.purpose) + '</div>' +
+          formatDisplayText(step.body) +
+          '<div class="standard">' + formatPlainBreaks(step.purpose) + '</div>' +
         '</article>'
       )).join('');
       collectionQuestions.innerHTML = manual.modelCollection.questions.map((question, index) => (
@@ -1738,7 +1752,7 @@ const html = `<!doctype html>
       scriptLibrary.innerHTML = manual.scriptLibrary.map((item, index) => (
         '<article class="script-card" data-search-text="' + [item.title, item.tag, item.text].join(' ').replace(/"/g, '&quot;') + '">' +
           '<div class="script-top"><div><h3>' + item.title + '</h3><span class="tag">' + item.tag + '</span></div><button type="button" class="copy-button" data-copy-index="' + index + '">复制</button></div>' +
-          '<div class="script-text">' + item.text + '</div>' +
+          '<div class="script-text">' + formatPlainBreaks(item.text) + '</div>' +
         '</article>'
       )).join('');
       scriptLibrary.querySelectorAll('[data-copy-index]').forEach((button) => {
@@ -1787,12 +1801,41 @@ const html = `<!doctype html>
     }
 
     function formatSourceBlock(block) {
-      return String(block || '')
-        .split('\\n')
-        .map((line) => line.trim())
-        .filter(Boolean)
+      return splitDisplayLines(block)
         .map((line) => '<p class="source-text source-paragraph">' + safeHtml(line) + '</p>')
         .join('');
+    }
+
+    function formatDisplayText(text) {
+      return '<div class="split-lines">' + splitDisplayLines(text)
+        .map((line) => '<p class="split-line">' + safeHtml(line) + '</p>')
+        .join('') + '</div>';
+    }
+
+    function formatPlainBreaks(text) {
+      return splitDisplayLines(text).map((line) => safeHtml(line)).join('<br>');
+    }
+
+    function splitDisplayLines(text) {
+      return String(text || '')
+        .replace(/\\u00a0/g, ' ')
+        .split('\\n')
+        .flatMap((line) => splitDenseLine(line))
+        .map((line) => line.trim())
+        .filter(Boolean);
+    }
+
+    function splitDenseLine(line) {
+      const compact = String(line || '').trim();
+      if (!compact) return [];
+      const expanded = compact.length > 70
+        ? compact.replace(/([。！？；;])(?=[^”’）】\\]\\s])/g, '$1\\n')
+        : compact;
+      return expanded
+        .replace(/([。！？；;])(?=(第[0-9一二三四五六七八九十]+[步天]|[0-9]{1,2}[.、]|[①②③④⑤⑥⑦⑧⑨⑩]|✅|⚠|💡|😇|😄|📢|⛏|🚀|🥇|🍀|🌟))/g, '$1\\n')
+        .replace(/([^\\\\n])(?=(第[0-9一二三四五六七八九十]+步[:：]|[0-9]{1,2}[.、](?!\\\\d)|[①②③④⑤⑥⑦⑧⑨⑩]|✅|⚠|💡|😇|😄|📢|⛏|🚀|🥇|🍀|🌟))/g, '$1\\n')
+        .replace(/([^\\\\n])(?=(一个服务理念|一类角色定位|两个沟通心法|两种开拓方法|三个必做目标|三大核心关注|四步服务流程|四阶人才漏斗|四种人才特征|四步个人服务步骤|五步标准沟通|五步人才培养|六个销售武器|我们的共同约定|对于幸福驿站市场服务的认识|三种学员不收|只收一种学员))/g, '$1\\n')
+        .split('\\n');
     }
 
     function getResultTitle(item) {
