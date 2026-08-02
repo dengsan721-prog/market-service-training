@@ -777,7 +777,7 @@ const html = `<!doctype html>
     .hero {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 64px 0 38px;
+      padding: 34px 0 22px;
       text-align: center;
     }
     .eyebrow {
@@ -795,7 +795,7 @@ const html = `<!doctype html>
     }
     .hero-copy {
       max-width: 820px;
-      margin: 22px auto 0;
+      margin: 12px auto 0;
       color: var(--muted);
       font-size: clamp(17px, 2.8vw, 25px);
       line-height: 1.45;
@@ -831,7 +831,7 @@ const html = `<!doctype html>
       margin: 0 auto 56px;
       display: grid;
       grid-template-columns: 280px minmax(0, 1fr);
-      gap: 24px;
+      gap: 18px;
       align-items: start;
     }
     .sidebar {
@@ -888,7 +888,7 @@ const html = `<!doctype html>
     .content {
       min-width: 0;
       display: grid;
-      gap: 24px;
+      gap: 16px;
     }
     .band {
       border-radius: 30px;
@@ -940,9 +940,9 @@ const html = `<!doctype html>
       font-weight: 900;
     }
     .hero-logo {
-      width: min(360px, 82vw);
+      width: min(280px, 74vw);
       height: auto;
-      margin: 0 auto 30px;
+      margin: 0 auto 18px;
       display: block;
     }
     .entry-grid, .framework-grid, .tool-grid, .guide-grid, .collection-grid {
@@ -1044,10 +1044,37 @@ const html = `<!doctype html>
     }
     .guide-card, .collection-card, .question-card {
       min-width: 0;
-      border-radius: 22px;
+      border-radius: 18px;
       border: 1px solid var(--line);
       background: rgba(255,255,255,.78);
-      padding: 16px;
+      padding: 14px;
+    }
+    .compact-flow summary {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 10px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .compact-flow summary::-webkit-details-marker { display: none; }
+    .compact-flow[open] { background: #fff; }
+    .flow-index {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: #111;
+      font-weight: 900;
+      font-size: 12px;
+    }
+    .compact-flow h3 { margin: 0 0 4px; }
+    .compact-flow p { margin: 0; }
+    .compact-body {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--line);
     }
     .guide-actions, .module-actions {
       display: flex;
@@ -1086,18 +1113,38 @@ const html = `<!doctype html>
       text-align: left;
       font-weight: 900;
     }
-    .source-card {
+    .source-section {
       border-radius: 22px;
       border: 1px solid var(--line);
       background: #fff;
-      padding: 18px;
       margin-bottom: 12px;
+      overflow: hidden;
     }
-    .source-card h3 { margin: 0 0 10px; }
-    .source-card p {
-      margin: 0 0 10px;
+    .source-section summary {
+      cursor: pointer;
+      padding: 14px 16px;
+      font-weight: 900;
+      background: #f7f7f8;
+    }
+    .source-block {
+      padding: 12px 16px;
+      border-top: 1px solid var(--line);
+    }
+    .source-heading {
+      margin: 0 0 8px;
+      font-size: 17px;
+      line-height: 1.35;
+    }
+    .source-paragraph {
+      margin: 0 0 8px;
       color: #2c2c2e;
       white-space: pre-wrap;
+      line-height: 1.72;
+      font-size: 15px;
+    }
+    .source-paragraph + .source-paragraph {
+      padding-top: 8px;
+      border-top: 1px dashed rgba(0,0,0,.08);
     }
     .module-grid {
       display: grid;
@@ -1253,6 +1300,10 @@ const html = `<!doctype html>
       background: rgba(255,214,10,.45);
       border-radius: 4px;
       padding: 0 2px;
+    }
+    .focus-pulse {
+      outline: 3px solid rgba(0,113,227,.28);
+      outline-offset: 4px;
     }
     .hidden { display: none !important; }
     .empty {
@@ -1527,9 +1578,17 @@ const html = `<!doctype html>
     function scrollToTarget(id) {
       const target = document.getElementById(id);
       if (!target) return;
+      if (target.tagName === 'DETAILS') target.open = true;
+      target.closest('details')?.setAttribute('open', '');
       target.scrollIntoView({ block: 'start', behavior: 'smooth' });
       if (target.dataset.moduleId) setActiveModule(target.dataset.moduleId);
       if (target.dataset.flowId) setActiveFlow(target.dataset.flowId);
+      target.classList.add('focus-pulse');
+      window.setTimeout(() => target.classList.remove('focus-pulse'), 1200);
+    }
+
+    function closeSearchResults() {
+      searchResults.classList.remove('show');
     }
 
     async function copyText(text) {
@@ -1582,10 +1641,9 @@ const html = `<!doctype html>
       guideGrid.innerHTML = manual.flowGuide.map((item, index) => {
         const searchText = [item.title, item.standard, item.next, item.source, item.keywords || ''].join(' ');
         const nextItem = manual.flowGuide[index + 1] || manual.flowGuide[0];
-        return '<article class="guide-card" id="flow-' + index + '" data-flow-id="flow-' + index + '" data-search-text="' + safeHtml(searchText) + '" data-target-id="' + safeHtml(item.targetId) + '">' +
-          '<span class="tag">流程位置 ' + (index + 1) + '</span>' +
-          '<h3>' + safeHtml(item.title) + '</h3>' +
-          '<p><strong>这一步的标准是什么：</strong>' + safeHtml(item.standard) + '</p>' +
+        return '<details class="guide-card compact-flow" id="flow-' + index + '" data-flow-id="flow-' + index + '" data-search-text="' + safeHtml(searchText) + '" data-target-id="' + safeHtml(item.targetId) + '"' + (index === 0 ? ' open' : '') + '>' +
+          '<summary><span class="flow-index">' + (index + 1) + '</span><span><h3>' + safeHtml(item.title) + '</h3><p><strong>这一步的标准是什么：</strong>' + safeHtml(item.standard) + '</p></span></summary>' +
+          '<div class="compact-body">' +
           '<p><strong>下一步去哪里：</strong>' + safeHtml(item.next) + '</p>' +
           '<div class="guide-actions">' +
             '<button type="button" class="small-action" data-jump-target="' + safeHtml(item.targetId) + '">查看这一步</button>' +
@@ -1593,7 +1651,8 @@ const html = `<!doctype html>
             '<button type="button" class="small-action" data-jump-target="raw">查原文</button>' +
             '<button type="button" class="small-action" data-jump-target="marketFlow">回到流程地图</button>' +
           '</div>' +
-        '</article>';
+          '</div>' +
+        '</details>';
       }).join('');
       guideGrid.querySelectorAll('[data-jump-target]').forEach((button) => {
         button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
@@ -1696,25 +1755,25 @@ const html = `<!doctype html>
           .split(/\\n{2,}/)
           .map((block) => block.trim())
           .filter(Boolean);
-        return '<section class="source-group" id="source-' + sourceIndex + '">' +
-          '<h3>' + safeHtml(source.title) + '</h3>' +
+        return '<details class="source-section" id="source-' + sourceIndex + '" open>' +
+          '<summary>' + safeHtml(source.title) + '</summary>' +
           blocks.map((block, blockIndex) => {
-            const firstLine = block.split('\\n')[0].trim();
+            const firstLine = block.split('\\n').find((line) => line.trim())?.trim() || '';
             const heading = firstLine.length <= 28 ? firstLine : '原文段落 ' + (blockIndex + 1);
-            return '<article class="source-card" id="source-' + sourceIndex + '-' + blockIndex + '" data-search-text="' + safeHtml([source.title, block].join(' ')) + '">' +
-              '<h3>' + safeHtml(heading) + '</h3>' +
-              '<p class="source-text">' + safeHtml(block) + '</p>' +
+            return '<article class="source-block" id="source-' + sourceIndex + '-' + blockIndex + '" data-search-text="' + safeHtml([source.title, block].join(' ')) + '">' +
+              '<h3 class="source-heading">' + safeHtml(heading) + '</h3>' +
+              formatSourceBlock(block) +
               '<div class="module-actions"><button type="button" class="small-action" data-copy-source="' + sourceIndex + '-' + blockIndex + '">复制</button><button type="button" class="small-action" data-jump-target="marketFlow">回到流程地图</button></div>' +
             '</article>';
           }).join('') +
-        '</section>';
+        '</details>';
       }).join('');
       rawToc.querySelectorAll('[data-jump-target]').forEach((button) => {
         button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
       });
       rawManual.querySelectorAll('[data-copy-source]').forEach((button) => {
         button.addEventListener('click', () => {
-          const card = button.closest('.source-card');
+          const card = button.closest('.source-block');
           copyText(card ? card.innerText : '');
         });
       });
@@ -1725,6 +1784,15 @@ const html = `<!doctype html>
       if (item.id) return item.id;
       const owner = item.closest('[id]');
       return owner ? owner.id : 'process';
+    }
+
+    function formatSourceBlock(block) {
+      return String(block || '')
+        .split('\\n')
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => '<p class="source-text source-paragraph">' + safeHtml(line) + '</p>')
+        .join('');
     }
 
     function getResultTitle(item) {
@@ -1754,7 +1822,11 @@ const html = `<!doctype html>
         : '<div class="result-button"><span>匹配位置</span>没有找到，换个关键词试试</div>';
       searchResults.classList.add('show');
       searchResults.querySelectorAll('[data-jump-target]').forEach((button) => {
-        button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
+        button.addEventListener('click', () => {
+          scrollToTarget(button.dataset.jumpTarget);
+          closeSearchResults();
+          search.blur();
+        });
       });
     }
 
