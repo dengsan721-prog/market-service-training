@@ -615,6 +615,143 @@ const flowGuide = [
   }
 ];
 
+const masterFlow = [
+  {
+    number: '01',
+    title: '来人先承接',
+    tag: '破冰 / 转介绍 / 直播间粉丝',
+    goal: '不管人是破冰来的、转介绍来的，还是直播间来的粉丝，第一件事不是讲一堆知识，而是通过简单沟通了解他需要解决什么问题。',
+    standards: [
+      '先问清楚：孩子问题、家庭问题、关系问题、心态问题，还是其他幸福问题。',
+      '不要陷入分析，不急着证明自己懂，不急着给答案。',
+      '统一用万能话术承接，把人引到免费幸福沙龙。'
+    ],
+    script: [
+      '你这个问题啊，其实很简单。',
+      '参加一个免费幸福沙龙，你自己都能找到原因，自己解决。',
+      '你看你如果愿意，我通知你参加。'
+    ],
+    review: [
+      '有没有先了解对方到底要解决什么问题？',
+      '有没有用固定话术承接，而不是自己发挥？',
+      '有没有把下一步明确引到免费幸福沙龙？'
+    ],
+    source: '对应能力：原文话术库、场景入口、幸福自检表。'
+  },
+  {
+    number: '02',
+    title: '免费幸福沙龙',
+    tag: '用沙龙让顾客知错',
+    goal: '沙龙不是讲知识炫能力，而是用体验、发问、点评、作业，让顾客把注意力回到自己身上，自己看见问题。',
+    standards: [
+      '严格按照邀约、讲发心、热场、提要求、主题、分享、引导式采访、心愿闭环执行。',
+      '一场沙龙只讲一个主题，难度越小、内容越少，越容易复制。',
+      '沙龙结束必须留作业、收作业，有结果就继续承接，没有结果就复盘教练和流程。'
+    ],
+    script: [
+      '今天这场学习有没有帮到大家？',
+      '学起来是不是特别的简单？有没有一种恍然大悟的感觉？',
+      '像这样简单易学的内容，我们有很多，每一次的学习都解决一个问题。',
+      '你看你如果愿意继续学习的话，下一场沙龙我再通知您。'
+    ],
+    review: [
+      '有没有按 8 步标准流程走完整？',
+      '有没有让顾客参与，而不是旁听？',
+      '有没有布置作业并约定提交时间？'
+    ],
+    source: '对应能力：沙龙模块、沙龙后复盘、工具与模型。'
+  },
+  {
+    number: '03',
+    title: '7天幸福训练营',
+    tag: '沙龙筛选导入',
+    goal: '沙龙筛选出来有学习态度、有受益、有行动的人，进入 7 天训练营，持续内观、行动、反馈。',
+    standards: [
+      '7天训练营的顾客从沙龙或者转介绍来，不用邀约破冰。',
+      '一个教练带2个顾客，就是一个幸福训练营，不能混营。',
+      '每天提要求、做主题训练、留作业、收作业、复盘反馈。'
+    ],
+    script: [
+      '大家想早一天解决问题，还是晚一天解决问题？',
+      '大家想早一天幸福，还是晚一天幸福？',
+      '最好的办法就是一定要按照标准参与。',
+      '看别人炒菜和自己动手炒菜，谁学会的更快？'
+    ],
+    review: [
+      '学员有没有按要求全程参与？',
+      '作业有没有具体到人、场景、说了什么、反馈是什么？',
+      '效果不理想时，有没有第一时间复盘流程和教练问题？'
+    ],
+    source: '对应能力：7天幸福训练营、7天课程展开、作业与复盘。'
+  },
+  {
+    number: '04',
+    title: '系统学习',
+    tag: '掌握一辈子幸福能力',
+    goal: '7天训练营筛选出真正愿意改变的人，进入系统学习环境，持续学习，持续改变，掌握一辈子幸福的能力。',
+    standards: [
+      '让学员明白：一天的学习不能解决一辈子的问题。',
+      '进入一个环境，持续学习，持续改变，越来越好。',
+      '只收愿意为自己和家人的幸福负责、下定决心成长改变的人。'
+    ],
+    script: [
+      '一天的学习不能解决一辈子的问题。',
+      '只有持续学习，才不会让生活过得一地鸡毛。',
+      '进入一个环境，持续学习，持续改变，越来越好。'
+    ],
+    review: [
+      '学员是自己愿意继续学习，还是被推着走？',
+      '有没有讲清楚持续学习和持续行动的重要性？',
+      '有没有坚持三种学员不收，只收一种学员？'
+    ],
+    source: '对应能力：市场服务模型、三种学员不收、只收一种学员。'
+  },
+  {
+    number: '05',
+    title: '合作伙伴',
+    tag: '参与幸福驿站事业',
+    goal: '从受益学员、榜样、教练中筛选愿意帮助别人、愿意严格复制流程的人，参与幸福驿站事业。',
+    standards: [
+      '合作伙伴不是看热情，而是看受益、行动、家人支持、时间精力和严格执行流程。',
+      '所有人的角色都是受益分享者，不是老师，不是导师，不是大师。',
+      '核心是用转念和做选择题帮助学员进入学习，从中自我感悟、知错、内观、行动。'
+    ],
+    script: [
+      '我们不是推销东西，是帮助更多家庭少走弯路。',
+      '自己拿到幸福以后，再用标准流程帮助别人接幸福回家。',
+      '标准里面没有的，不要说，不要做。'
+    ],
+    review: [
+      '这个人是不是受益者？',
+      '有没有行动反馈和帮助别人的意愿？',
+      '能不能严格执行流程，不随意发挥？'
+    ],
+    source: '对应能力：总监思维与认识、教练招募与严格复制、共同约定。'
+  },
+  {
+    number: '06',
+    title: '幸福早课人才培养营',
+    tag: '人才进入系统成长',
+    goal: '把筛选出来的人才继续放到训练环境里，先交付幸福能力，再交付健康管理能力，让人才在系统中成长。',
+    standards: [
+      '7天毕业且满足要求的学员，才能升级进入幸福早课人才培养营。',
+      '单营人数不超过10人，可同时开设多个营，不能混营。',
+      '实行一人一课制度，每位讲师只负责讲1堂课，每天必须完成作业并提交。'
+    ],
+    script: [
+      '我们先把幸福能力练扎实，再进入更系统的成长。',
+      '所有人都按照标准参与，教练也要完成作业。',
+      '通一节、练一节、反馈一节。'
+    ],
+    review: [
+      '是否符合升级条件？',
+      '是否按一人一课和单营人数标准执行？',
+      '是否每天通关、每天作业、每天反馈？'
+    ],
+    source: '对应能力：幸福早课人才培养营、人才培养标准。'
+  }
+];
+
 const modelCollection = {
   title: '榜样采集标准与流程',
   steps: [
@@ -678,7 +815,7 @@ const toolbox = [
   }
 ];
 
-const data = { modules, scriptLibrary, sources, quickFlows, serviceFramework, directorThinking, salonReview, flowGuide, modelCollection, toolbox };
+const data = { modules, scriptLibrary, sources, quickFlows, serviceFramework, directorThinking, salonReview, flowGuide, masterFlow, modelCollection, toolbox };
 
 function escapeHtml(value) {
   return String(value)
@@ -777,8 +914,14 @@ const html = `<!doctype html>
     .hero {
       width: min(1180px, calc(100% - 32px));
       margin: 0 auto;
-      padding: 34px 0 22px;
+      padding: 28px 0 22px;
       text-align: center;
+    }
+    .hero-mini-logo {
+      width: min(172px, 46vw);
+      height: auto;
+      display: block;
+      margin: 0 auto 14px;
     }
     .eyebrow {
       margin: 0 0 12px;
@@ -789,8 +932,8 @@ const html = `<!doctype html>
     h1 {
       margin: 0 auto;
       max-width: 880px;
-      font-size: clamp(38px, 8vw, 82px);
-      line-height: .98;
+      font-size: clamp(34px, 6vw, 62px);
+      line-height: 1.04;
       letter-spacing: 0;
     }
     .hero-copy {
@@ -833,6 +976,10 @@ const html = `<!doctype html>
       grid-template-columns: 280px minmax(0, 1fr);
       gap: 18px;
       align-items: start;
+    }
+    .page-shell {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto 56px;
     }
     .sidebar {
       position: sticky;
@@ -889,6 +1036,131 @@ const html = `<!doctype html>
       min-width: 0;
       display: grid;
       gap: 16px;
+    }
+    .required-master-flow {
+      background: rgba(255,255,255,.86);
+    }
+    .main-flow-tabs {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 22px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: #f5f5f7;
+    }
+    .main-flow-tabs button {
+      min-width: 0;
+      border: 0;
+      border-radius: 14px;
+      background: transparent;
+      color: #3a3a3c;
+      padding: 12px 8px;
+      font-weight: 850;
+      cursor: pointer;
+      line-height: 1.25;
+      transition: background .18s ease, color .18s ease, box-shadow .18s ease;
+    }
+    .main-flow-tabs button.active {
+      color: #fff;
+      background: var(--ink);
+      box-shadow: 0 10px 24px rgba(0,0,0,.16);
+    }
+    .flow-stage-panel {
+      margin-top: 16px;
+    }
+    .flow-stage-card {
+      border-radius: 28px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 24px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.08);
+    }
+    .stage-kicker {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-weight: 850;
+      margin-bottom: 12px;
+    }
+    .stage-number {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #fff;
+      background: var(--blue);
+      font-size: 13px;
+    }
+    .flow-stage-card h3 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height: 1.08;
+    }
+    .stage-goal {
+      margin: 12px 0 0;
+      color: #3a3a3c;
+      font-size: 18px;
+      line-height: 1.65;
+      font-weight: 700;
+    }
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .stage-block {
+      border-radius: 20px;
+      background: #f7f7f8;
+      padding: 16px;
+    }
+    .stage-block h4 {
+      margin: 0 0 10px;
+      font-size: 16px;
+    }
+    .stage-block ul {
+      margin: 0;
+      padding-left: 20px;
+      color: #2c2c2e;
+      line-height: 1.68;
+      font-weight: 680;
+    }
+    .stage-script {
+      background: rgba(0,113,227,.08);
+    }
+    .stage-script p,
+    .stage-source p {
+      margin: 0;
+      color: #1d1d1f;
+      line-height: 1.72;
+      font-weight: 760;
+      white-space: pre-wrap;
+    }
+    .stage-source {
+      grid-column: 1 / -1;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+    .ability-index {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+    .ability-index a {
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #1d1d1f;
+      padding: 9px 12px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 850;
     }
     .band {
       border-radius: 30px;
@@ -1324,8 +1596,19 @@ const html = `<!doctype html>
     }
     .empty.show { display: block; }
     @media (max-width: 860px) {
-      .topbar-inner, .hero, .layout { width: min(100% - 20px, 680px); }
+      .topbar-inner, .hero, .layout, .page-shell { width: min(100% - 20px, 680px); }
       .layout { grid-template-columns: 1fr; }
+      .main-flow-tabs {
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: none;
+      }
+      .main-flow-tabs::-webkit-scrollbar { display: none; }
+      .main-flow-tabs button {
+        flex: 0 0 auto;
+        min-width: 116px;
+      }
+      .stage-grid { grid-template-columns: 1fr; }
       .sidebar { position: static; }
       .module-nav {
         display: flex;
@@ -1347,81 +1630,56 @@ const html = `<!doctype html>
     @media (max-width: 420px) {
       .hero { padding-top: 28px; }
       .band-inner, .module-body, .module-head { padding: 18px; }
-      h1 { font-size: 38px; }
+      h1 { font-size: 34px; }
+      .flow-stage-card { padding: 18px; }
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand"><img class="brand-logo" src="assets/logo.png" alt="幸福驿站"></div>
-      <nav class="top-links" aria-label="页面导航">
-        <a href="#marketFlow">市场服务流程</a>
-        <a href="#supplementInfo">补充资料</a>
-        <a href="#raw">原文稿</a>
-      </nav>
-    </div>
-  </header>
-
   <main>
     <section class="hero">
+      <img class="hero-mini-logo" src="assets/logo.png" alt="幸福驿站">
       <h1>幸福学院市场服务手册</h1>
-      <p class="hero-copy">我不相信人，我相信流程。</p>
+      <p class="hero-copy">我不相信人，我只相信流程。</p>
     </section>
 
-    <section class="layout">
-      <aside class="sidebar">
-        <input class="search" id="manualSearch" type="search" placeholder="搜索流程、话术、作业、孩子、夫妻…" autocomplete="off">
-        <div class="search-results" id="searchResults" aria-live="polite"></div>
-        <div class="map-title">流程地图</div>
-        <nav class="module-nav" id="flowMap" aria-label="市场服务流程地图"></nav>
-        <div class="map-title">补充资料</div>
-        <nav class="module-nav" id="moduleNav" aria-label="模块导航"></nav>
-      </aside>
-
+    <section class="page-shell">
       <div class="content">
-        <section class="band" id="marketFlow">
+        <section class="band required-master-flow" id="marketFlow">
           <div class="band-inner">
-            <p class="eyebrow">市场服务流程</p>
-            <h2>沿着这条路，从需求进入系统成长。</h2>
-            <p>先找到自己处在哪一步，再核查这一步的标准、下一步和复盘动作。</p>
-            <div class="guide-grid" id="guideGrid"></div>
+            <p class="eyebrow">必须掌握的事：流程与标准</p>
+            <h2>一条流程串起所有标准与内容。</h2>
+            <p>市场服务人员打开以后，只看自己处在哪一步：这一步做什么、标准是什么、原话怎么说、做完怎么复盘。</p>
+            <nav class="main-flow-tabs" id="mainFlow" aria-label="必须掌握的主流程"></nav>
+            <div class="flow-stage-panel" id="flowStagePanel"></div>
           </div>
         </section>
 
-        <section class="band" id="process">
+        <section class="band ability-library" id="supplementInfo">
           <div class="band-inner">
-            <p class="eyebrow">流程地图</p>
-            <h2>从破冰或转介绍，到合作伙伴。</h2>
-            <div class="process-map" id="processMap">
-              <div class="process-step"><span>1</span><strong>破冰 / 转介绍</strong><p>让有需求的人愿意靠近。</p></div>
-              <div class="process-step"><span>2</span><strong>需求承接</strong><p>固定话术承接，不陷入咨询。</p></div>
-              <div class="process-step"><span>3</span><strong>免费幸福沙龙</strong><p>转到沙龙体验。</p></div>
-              <div class="process-step"><span>4</span><strong>沙龙让顾客知错</strong><p>体验、发问、点评、作业。</p></div>
-              <div class="process-step"><span>5</span><strong>沙龙后承接</strong><p>作业、反馈、复盘，进入7天营。</p></div>
-              <div class="process-step"><span>6</span><strong>7天训练营持续内观行动</strong><p>持续提要求、行动、反馈。</p></div>
-              <div class="process-step"><span>7</span><strong>进入系统学习环境</strong><p>持续学习、持续改变。</p></div>
-              <div class="process-step"><span>8</span><strong>掌握一辈子幸福能力</strong><p>掌握关系、沟通、情绪处理能力。</p></div>
-              <div class="process-step"><span>9</span><strong>人才培养营</strong><p>帮助人才系统成长。</p></div>
-              <div class="process-step"><span>10</span><strong>合作伙伴</strong><p>严格复制，帮助更多家庭。</p></div>
+            <p class="eyebrow">能力库</p>
+            <h2>其他资料单独提取，互相不联系。</h2>
+            <p>能力库不是主流程。需要哪一项就直接打开哪一项，用完就回到当下服务动作。</p>
+            <div class="ability-index">
+              <a href="#quickFlows">场景入口</a>
+              <a href="#service1234567">市场服务123456</a>
+              <a href="#thinking">思维与分工</a>
+              <a href="#salonReview">沙龙复盘</a>
+              <a href="#modules">完整流程手册</a>
+              <a href="#modelCollection">榜样采集</a>
+              <a href="#scripts">原文话术库</a>
+              <a href="#toolbox">工具与模型</a>
+              <a href="#raw">原文全文</a>
             </div>
           </div>
         </section>
 
         <section class="band" id="quickFlows">
           <div class="band-inner">
-            <p class="eyebrow">快速找流程</p>
-            <h2>先按场景入口找标准，再进入完整文稿。</h2>
-            <p>这是给驿站主现场使用的第一层入口：顾客问什么不重要，重要的是服务人员能不能把对方带进正确流程。</p>
+            <p class="eyebrow">能力库 / 场景入口</p>
+            <h2>单独提取现场场景标准。</h2>
+            <p>这里不承担主流程导航，只作为能力库内容：需要哪一类场景，就直接打开哪一类。</p>
             <div class="entry-grid" id="quickFlowGrid"></div>
-          </div>
-        </section>
-
-        <section class="band" id="supplementInfo">
-          <div class="band-inner">
-            <p class="eyebrow">补充资料</p>
-            <h2>这些内容用于核查、复盘和加深理解。</h2>
-            <p>主流程走不动时，再回到这里查标准、话术、工具、原文和榜样采集。</p>
           </div>
         </section>
 
@@ -1525,15 +1783,12 @@ const html = `<!doctype html>
   <script type="application/json" id="manualData">${JSON.stringify(data).replace(/</g, '\\u003c')}</script>
   <script>
     const manual = JSON.parse(document.getElementById('manualData').textContent);
-    const nav = document.getElementById('moduleNav');
-    const flowMap = document.getElementById('flowMap');
+    const mainFlow = document.getElementById('mainFlow');
+    const flowStagePanel = document.getElementById('flowStagePanel');
     const moduleGrid = document.getElementById('moduleGrid');
     const scriptLibrary = document.getElementById('scriptLibrary');
     const rawManual = document.getElementById('rawManual');
-    const search = document.getElementById('manualSearch');
-    const searchResults = document.getElementById('searchResults');
     const emptyState = document.getElementById('emptyState');
-    const guideGrid = document.getElementById('guideGrid');
     const quickFlowGrid = document.getElementById('quickFlowGrid');
     const frameworkGrid = document.getElementById('frameworkGrid');
     const thinkingGrid = document.getElementById('thinkingGrid');
@@ -1594,10 +1849,6 @@ const html = `<!doctype html>
       window.setTimeout(() => target.classList.remove('focus-pulse'), 1200);
     }
 
-    function closeSearchResults() {
-      searchResults.classList.remove('show');
-    }
-
     async function copyText(text) {
       try {
         await navigator.clipboard.writeText(text);
@@ -1611,25 +1862,46 @@ const html = `<!doctype html>
       }
     }
 
-    function renderNav() {
-      nav.innerHTML = manual.modules.map((module) => (
-        '<button type="button" data-nav-id="' + module.id + '">' + module.number + ' ' + module.title + '</button>'
+    function renderMasterFlow(activeIndex = 0) {
+      mainFlow.innerHTML = manual.masterFlow.map((stage, index) => (
+        '<button type="button" class="' + (index === activeIndex ? 'active' : '') + '" data-master-flow-index="' + index + '">' +
+          safeHtml(stage.number) + '<br>' + safeHtml(stage.title) +
+        '</button>'
       )).join('');
-      nav.querySelectorAll('[data-nav-id]').forEach((button) => {
+      renderMasterStage(activeIndex);
+      mainFlow.querySelectorAll('[data-master-flow-index]').forEach((button) => {
         button.addEventListener('click', () => {
-          setActiveModule(button.dataset.navId);
-          document.getElementById('module-' + button.dataset.navId).scrollIntoView({ block: 'start' });
+          renderMasterFlow(Number(button.dataset.masterFlowIndex));
         });
       });
     }
 
-    function renderFlowMap() {
-      flowMap.innerHTML = manual.flowGuide.map((item, index) => (
-        '<button type="button" data-flow-nav-id="flow-' + index + '" data-jump-target="flow-' + index + '">' + (index + 1) + ' ' + safeHtml(item.title) + '</button>'
-      )).join('');
-      flowMap.querySelectorAll('[data-jump-target]').forEach((button) => {
-        button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
-      });
+    function renderMasterStage(index) {
+      const stage = manual.masterFlow[index] || manual.masterFlow[0];
+      flowStagePanel.innerHTML =
+        '<article class="flow-stage-card" data-search-text="' + safeHtml([stage.title, stage.tag, stage.goal, stage.standards.join(' '), stage.script.join(' '), stage.review.join(' ')].join(' ')) + '">' +
+          '<div class="stage-kicker"><span class="stage-number">' + safeHtml(stage.number) + '</span><span>' + safeHtml(stage.tag) + '</span></div>' +
+          '<h3>' + safeHtml(stage.title) + '</h3>' +
+          '<p class="stage-goal">' + safeHtml(stage.goal) + '</p>' +
+          '<div class="stage-grid">' +
+            renderStageList('stage-standard', '标准', stage.standards) +
+            renderStageScript(stage.script) +
+            renderStageList('stage-review', '复盘', stage.review) +
+            '<div class="stage-block stage-source"><h4>能力库位置</h4><p>' + safeHtml(stage.source) + '</p></div>' +
+          '</div>' +
+        '</article>';
+    }
+
+    function renderStageList(className, title, lines) {
+      return '<div class="stage-block ' + className + '"><h4>' + title + '</h4><ul>' +
+        lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
+      '</ul></div>';
+    }
+
+    function renderStageScript(lines) {
+      return '<div class="stage-block stage-script"><h4>原话照搬</h4><p>' +
+        lines.map((line) => safeHtml(line)).join('\\n') +
+      '</p></div>';
     }
 
     function renderQuickFlows() {
@@ -1642,28 +1914,6 @@ const html = `<!doctype html>
           '<div class="standard">流程标准：' + safeHtml(flow.standard) + '</div>' +
         '</article>';
       }).join('');
-    }
-
-    function renderFlowGuide() {
-      guideGrid.innerHTML = manual.flowGuide.map((item, index) => {
-        const searchText = [item.title, item.standard, item.next, item.source, item.keywords || ''].join(' ');
-        const nextItem = manual.flowGuide[index + 1] || manual.flowGuide[0];
-        return '<details class="guide-card compact-flow" id="flow-' + index + '" data-flow-id="flow-' + index + '" data-search-text="' + safeHtml(searchText) + '" data-target-id="' + safeHtml(item.targetId) + '"' + (index === 0 ? ' open' : '') + '>' +
-          '<summary><span class="flow-index">' + (index + 1) + '</span><span><h3>' + safeHtml(item.title) + '</h3><p><strong>这一步的标准是什么：</strong>' + safeHtml(item.standard) + '</p></span></summary>' +
-          '<div class="compact-body">' +
-          '<p><strong>下一步去哪里：</strong>' + safeHtml(item.next) + '</p>' +
-          '<div class="guide-actions">' +
-            '<button type="button" class="small-action" data-jump-target="' + safeHtml(item.targetId) + '">查看这一步</button>' +
-            '<button type="button" class="small-action" data-jump-target="' + safeHtml(nextItem.targetId) + '">下一步</button>' +
-            '<button type="button" class="small-action" data-jump-target="raw">查原文</button>' +
-            '<button type="button" class="small-action" data-jump-target="marketFlow">回到流程地图</button>' +
-          '</div>' +
-          '</div>' +
-        '</details>';
-      }).join('');
-      guideGrid.querySelectorAll('[data-jump-target]').forEach((button) => {
-        button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
-      });
     }
 
     function renderFramework() {
@@ -1730,7 +1980,7 @@ const html = `<!doctype html>
         return '<article class="module-card" id="module-' + module.id + '" data-module-id="' + module.id + '" data-search-text="' + moduleSearchText(module).replace(/"/g, '&quot;') + '">' +
           '<div class="module-head"><div class="module-number">' + module.number + '</div><div><p class="eyebrow">' + module.eyebrow + '</p><h3>' + module.title + '</h3><p>' + module.summary + '</p></div></div>' +
           '<div class="module-body"><div class="step-row">' + steps + '</div><div class="section-grid">' + sections + '</div><div class="check-panel"><strong>轻量通关</strong>' + checks + '</div>' +
-          '<div class="module-actions"><button type="button" class="small-action" data-jump-target="marketFlow">回到流程地图</button><button type="button" class="small-action" data-jump-target="raw">查原文</button><button type="button" class="small-action" data-jump-target="toolbox">查看工具</button></div></div>' +
+          '</div>' +
           '</article>';
       }).join('');
       moduleGrid.querySelectorAll('.check-item').forEach((button) => {
@@ -1770,7 +2020,7 @@ const html = `<!doctype html>
             return '<article class="source-block" id="source-' + sourceIndex + '-' + blockIndex + '" data-search-text="' + safeHtml([source.title, block].join(' ')) + '">' +
               '<h3 class="source-heading">' + safeHtml(heading) + '</h3>' +
               formatSourceBlock(block) +
-              '<div class="module-actions"><button type="button" class="small-action" data-copy-source="' + sourceIndex + '-' + blockIndex + '">复制</button><button type="button" class="small-action" data-jump-target="marketFlow">回到流程地图</button></div>' +
+              '<div class="module-actions"><button type="button" class="small-action" data-copy-source="' + sourceIndex + '-' + blockIndex + '">复制</button></div>' +
             '</article>';
           }).join('') +
         '</details>';
@@ -1836,52 +2086,7 @@ const html = `<!doctype html>
       return cardTitle.trim().slice(0, 42);
     }
 
-    function renderSearchResults(query) {
-      if (!query) {
-        searchResults.classList.remove('show');
-        searchResults.innerHTML = '';
-        return;
-      }
-      const matches = [...document.querySelectorAll('[data-search-text]:not(.hidden)')]
-        .sort((a, b) => {
-          const rank = (item) => item.matches('.guide-card') ? 0 : item.matches('.flow-card') ? 1 : item.matches('.module-card') ? 2 : item.matches('.script-card') ? 3 : item.matches('.tool-card') ? 4 : 5;
-          return rank(a) - rank(b);
-        })
-        .slice(0, 6)
-        .map((item) => ({
-          title: getResultTitle(item),
-          targetId: getTargetId(item),
-          location: item.closest('.band')?.querySelector('.eyebrow')?.textContent || item.closest('section[id]')?.id || '流程位置'
-        }));
-      searchResults.innerHTML = matches.length
-        ? matches.map((match) => '<button type="button" class="result-button" data-jump-target="' + safeHtml(match.targetId) + '"><span>匹配位置：' + safeHtml(match.location) + '</span>' + safeHtml(match.title) + '</button>').join('')
-        : '<div class="result-button"><span>匹配位置</span>没有找到，换个关键词试试</div>';
-      searchResults.classList.add('show');
-      searchResults.querySelectorAll('[data-jump-target]').forEach((button) => {
-        button.addEventListener('click', () => {
-          scrollToTarget(button.dataset.jumpTarget);
-          closeSearchResults();
-          search.blur();
-        });
-      });
-    }
-
-    function filterManual() {
-      const query = normalizeText(search.value);
-      let visible = 0;
-      document.querySelectorAll('[data-search-text]').forEach((item) => {
-        const haystack = normalizeText(item.dataset.searchText);
-        const match = !query || haystack.includes(query);
-        item.classList.toggle('hidden', !match);
-        if (match) visible += 1;
-      });
-      renderSearchResults(query);
-      emptyState.classList.toggle('show', visible === 0);
-    }
-
-    renderNav();
-    renderFlowMap();
-    renderFlowGuide();
+    renderMasterFlow();
     renderQuickFlows();
     renderFramework();
     renderThinking();
@@ -1891,7 +2096,6 @@ const html = `<!doctype html>
     renderScripts();
     renderToolbox();
     renderRawManual();
-    search.addEventListener('input', filterManual);
 
     const observer = new IntersectionObserver((entries) => {
       const active = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
