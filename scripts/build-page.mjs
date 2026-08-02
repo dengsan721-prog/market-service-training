@@ -541,54 +541,76 @@ const directorThinking = [
 
 const flowGuide = [
   {
-    title: '咨询接待',
+    title: '破冰 / 转介绍',
     targetId: 'quickFlows',
-    standard: '不分析、不争辩、不急着讲知识。先问问题，再用固定话术引入免费幸福沙龙。',
-    next: '进入沙龙前准备',
+    standard: '通过破冰或转介绍让有真实幸福需求的人愿意靠近，先问问题，不急着讲知识。',
+    next: '进入需求承接',
     source: '查原文话术库',
     keywords: '孩子不听话 孩子问题 亲子教育 夫妻吵架 家庭问题 关系问题 心态问题 焦虑'
   },
   {
-    title: '沙龙前',
-    targetId: 'module-salon',
-    standard: '确认真实需求、准备发心故事、一场只讲一个主题，严格按照8步标准流程。',
-    next: '进入沙龙中执行',
-    source: '查幸福沙龙模块'
+    title: '需求承接',
+    targetId: 'module-scripts',
+    standard: '不陷入咨询分析，用固定话术承接：这个问题其实很简单，进入免费幸福沙龙，自己找到原因、自己解决。',
+    next: '转到免费幸福沙龙',
+    source: '查承接话术',
+    keywords: '承接 咨询 问题 免费幸福沙龙 你这个问题啊 其实很简单'
   },
   {
-    title: '沙龙中',
+    title: '免费幸福沙龙',
     targetId: 'module-salon',
-    standard: '邀约、讲发心、热场、提要求、主题、分享、引导式采访、心愿闭环，不能随意发挥。',
-    next: '进入沙龙后复盘',
+    standard: '严格按照邀约、讲发心、热场、提要求、主题、分享、引导式采访、心愿闭环执行。',
+    next: '让顾客在沙龙里知错',
     source: '查8步标准'
   },
   {
-    title: '沙龙后复盘',
+    title: '沙龙让顾客知错',
     targetId: 'salonReview',
-    standard: '问问题、承接7天训练营、布置作业、收作业、复盘流程，不找客户原因。',
-    next: '进入7天幸福训练营',
-    source: '查复盘清单',
-    keywords: '作业 复盘 收作业 反馈 沙龙结束 下一步'
+    standard: '通过体验、发问、点评、作业，让顾客把注意力回到自己身上，看到自己的错误和行动方向。',
+    next: '沙龙后承接',
+    source: '查沙龙复盘',
+    keywords: '知错 转念 点评 作业 复盘 收作业 反馈 沙龙结束 下一步'
   },
   {
-    title: '7天训练营',
+    title: '沙龙后承接',
+    targetId: 'module-homework',
+    standard: '询问还有哪些问题，用固定话术承接7天训练营，布置作业、收作业、收反馈。',
+    next: '进入7天训练营持续内观行动',
+    source: '查作业与复盘'
+  },
+  {
+    title: '7天训练营持续内观行动',
     targetId: 'module-camp7',
     standard: '每天提要求、主题训练、作业实践、反馈调整，让学员自己看见错误并决定行动。',
-    next: '进入榜样采集',
+    next: '进入系统学习环境',
     source: '查7天课程展开'
   },
   {
-    title: '榜样采集',
-    targetId: 'modelCollection',
-    standard: '先共情激活，再自由分享，再用16问补充完整。核心是一次性采集完整、充满细节和情感。',
-    next: '进入大课与复制承接',
-    source: '查榜样采集16问'
+    title: '进入系统学习环境',
+    targetId: 'module-talent',
+    standard: '让学员明白一天的学习不能解决一辈子的问题，必须进入环境，持续学习、持续改变。',
+    next: '掌握一辈子幸福能力',
+    source: '查幸福早课人才培养营'
   },
   {
-    title: '大课承接',
+    title: '掌握一辈子幸福能力',
+    targetId: 'module-talent',
+    standard: '在持续学习和行动反馈里掌握处理关系、沟通、情绪和家庭问题的能力。',
+    next: '进入人才培养营',
+    source: '查人才培养标准'
+  },
+  {
+    title: '人才培养营',
+    targetId: 'module-talent',
+    standard: '筛选受益、行动、愿意帮助别人的人，进入系统成长，学习复制标准。',
+    next: '成为合作伙伴',
+    source: '查人才培养营'
+  },
+  {
+    title: '合作伙伴',
     targetId: 'module-coach',
-    standard: '确认受益、确认行动、确认家人支持，顾客自己愿意继续学习和复制。',
-    next: '回到总流程复盘',
+    standard: '从受益学员到榜样，再到教练和合作伙伴，严格复制流程，帮助更多家庭。',
+    next: '回到流程地图复盘',
     source: '查教练招募与严格复制'
   }
 ];
@@ -671,7 +693,7 @@ const html = `<!doctype html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>幸福驿站市场服务流程手册</title>
+  <title>幸福学院市场服务手册</title>
   <link rel="icon" href="data:,">
   <style>
     :root {
@@ -856,6 +878,12 @@ const html = `<!doctype html>
     .module-nav button.active {
       color: var(--blue);
       background: rgba(0,113,227,.10);
+    }
+    .map-title {
+      padding: 0 4px;
+      color: #6e6e73;
+      font-size: 12px;
+      font-weight: 900;
     }
     .content {
       min-width: 0;
@@ -1269,12 +1297,9 @@ const html = `<!doctype html>
     <div class="topbar-inner">
       <div class="brand"><img class="brand-logo" src="assets/logo.png" alt="幸福驿站"></div>
       <nav class="top-links" aria-label="页面导航">
-        <a href="#process">总流程</a>
-        <a href="#quickFlows">快速找流程</a>
-        <a href="#salonReview">沙龙后复盘</a>
-        <a href="#toolbox">工具与模型</a>
-        <a href="#modules">完整流程手册</a>
-        <a href="#scripts">原文话术库</a>
+        <a href="#marketFlow">市场服务流程</a>
+        <a href="#supplementInfo">补充资料</a>
+        <a href="#raw">原文稿</a>
       </nav>
     </div>
   </header>
@@ -1282,46 +1307,45 @@ const html = `<!doctype html>
   <main>
     <section class="hero">
       <img class="hero-logo" src="assets/logo.png" alt="幸福驿站">
-      <p class="eyebrow">核心是流程：能快速找到标准，沙龙后能照着复盘</p>
-      <h1>幸福驿站市场服务流程手册</h1>
-      <p class="hero-copy">把原来需要翻文稿的内容，整理成驿站主市场服务工作台。打开以后先确定自己处在哪一步，再按标准动作执行，沙龙后能照着流程复盘。</p>
-      <div class="hero-actions">
-        <a class="pill-link" href="#quickFlows">快速找流程</a>
-        <a class="ghost-link" href="#salonReview">沙龙后复盘</a>
-        <a class="ghost-link" href="#toolbox">工具与模型</a>
-      </div>
+      <h1>幸福学院市场服务手册</h1>
+      <p class="hero-copy">我不相信人，我相信流程。</p>
     </section>
 
     <section class="layout">
       <aside class="sidebar">
         <input class="search" id="manualSearch" type="search" placeholder="搜索流程、话术、作业、孩子、夫妻…" autocomplete="off">
         <div class="search-results" id="searchResults" aria-live="polite"></div>
+        <div class="map-title">流程地图</div>
+        <nav class="module-nav" id="flowMap" aria-label="市场服务流程地图"></nav>
+        <div class="map-title">补充资料</div>
         <nav class="module-nav" id="moduleNav" aria-label="模块导航"></nav>
       </aside>
 
       <div class="content">
-        <section class="band" id="flowGuide">
+        <section class="band" id="marketFlow">
           <div class="band-inner">
-            <p class="eyebrow">我现在处在哪一步</p>
-            <h2>普通人先按流程站位，再看这一步的标准是什么。</h2>
-            <p>每一步都给出流程位置、执行标准、下一步去哪里和查原文入口。看完任何内容，都能回到总流程继续走。</p>
+            <p class="eyebrow">市场服务流程</p>
+            <h2>沿着这条路，从需求进入系统成长。</h2>
+            <p>先找到自己处在哪一步，再核查这一步的标准、下一步和复盘动作。</p>
             <div class="guide-grid" id="guideGrid"></div>
           </div>
         </section>
 
         <section class="band" id="process">
           <div class="band-inner">
-            <p class="eyebrow">总流程</p>
-            <h2>从吸引，到学员自己愿意继续走。</h2>
-            <p>这不是推销路径，而是服务路径。用严格流程让学员在互动学习里看到自己的错误，愿意放下情绪，愿意改变语言、语气、角度，就是获得幸福的唯一途径。</p>
+            <p class="eyebrow">流程地图</p>
+            <h2>从破冰或转介绍，到合作伙伴。</h2>
             <div class="process-map" id="processMap">
-              <div class="process-step"><span>1</span><strong>吸引破冰</strong><p>用案例和痛点吸引真实幸福需求。</p></div>
-              <div class="process-step"><span>2</span><strong>免费幸福沙龙</strong><p>按8步标准流程体验，不能随意发挥。</p></div>
-              <div class="process-step"><span>3</span><strong>作业与复盘</strong><p>一次一次提要求，布置作业，完成作业。</p></div>
-              <div class="process-step"><span>4</span><strong>7天幸福训练营</strong><p>持续互动、反馈、调整，让学员自己说服自己。</p></div>
-              <div class="process-step"><span>5</span><strong>榜样采访</strong><p>形成案例口碑，激活榜样价值感。</p></div>
-              <div class="process-step"><span>6</span><strong>大课与复制</strong><p>顾客自己愿意，进入幸福驿站大课和复制系统。</p></div>
-              <div class="process-step"><span>7</span><strong>市场服务1234567</strong><p>用123456定标准，用第7步沙龙后复盘闭环拿结果。</p></div>
+              <div class="process-step"><span>1</span><strong>破冰 / 转介绍</strong><p>让有需求的人愿意靠近。</p></div>
+              <div class="process-step"><span>2</span><strong>需求承接</strong><p>固定话术承接，不陷入咨询。</p></div>
+              <div class="process-step"><span>3</span><strong>免费幸福沙龙</strong><p>转到沙龙体验。</p></div>
+              <div class="process-step"><span>4</span><strong>沙龙让顾客知错</strong><p>体验、发问、点评、作业。</p></div>
+              <div class="process-step"><span>5</span><strong>沙龙后承接</strong><p>作业、反馈、复盘，进入7天营。</p></div>
+              <div class="process-step"><span>6</span><strong>7天训练营持续内观行动</strong><p>持续提要求、行动、反馈。</p></div>
+              <div class="process-step"><span>7</span><strong>进入系统学习环境</strong><p>持续学习、持续改变。</p></div>
+              <div class="process-step"><span>8</span><strong>掌握一辈子幸福能力</strong><p>掌握关系、沟通、情绪处理能力。</p></div>
+              <div class="process-step"><span>9</span><strong>人才培养营</strong><p>帮助人才系统成长。</p></div>
+              <div class="process-step"><span>10</span><strong>合作伙伴</strong><p>严格复制，帮助更多家庭。</p></div>
             </div>
           </div>
         </section>
@@ -1332,6 +1356,14 @@ const html = `<!doctype html>
             <h2>先按场景入口找标准，再进入完整文稿。</h2>
             <p>这是给驿站主现场使用的第一层入口：顾客问什么不重要，重要的是服务人员能不能把对方带进正确流程。</p>
             <div class="entry-grid" id="quickFlowGrid"></div>
+          </div>
+        </section>
+
+        <section class="band" id="supplementInfo">
+          <div class="band-inner">
+            <p class="eyebrow">补充资料</p>
+            <h2>这些内容用于核查、复盘和加深理解。</h2>
+            <p>主流程走不动时，再回到这里查标准、话术、工具、原文和榜样采集。</p>
           </div>
         </section>
 
@@ -1436,6 +1468,7 @@ const html = `<!doctype html>
   <script>
     const manual = JSON.parse(document.getElementById('manualData').textContent);
     const nav = document.getElementById('moduleNav');
+    const flowMap = document.getElementById('flowMap');
     const moduleGrid = document.getElementById('moduleGrid');
     const scriptLibrary = document.getElementById('scriptLibrary');
     const rawManual = document.getElementById('rawManual');
@@ -1481,6 +1514,12 @@ const html = `<!doctype html>
       });
     }
 
+    function setActiveFlow(id) {
+      document.querySelectorAll('[data-flow-nav-id]').forEach((button) => {
+        button.classList.toggle('active', button.dataset.flowNavId === id);
+      });
+    }
+
     function toggleCheck(button) {
       button.classList.toggle('done');
     }
@@ -1490,6 +1529,7 @@ const html = `<!doctype html>
       if (!target) return;
       target.scrollIntoView({ block: 'start', behavior: 'smooth' });
       if (target.dataset.moduleId) setActiveModule(target.dataset.moduleId);
+      if (target.dataset.flowId) setActiveFlow(target.dataset.flowId);
     }
 
     async function copyText(text) {
@@ -1517,6 +1557,15 @@ const html = `<!doctype html>
       });
     }
 
+    function renderFlowMap() {
+      flowMap.innerHTML = manual.flowGuide.map((item, index) => (
+        '<button type="button" data-flow-nav-id="flow-' + index + '" data-jump-target="flow-' + index + '">' + (index + 1) + ' ' + safeHtml(item.title) + '</button>'
+      )).join('');
+      flowMap.querySelectorAll('[data-jump-target]').forEach((button) => {
+        button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
+      });
+    }
+
     function renderQuickFlows() {
       quickFlowGrid.innerHTML = manual.quickFlows.map((flow) => {
         const searchText = [flow.title, flow.tag, flow.standard, flow.steps.join(' '), flow.keywords || ''].join(' ');
@@ -1533,7 +1582,7 @@ const html = `<!doctype html>
       guideGrid.innerHTML = manual.flowGuide.map((item, index) => {
         const searchText = [item.title, item.standard, item.next, item.source, item.keywords || ''].join(' ');
         const nextItem = manual.flowGuide[index + 1] || manual.flowGuide[0];
-        return '<article class="guide-card" data-search-text="' + safeHtml(searchText) + '" data-target-id="' + safeHtml(item.targetId) + '">' +
+        return '<article class="guide-card" id="flow-' + index + '" data-flow-id="flow-' + index + '" data-search-text="' + safeHtml(searchText) + '" data-target-id="' + safeHtml(item.targetId) + '">' +
           '<span class="tag">流程位置 ' + (index + 1) + '</span>' +
           '<h3>' + safeHtml(item.title) + '</h3>' +
           '<p><strong>这一步的标准是什么：</strong>' + safeHtml(item.standard) + '</p>' +
@@ -1542,7 +1591,7 @@ const html = `<!doctype html>
             '<button type="button" class="small-action" data-jump-target="' + safeHtml(item.targetId) + '">查看这一步</button>' +
             '<button type="button" class="small-action" data-jump-target="' + safeHtml(nextItem.targetId) + '">下一步</button>' +
             '<button type="button" class="small-action" data-jump-target="raw">查原文</button>' +
-            '<button type="button" class="small-action" data-jump-target="process">回到总流程</button>' +
+            '<button type="button" class="small-action" data-jump-target="marketFlow">回到流程地图</button>' +
           '</div>' +
         '</article>';
       }).join('');
@@ -1615,7 +1664,7 @@ const html = `<!doctype html>
         return '<article class="module-card" id="module-' + module.id + '" data-module-id="' + module.id + '" data-search-text="' + moduleSearchText(module).replace(/"/g, '&quot;') + '">' +
           '<div class="module-head"><div class="module-number">' + module.number + '</div><div><p class="eyebrow">' + module.eyebrow + '</p><h3>' + module.title + '</h3><p>' + module.summary + '</p></div></div>' +
           '<div class="module-body"><div class="step-row">' + steps + '</div><div class="section-grid">' + sections + '</div><div class="check-panel"><strong>轻量通关</strong>' + checks + '</div>' +
-          '<div class="module-actions"><button type="button" class="small-action" data-jump-target="process">回到总流程</button><button type="button" class="small-action" data-jump-target="raw">查原文</button><button type="button" class="small-action" data-jump-target="toolbox">查看工具</button></div></div>' +
+          '<div class="module-actions"><button type="button" class="small-action" data-jump-target="marketFlow">回到流程地图</button><button type="button" class="small-action" data-jump-target="raw">查原文</button><button type="button" class="small-action" data-jump-target="toolbox">查看工具</button></div></div>' +
           '</article>';
       }).join('');
       moduleGrid.querySelectorAll('.check-item').forEach((button) => {
@@ -1655,7 +1704,7 @@ const html = `<!doctype html>
             return '<article class="source-card" id="source-' + sourceIndex + '-' + blockIndex + '" data-search-text="' + safeHtml([source.title, block].join(' ')) + '">' +
               '<h3>' + safeHtml(heading) + '</h3>' +
               '<p class="source-text">' + safeHtml(block) + '</p>' +
-              '<div class="module-actions"><button type="button" class="small-action" data-copy-source="' + sourceIndex + '-' + blockIndex + '">复制</button><button type="button" class="small-action" data-jump-target="process">回到总流程</button></div>' +
+              '<div class="module-actions"><button type="button" class="small-action" data-copy-source="' + sourceIndex + '-' + blockIndex + '">复制</button><button type="button" class="small-action" data-jump-target="marketFlow">回到流程地图</button></div>' +
             '</article>';
           }).join('') +
         '</section>';
@@ -1690,6 +1739,10 @@ const html = `<!doctype html>
         return;
       }
       const matches = [...document.querySelectorAll('[data-search-text]:not(.hidden)')]
+        .sort((a, b) => {
+          const rank = (item) => item.matches('.guide-card') ? 0 : item.matches('.flow-card') ? 1 : item.matches('.module-card') ? 2 : item.matches('.script-card') ? 3 : item.matches('.tool-card') ? 4 : 5;
+          return rank(a) - rank(b);
+        })
         .slice(0, 6)
         .map((item) => ({
           title: getResultTitle(item),
@@ -1719,6 +1772,7 @@ const html = `<!doctype html>
     }
 
     renderNav();
+    renderFlowMap();
     renderFlowGuide();
     renderQuickFlows();
     renderFramework();
@@ -1736,7 +1790,13 @@ const html = `<!doctype html>
       if (active) setActiveModule(active.target.dataset.moduleId);
     }, { rootMargin: '-20% 0px -70% 0px', threshold: [0.1, 0.4, 0.8] });
     document.querySelectorAll('[data-module-id]').forEach((card) => observer.observe(card));
+    const flowObserver = new IntersectionObserver((entries) => {
+      const active = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (active) setActiveFlow(active.target.dataset.flowId);
+    }, { rootMargin: '-18% 0px -65% 0px', threshold: [0.1, 0.4, 0.8] });
+    document.querySelectorAll('[data-flow-id]').forEach((card) => flowObserver.observe(card));
     setActiveModule(manual.modules[0].id);
+    setActiveFlow('flow-0');
   </script>
 </body>
 </html>
