@@ -939,12 +939,6 @@ const html = `<!doctype html>
       font-size: 12px;
       font-weight: 900;
     }
-    .hero-logo {
-      width: min(280px, 74vw);
-      height: auto;
-      margin: 0 auto 18px;
-      display: block;
-    }
     .entry-grid, .framework-grid, .tool-grid, .guide-grid, .collection-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1351,7 +1345,7 @@ const html = `<!doctype html>
       .brand-logo { width: 116px; }
     }
     @media (max-width: 420px) {
-      .hero { padding-top: 42px; }
+      .hero { padding-top: 28px; }
       .band-inner, .module-body, .module-head { padding: 18px; }
       h1 { font-size: 38px; }
     }
@@ -1371,7 +1365,6 @@ const html = `<!doctype html>
 
   <main>
     <section class="hero">
-      <img class="hero-logo" src="assets/logo.png" alt="幸福驿站">
       <h1>幸福学院市场服务手册</h1>
       <p class="hero-copy">我不相信人，我相信流程。</p>
     </section>
