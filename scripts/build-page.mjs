@@ -53,7 +53,7 @@ const sourceFiles = [
   },
   {
     title: '《7幸福训练营》复制标准流程',
-    path: 'C:/Users/Administrator/.codex/attachments/cb81fed1-1f4d-44a7-832e-115f87ebeeb7/pasted-text.txt'
+    path: 'C:/Users/Administrator/.codex/attachments/1f71a84b-c7b3-4a62-a604-96ffdcb442dd/pasted-text.txt'
   }
 ];
 
@@ -422,7 +422,8 @@ const quickFlows = [
     title: '生人咨询',
     tag: '先入沙龙',
     steps: ['问清问题', '不分析问题', '固定话术承接', '进入免费幸福沙龙'],
-    standard: '你这个问题啊，其实很简单。先参加一个免费幸福沙龙，你自己都能找到原因，自己解决。'
+    standard: '你这个问题啊，其实很简单。先参加一个免费幸福沙龙，你自己都能找到原因，自己解决。',
+    keywords: '孩子不听话 孩子问题 亲子教育 夫妻吵架 家庭问题 关系问题 心态问题 焦虑 不自律 叛逆'
   },
   {
     title: '沙龙前',
@@ -440,7 +441,8 @@ const quickFlows = [
     title: '沙龙后复盘',
     tag: '留作业收作业',
     steps: ['问还有哪些问题', '承接7天训练营', '布置作业', '约定提交时间', '收反馈', '复盘教练和流程'],
-    standard: '沙龙后必须闭环：不只是结束活动，而是让学员带着行动进入下一步。'
+    standard: '沙龙后必须闭环：不只是结束活动，而是让学员带着行动进入下一步。',
+    keywords: '作业 复盘 反馈 没有反馈 下一步 7天训练营 沙龙结束'
   },
   {
     title: '7天训练营',
@@ -459,38 +461,38 @@ const quickFlows = [
 const serviceFramework = [
   {
     number: '1',
-    title: '一个中心',
-    body: '扶正祛邪。不要先痴迷于方法，不管销售什么，顾客一定不喜欢满腹牢骚、眼里满是缺点的市场服务顾问。'
+    title: '一个服务理念 / 一类角色定位',
+    body: '一个服务理念：扶正祛邪，与人相处最高境界就是去激发人的善意，把负能量转换成正能量，才能创造幸福力量。一类角色定位：你是幸福导游员，不创造景区，不剧透，只带领进入景区，让学员身临其境体验，自己感受美好；你是受益分享者，不传授知识，只引导帮助找到问题，始终激活学习心态，与学员共同成长。'
   },
   {
     number: '2',
-    title: '两个基本点',
-    body: '转念：把注意力引回自己；做选择题：用标准帮助学员做选择题，自己听明白，自己想明白。'
+    title: '两个沟通心法 / 两种开拓方法',
+    body: '两个沟通心法：发问转念，点评引导顾客的注意力在自己身上；发问做选择题，用标准规律帮助学员做选择题，引导学员进入系统学习。两种开拓方法：一对一标准沟通；线上、线下沙龙。'
   },
   {
     number: '3',
-    title: '三种学员不收',
-    body: '家人反对坚决的不收；有经济负担的不收，不刷信用卡、不借钱学习；不愿为家庭付出、只想坐享其成的不收。只收一种学员：愿意为自己和家人的幸福负责，下定决心成长改变的人。'
+    title: '三个必做目标 / 三大核心关注',
+    body: '帮助目标：每天帮助3-5个人，实现1人进入私域。服务目标：每天沟通付费学员1-3个人，每3天筛选成长变化榜样1人。学习目标：每天查漏补缺，基础技能精通与实战。三大核心关注：关注成长，成功自然出现；关注过程，结果自然出现；关注行动，效果自然出现。'
   },
   {
     number: '4',
-    title: '四个步骤',
-    body: '检测：幸福自检表，问题可视化；诊断：一正一反对比，问出核心点，让顾客知错；方案：基础群、公益课、专栏、研学班等不同阶段提升免疫力；陪伴：共同成长陪伴，接幸福回家。'
+    title: '四步服务流程 / 四阶人才漏斗 / 四步个人服务步骤',
+    body: '四步服务流程：进人-直播、沙龙；留人-内容工具与情感服务；育人-付费学习；转人-转介绍、转合作。四阶人才漏斗：粉丝、客户、优质客户、合作伙伴。四种人才特征：特种兵、普通兵、潜水兵、逃兵，思考成为哪一种兵收获成长最快。四步个人服务步骤：检测-幸福自检表，问题可视化；诊断-一正一反对比，问出核心点，顾客知错；方案-基础群、公益课、专栏、研学班等不同阶段提高免疫力；陪伴-关系和成绩双提高，接幸福回家。'
   },
   {
     number: '5',
-    title: '五步人才培养',
-    body: '激活让学员感兴趣，排队让学员想学，筛选让学员改变，培养让学员帮助别人，裂变让伙伴重复以上四步。'
+    title: '五步标准沟通 / 五步人才培养',
+    body: '五步标准沟通：破冰，让人好奇想找你；原理，通过课程、一分钟、互动游戏、故事、榜样案例等找到正确方向；堵门，用选择题和转念只能选一条路；下危机，用故事或案例说明持续发展的后果；闭环，用发问和做选择题引导进入学习，彻底解决问题。五步人才培养：激活、排队、筛选、培养、裂变。'
   },
   {
     number: '6',
     title: '六个销售武器',
-    body: '精通产品、销售问题、主线提问、销售流程、案例榜样、工具宝库。始终记得主要任务是让学员进入学习。'
+    body: '精通产品：精通10条每日一分钟、五堂课、产品核心优势与卖点。销售问题：常见问题问答库，包括价格、时间、信任等。主线提问：始终记得主要任务是让学员进入学习，把注意力引导到真正问题上。销售流程：四步服务流程。案例榜样：5个市场服务经典榜样、5个学习成果经典榜样。工具宝库：视频号、公众号、鸡腿群、钉钉内容群、公益课、专栏课程、一分钟宝典、智慧父母系列公益课等。'
   },
   {
     number: '7',
-    title: '七步沙龙后复盘闭环',
-    body: '复盘需求、复盘提要求、复盘参与度、复盘作业、复盘反馈、复盘下一步承接、复盘教练是否严格按照流程。'
+    title: '共同约定 / 收学员标准',
+    body: '无论一对一、直播还是沙龙，核心目的都是用转念和做选择题帮助学员进入学习。想尽一切办法帮助学员进入系统学习，从中自我感悟、知错、内观、行动，才是使命的唯一途径。三种学员不收：家人反对坚决不收；有经济负担不收；不愿意学习成长、只想坐享其成、有搞定别人心态的人不收。只收一种学员：愿意为自己和家人的幸福负责，下定决心成长改变，愿意突破，为三代人的幸福打基础的人。'
   }
 ];
 
@@ -506,45 +508,136 @@ const salonReview = [
   '是否复盘自己：效果不好先找教练和流程问题，不找客户原因。'
 ];
 
-const expertQuestions = [
-  '你是在解决问题，还是在引导进入流程？',
-  '你有没有把顾客注意力从家人缺点，点评到他自己可以改变的语言、语气、角度？',
-  '你是否用幸福自检表让问题可视化，而不是靠自己判断？',
-  '你是否用了“转念”和“做选择题”，让学员自己知错、自己想明白？',
-  '沙龙结束后，是否布置作业并收作业？',
-  '你的闭环有没有把学员带到7天训练营，而不是停留在一次活动？',
-  '你有没有随意发挥、增加内容、弱化标准？',
-  '你能不能让一个新手驿站主照着你的复盘记录，复刻同样流程？'
-];
-
-const personaPaths = [
+const directorThinking = [
   {
-    title: '新手驿站主',
-    need: '先不要追求会讲，先会按流程找标准。',
-    flow: ['看市场服务1234567', '照着快速找流程', '使用固定话术', '沙龙后按复盘清单核对']
+    title: '角色共识',
+    body: '所有人的角色都是受益分享者，不是老师，不是导师，不是大师。总监干三件事：育人才、挖沙子、淘金子；驿站主干两件事：挖沙子、淘金子。'
   },
   {
-    title: '沙龙主持人',
-    need: '重点管住流程，不被现场问题带跑。',
-    flow: ['沙龙前确认角色定位', '沙龙中严格8步', '沙龙后留作业收作业', '用专家质询复盘']
+    title: '共同做四件事',
+    body: '用锄头：用点评、音频、视频、文字、图片等激活别人，也激活自己。挖沙子：用沙龙育人，也育自己，严格按照标准通关、操作、复盘。造筛子：按照标准发掘榜样，用榜样工具激活更多人行动。淘金子：用行动筛选，任何发出的要求都要有收回动作。'
   },
   {
-    title: '训练营带班人',
-    need: '每天持续提要求、收作业、找榜样。',
-    flow: ['第1天开营', '每日主题训练', '每日作业反馈', '榜样采访', '闭环升级']
+    title: '总监育人才三步',
+    body: '前10次约人由总监完成，让筛选出来的伙伴讲，破除邀约恐惧；要求把人讲死，不是讲活，破除担心讲坏的恐惧；讲完用标准复盘，破除随意修改流程标准的行为。'
   },
   {
-    title: '市场负责人',
-    need: '看团队有没有按标准复制，而不是看个人发挥。',
-    flow: ['检查三目标', '检查四步服务流程与人才漏斗', '检查五步人才培养', '检查六个销售武器', '检查每日反馈']
+    title: '幸福事业五步',
+    body: '榜样工具邀约来人，幸福沙龙挖沙子淘金子，幸福转念训练营继续筛选，进入平台学习，梦想合并并重复前面三步。'
+  },
+  {
+    title: '伙伴求助的两个辅导',
+    body: '先调心态：相信流程是在激活人的善，心态对了才会行动。再问细节：用方向和流程标准复盘具体动作，问怎么做、做了多少次、对方怎么反应，最后定计划、提要求、收反馈。'
+  },
+  {
+    title: '顾客学习前四个顾虑',
+    body: '听不懂、学不会、没效果、副作用。对应解决方式是沙龙体验、榜样案例、真实细节变化、观察关系是否越来越好以及身边人是否反馈自己变好了。'
+  },
+  {
+    title: '学习后五种效果',
+    body: '问题不再恶化、问题解决、其他问题解决、掌握能力、合并梦想。任何学员面前只有三条路：放任不管、自己摸索、进入环境持续学习持续改变。'
   }
 ];
 
+const flowGuide = [
+  {
+    title: '咨询接待',
+    targetId: 'quickFlows',
+    standard: '不分析、不争辩、不急着讲知识。先问问题，再用固定话术引入免费幸福沙龙。',
+    next: '进入沙龙前准备',
+    source: '查原文话术库',
+    keywords: '孩子不听话 孩子问题 亲子教育 夫妻吵架 家庭问题 关系问题 心态问题 焦虑'
+  },
+  {
+    title: '沙龙前',
+    targetId: 'module-salon',
+    standard: '确认真实需求、准备发心故事、一场只讲一个主题，严格按照8步标准流程。',
+    next: '进入沙龙中执行',
+    source: '查幸福沙龙模块'
+  },
+  {
+    title: '沙龙中',
+    targetId: 'module-salon',
+    standard: '邀约、讲发心、热场、提要求、主题、分享、引导式采访、心愿闭环，不能随意发挥。',
+    next: '进入沙龙后复盘',
+    source: '查8步标准'
+  },
+  {
+    title: '沙龙后复盘',
+    targetId: 'salonReview',
+    standard: '问问题、承接7天训练营、布置作业、收作业、复盘流程，不找客户原因。',
+    next: '进入7天幸福训练营',
+    source: '查复盘清单',
+    keywords: '作业 复盘 收作业 反馈 沙龙结束 下一步'
+  },
+  {
+    title: '7天训练营',
+    targetId: 'module-camp7',
+    standard: '每天提要求、主题训练、作业实践、反馈调整，让学员自己看见错误并决定行动。',
+    next: '进入榜样采集',
+    source: '查7天课程展开'
+  },
+  {
+    title: '榜样采集',
+    targetId: 'modelCollection',
+    standard: '先共情激活，再自由分享，再用16问补充完整。核心是一次性采集完整、充满细节和情感。',
+    next: '进入大课与复制承接',
+    source: '查榜样采集16问'
+  },
+  {
+    title: '大课承接',
+    targetId: 'module-coach',
+    standard: '确认受益、确认行动、确认家人支持，顾客自己愿意继续学习和复制。',
+    next: '回到总流程复盘',
+    source: '查教练招募与严格复制'
+  }
+];
+
+const modelCollection = {
+  title: '榜样采集标准与流程',
+  steps: [
+    {
+      title: '共情，激活分享人',
+      body: '可以是类似语言的点评：听到你的故事，能感受到你是一个有责任心的人，一直在找幸福的方法；你的故事之前听过，能感受到过去受了很多委屈，现在也找到了真正的解决办法；能看到你现在状态，为你高兴，你这一路走来肯定吃了不少苦头。',
+      purpose: '核心目的是用具体的场景引导带入情感。'
+    },
+    {
+      title: '分享，自由分享',
+      body: '大概思路可以围绕：学员遇到什么问题，想了什么办法，一路的坎坷，怎么在大春平台具体学习改变，下一步的计划。中间需要挖掘细节的，可以继续发问：当时是怎么发生的？当时你心理是怎么想的？当时对方啥反应，说了啥，做了啥？',
+      purpose: '核心目的是按照时间发展顺序，学员可以回忆起来细节，充满感情地表达所发生的事情。'
+    },
+    {
+      title: '补充，查漏补缺',
+      body: '根据16个问题进行补充发问。',
+      purpose: '核心目的是一次性采集完整。'
+    }
+  ],
+  questions: [
+    '自我介绍：你是谁，来自哪里，什么职业，通过学习解决了你什么问题？',
+    '学习前遇到什么问题，到了什么程度？',
+    '学习后是什么程度，学习后的变化？',
+    '学了什么内容？学了这些内容，多长时间发生的变化？一定要量化，场景细节一定要表达。',
+    '以前为了解决这些问题，你学过什么内容？都用过哪些方法？花了多少钱？花了多长时间？效果怎么样？',
+    '通过这个学习，你知道自己错在哪里了吗？',
+    '如果没有这次学习，继续以前的错误方式，最终会给你带来什么样的后果？',
+    '如果不想出现这个不好的后果，接下来应该怎么做？',
+    '你为什么愿意把自己的故事分享出来，你想帮助谁？你的愿望是什么？',
+    '对没来学习的人或者不相信的人，让你送给他们一句话，你怎么表达？',
+    '在这里学习和你原来在其他地方学习，最大的区别是什么？',
+    '现在有这么好的结果，你有怎样的心情和感受？',
+    '像你这样的问题，在你身边的人里面遇到的多不多？',
+    '通过你自身的这段经历，你会给同样经历的朋友说一句什么话？',
+    '你第1次听大春之道的内容是什么时候？在哪里？什么内容？为什么这个内容吸引你？当时你报名了吗？没有，那时候为什么没来学习？',
+    '什么时候报的名？学习前有什么顾虑？学习后这些顾虑解决了吗？',
+    '你为什么立马决定报名？'
+  ]
+};
+
 const toolbox = [
   {
-    title: '驿站主市场服务123456（3.0）',
+    title: '驿站主市场服务123456参考图',
     image: 'assets/market-service-123456.png',
-    text: '角色定位、两件主线任务、三个必做目标、四步服务流程与人才漏斗、五步人才培养、六个销售武器。'
+    text: '图片保留原参考图，页面上方“市场服务1234567”已按4.0文字内容更新。'
   },
   {
     title: '幸福驿站市场服务模型',
@@ -563,7 +656,7 @@ const toolbox = [
   }
 ];
 
-const data = { modules, scriptLibrary, sources, quickFlows, serviceFramework, salonReview, expertQuestions, personaPaths, toolbox };
+const data = { modules, scriptLibrary, sources, quickFlows, serviceFramework, directorThinking, salonReview, flowGuide, modelCollection, toolbox };
 
 function escapeHtml(value) {
   return String(value)
@@ -794,7 +887,7 @@ const html = `<!doctype html>
       gap: 12px;
       margin-top: 18px;
     }
-    .logic-card, .process-step, .flow-card, .framework-card, .persona-card {
+    .logic-card, .process-step, .flow-card, .framework-card {
       min-width: 0;
       border-radius: 22px;
       border: 1px solid var(--line);
@@ -824,18 +917,18 @@ const html = `<!doctype html>
       margin: 0 auto 30px;
       display: block;
     }
-    .entry-grid, .framework-grid, .persona-grid, .tool-grid {
+    .entry-grid, .framework-grid, .tool-grid, .guide-grid, .collection-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 14px;
       margin-top: 18px;
     }
-    .flow-card h3, .framework-card h3, .persona-card h3, .tool-card h3 {
+    .flow-card h3, .framework-card h3, .tool-card h3, .guide-card h3, .collection-card h3 {
       margin: 0 0 10px;
       font-size: 20px;
       line-height: 1.25;
     }
-    .flow-card ol, .persona-card ol, .review-list, .question-list {
+    .flow-card ol, .review-list, .question-list {
       margin: 12px 0 0;
       padding-left: 20px;
       color: #3a3a3c;
@@ -894,6 +987,89 @@ const html = `<!doctype html>
       color: var(--blue);
       text-decoration: none;
       font-weight: 900;
+    }
+    .search-results {
+      display: none;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.88);
+      padding: 10px;
+      box-shadow: 0 14px 40px rgba(0,0,0,.06);
+    }
+    .search-results.show { display: grid; gap: 8px; }
+    .result-button {
+      width: 100%;
+      border: 0;
+      border-radius: 14px;
+      padding: 10px;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      text-align: left;
+      font-size: 13px;
+      font-weight: 800;
+    }
+    .result-button span {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--blue);
+      font-size: 12px;
+    }
+    .guide-card, .collection-card, .question-card {
+      min-width: 0;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.78);
+      padding: 16px;
+    }
+    .guide-actions, .module-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .small-action {
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(0,113,227,.1);
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 900;
+      text-decoration: none;
+    }
+    .raw-layout {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .raw-toc {
+      position: sticky;
+      top: 74px;
+      display: grid;
+      gap: 8px;
+      align-self: start;
+    }
+    .raw-toc button {
+      border: 0;
+      border-radius: 14px;
+      padding: 10px 12px;
+      background: #f5f5f7;
+      text-align: left;
+      font-weight: 900;
+    }
+    .source-card {
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 18px;
+      margin-bottom: 12px;
+    }
+    .source-card h3 { margin: 0 0 10px; }
+    .source-card p {
+      margin: 0 0 10px;
+      color: #2c2c2e;
+      white-space: pre-wrap;
     }
     .module-grid {
       display: grid;
@@ -1075,7 +1251,8 @@ const html = `<!doctype html>
         width: auto;
         white-space: nowrap;
       }
-      .logic-grid, .process-map, .entry-grid, .framework-grid, .persona-grid, .tool-grid { grid-template-columns: 1fr; }
+      .logic-grid, .process-map, .entry-grid, .framework-grid, .tool-grid, .guide-grid, .collection-grid, .raw-layout { grid-template-columns: 1fr; }
+      .raw-toc { position: static; }
       .module-head { grid-template-columns: 1fr; }
       .top-links { display: none; }
       .brand-logo { width: 116px; }
@@ -1107,7 +1284,7 @@ const html = `<!doctype html>
       <img class="hero-logo" src="assets/logo.png" alt="幸福驿站">
       <p class="eyebrow">核心是流程：能快速找到标准，沙龙后能照着复盘</p>
       <h1>幸福驿站市场服务流程手册</h1>
-      <p class="hero-copy">把原来需要翻文稿的内容，整理成驿站主市场服务工作台。10万驿站主使用时，第一秒要知道下一步做什么，沙龙后要能按流程标准复盘。</p>
+      <p class="hero-copy">把原来需要翻文稿的内容，整理成驿站主市场服务工作台。打开以后先确定自己处在哪一步，再按标准动作执行，沙龙后能照着流程复盘。</p>
       <div class="hero-actions">
         <a class="pill-link" href="#quickFlows">快速找流程</a>
         <a class="ghost-link" href="#salonReview">沙龙后复盘</a>
@@ -1118,10 +1295,20 @@ const html = `<!doctype html>
     <section class="layout">
       <aside class="sidebar">
         <input class="search" id="manualSearch" type="search" placeholder="搜索流程、话术、作业、孩子、夫妻…" autocomplete="off">
+        <div class="search-results" id="searchResults" aria-live="polite"></div>
         <nav class="module-nav" id="moduleNav" aria-label="模块导航"></nav>
       </aside>
 
       <div class="content">
+        <section class="band" id="flowGuide">
+          <div class="band-inner">
+            <p class="eyebrow">我现在处在哪一步</p>
+            <h2>普通人先按流程站位，再看这一步的标准是什么。</h2>
+            <p>每一步都给出流程位置、执行标准、下一步去哪里和查原文入口。看完任何内容，都能回到总流程继续走。</p>
+            <div class="guide-grid" id="guideGrid"></div>
+          </div>
+        </section>
+
         <section class="band" id="process">
           <div class="band-inner">
             <p class="eyebrow">总流程</p>
@@ -1151,9 +1338,18 @@ const html = `<!doctype html>
         <section class="band" id="service1234567">
           <div class="band-inner">
             <p class="eyebrow">市场服务1234567</p>
-            <h2>用一套数字框架管住全部市场服务动作。</h2>
-            <p>123456来自市场服务标准，新增第7步专门服务沙龙后复盘。核心是角色定位清楚、流程标准清楚、复盘动作清楚。</p>
+            <h2>驿站主市场服务123456（4.0）250903。</h2>
+            <p>用服务理念、角色定位、沟通心法、开拓方法、目标、流程、人才、工具和共同约定，管住全部市场服务动作。</p>
             <div class="framework-grid" id="frameworkGrid"></div>
+          </div>
+        </section>
+
+        <section class="band" id="thinking">
+          <div class="band-inner">
+            <p class="eyebrow">市场服务思维与分工</p>
+            <h2>先理解角色，再按照流程做事。</h2>
+            <p>这些思维帮助驿站主和总监逐步去掉过去多余思维、多余动作，回到有效的流程和标准。</p>
+            <div class="framework-grid" id="thinkingGrid"></div>
           </div>
         </section>
 
@@ -1163,24 +1359,6 @@ const html = `<!doctype html>
             <h2>活动结束后，对照复盘清单看是否按要求执行。</h2>
             <p>复盘不是找客户原因，而是看自己有没有按流程标准做，哪里漏了，下一次怎么补。</p>
             <ol class="review-list" id="reviewList"></ol>
-          </div>
-        </section>
-
-        <section class="band" id="expertQuestions">
-          <div class="band-inner">
-            <p class="eyebrow">专家质询</p>
-            <h2>用专家问题把执行动作问到底。</h2>
-            <p>这些问题模拟市场负责人和专家质询：一问就能知道你是在按流程服务，还是被现场情绪带跑。</p>
-            <ol class="question-list" id="questionList"></ol>
-          </div>
-        </section>
-
-        <section class="band" id="personaPaths">
-          <div class="band-inner">
-            <p class="eyebrow">10万驿站主使用体验模拟</p>
-            <h2>不同角色，只看自己当下最需要执行的流程。</h2>
-            <p>新手先找流程，主持人守沙龙，带班人抓作业，负责人看复制标准。场景入口清楚，使用才快。</p>
-            <div class="persona-grid" id="personaGrid"></div>
           </div>
         </section>
 
@@ -1208,6 +1386,19 @@ const html = `<!doctype html>
           <div class="empty" id="emptyState">没有匹配内容，换一个关键词试试。</div>
         </section>
 
+        <section class="band" id="modelCollection">
+          <div class="band-inner">
+            <p class="eyebrow">榜样采集标准与流程</p>
+            <h2>先激活情感，再按16问一次性采集完整。</h2>
+            <p>榜样采集不是随便聊天，而是把学员真实改变的场景、时间、细节、心情、结果完整采集出来，形成可传播的案例。</p>
+            <div class="collection-grid" id="collectionGrid"></div>
+            <div class="section-block" style="margin-top:14px">
+              <h4>榜样采访问句模版</h4>
+              <div class="question-list" id="collectionQuestions"></div>
+            </div>
+          </div>
+        </section>
+
         <section class="band" id="scripts">
           <div class="band-inner">
             <p class="eyebrow">原文话术库</p>
@@ -1230,8 +1421,11 @@ const html = `<!doctype html>
           <div class="band-inner">
             <p class="eyebrow">原文全文</p>
             <h2>完整文稿也在页面里。</h2>
-            <p>上面是流程化展示；这里保留两份原始文稿全文，便于搜索、核对和回到原文。</p>
-            <div id="rawManual"></div>
+            <p>上面是流程化展示；这里保留两份原始文稿全文，按段落重新排版，便于搜索、核对、复制和回到流程。</p>
+            <div class="raw-layout">
+              <div class="raw-toc" id="rawToc"></div>
+              <div id="rawManual"></div>
+            </div>
           </div>
         </section>
       </div>
@@ -1246,13 +1440,17 @@ const html = `<!doctype html>
     const scriptLibrary = document.getElementById('scriptLibrary');
     const rawManual = document.getElementById('rawManual');
     const search = document.getElementById('manualSearch');
+    const searchResults = document.getElementById('searchResults');
     const emptyState = document.getElementById('emptyState');
+    const guideGrid = document.getElementById('guideGrid');
     const quickFlowGrid = document.getElementById('quickFlowGrid');
     const frameworkGrid = document.getElementById('frameworkGrid');
+    const thinkingGrid = document.getElementById('thinkingGrid');
     const reviewList = document.getElementById('reviewList');
-    const questionList = document.getElementById('questionList');
-    const personaGrid = document.getElementById('personaGrid');
+    const collectionGrid = document.getElementById('collectionGrid');
+    const collectionQuestions = document.getElementById('collectionQuestions');
     const toolGrid = document.getElementById('toolGrid');
+    const rawToc = document.getElementById('rawToc');
 
     function normalizeText(value) {
       return String(value || '').toLowerCase().replace(/\\s+/g, '');
@@ -1287,6 +1485,13 @@ const html = `<!doctype html>
       button.classList.toggle('done');
     }
 
+    function scrollToTarget(id) {
+      const target = document.getElementById(id);
+      if (!target) return;
+      target.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      if (target.dataset.moduleId) setActiveModule(target.dataset.moduleId);
+    }
+
     async function copyText(text) {
       try {
         await navigator.clipboard.writeText(text);
@@ -1314,7 +1519,7 @@ const html = `<!doctype html>
 
     function renderQuickFlows() {
       quickFlowGrid.innerHTML = manual.quickFlows.map((flow) => {
-        const searchText = [flow.title, flow.tag, flow.standard, flow.steps.join(' ')].join(' ');
+        const searchText = [flow.title, flow.tag, flow.standard, flow.steps.join(' '), flow.keywords || ''].join(' ');
         return '<article class="flow-card" data-search-text="' + safeHtml(searchText) + '">' +
           '<span class="tag">' + safeHtml(flow.tag) + '</span>' +
           '<h3>' + safeHtml(flow.title) + '</h3>' +
@@ -1322,6 +1527,28 @@ const html = `<!doctype html>
           '<div class="standard">流程标准：' + safeHtml(flow.standard) + '</div>' +
         '</article>';
       }).join('');
+    }
+
+    function renderFlowGuide() {
+      guideGrid.innerHTML = manual.flowGuide.map((item, index) => {
+        const searchText = [item.title, item.standard, item.next, item.source, item.keywords || ''].join(' ');
+        const nextItem = manual.flowGuide[index + 1] || manual.flowGuide[0];
+        return '<article class="guide-card" data-search-text="' + safeHtml(searchText) + '" data-target-id="' + safeHtml(item.targetId) + '">' +
+          '<span class="tag">流程位置 ' + (index + 1) + '</span>' +
+          '<h3>' + safeHtml(item.title) + '</h3>' +
+          '<p><strong>这一步的标准是什么：</strong>' + safeHtml(item.standard) + '</p>' +
+          '<p><strong>下一步去哪里：</strong>' + safeHtml(item.next) + '</p>' +
+          '<div class="guide-actions">' +
+            '<button type="button" class="small-action" data-jump-target="' + safeHtml(item.targetId) + '">查看这一步</button>' +
+            '<button type="button" class="small-action" data-jump-target="' + safeHtml(nextItem.targetId) + '">下一步</button>' +
+            '<button type="button" class="small-action" data-jump-target="raw">查原文</button>' +
+            '<button type="button" class="small-action" data-jump-target="process">回到总流程</button>' +
+          '</div>' +
+        '</article>';
+      }).join('');
+      guideGrid.querySelectorAll('[data-jump-target]').forEach((button) => {
+        button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
+      });
     }
 
     function renderFramework() {
@@ -1333,24 +1560,35 @@ const html = `<!doctype html>
       )).join('');
     }
 
+    function renderThinking() {
+      thinkingGrid.innerHTML = manual.directorThinking.map((item) => (
+        '<article class="framework-card" data-search-text="' + safeHtml([item.title, item.body].join(' ')) + '">' +
+          '<div class="framework-number">•</div>' +
+          '<div><h3>' + safeHtml(item.title) + '</h3><p>' + safeHtml(item.body) + '</p></div>' +
+        '</article>'
+      )).join('');
+    }
+
     function renderReviewTools() {
       reviewList.innerHTML = manual.salonReview.map((item) => (
         '<li data-search-text="' + safeHtml(item) + '">' + safeHtml(item) + '</li>'
       )).join('');
-      questionList.innerHTML = manual.expertQuestions.map((item) => (
-        '<li data-search-text="' + safeHtml(item) + '">' + safeHtml(item) + '</li>'
-      )).join('');
     }
 
-    function renderPersonas() {
-      personaGrid.innerHTML = manual.personaPaths.map((persona) => {
-        const searchText = [persona.title, persona.need, persona.flow.join(' ')].join(' ');
-        return '<article class="persona-card" data-search-text="' + safeHtml(searchText) + '">' +
-          '<h3>' + safeHtml(persona.title) + '</h3>' +
-          '<p>' + safeHtml(persona.need) + '</p>' +
-          '<ol>' + persona.flow.map((step) => '<li>' + safeHtml(step) + '</li>').join('') + '</ol>' +
-        '</article>';
-      }).join('');
+    function renderModelCollection() {
+      collectionGrid.innerHTML = manual.modelCollection.steps.map((step, index) => (
+        '<article class="collection-card" data-search-text="' + safeHtml([step.title, step.body, step.purpose].join(' ')) + '">' +
+          '<span class="tag">第' + (index + 1) + '步</span>' +
+          '<h3>' + safeHtml(step.title) + '</h3>' +
+          '<p>' + safeHtml(step.body) + '</p>' +
+          '<div class="standard">' + safeHtml(step.purpose) + '</div>' +
+        '</article>'
+      )).join('');
+      collectionQuestions.innerHTML = manual.modelCollection.questions.map((question, index) => (
+        '<div class="question-card" data-search-text="' + safeHtml(question) + '">' +
+          '<strong>' + (index + 1) + '.</strong> ' + safeHtml(question) +
+        '</div>'
+      )).join('');
     }
 
     function renderToolbox() {
@@ -1376,11 +1614,15 @@ const html = `<!doctype html>
         )).join('');
         return '<article class="module-card" id="module-' + module.id + '" data-module-id="' + module.id + '" data-search-text="' + moduleSearchText(module).replace(/"/g, '&quot;') + '">' +
           '<div class="module-head"><div class="module-number">' + module.number + '</div><div><p class="eyebrow">' + module.eyebrow + '</p><h3>' + module.title + '</h3><p>' + module.summary + '</p></div></div>' +
-          '<div class="module-body"><div class="step-row">' + steps + '</div><div class="section-grid">' + sections + '</div><div class="check-panel"><strong>轻量通关</strong>' + checks + '</div></div>' +
+          '<div class="module-body"><div class="step-row">' + steps + '</div><div class="section-grid">' + sections + '</div><div class="check-panel"><strong>轻量通关</strong>' + checks + '</div>' +
+          '<div class="module-actions"><button type="button" class="small-action" data-jump-target="process">回到总流程</button><button type="button" class="small-action" data-jump-target="raw">查原文</button><button type="button" class="small-action" data-jump-target="toolbox">查看工具</button></div></div>' +
           '</article>';
       }).join('');
       moduleGrid.querySelectorAll('.check-item').forEach((button) => {
         button.addEventListener('click', () => toggleCheck(button));
+      });
+      moduleGrid.querySelectorAll('[data-jump-target]').forEach((button) => {
+        button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
       });
     }
 
@@ -1397,9 +1639,70 @@ const html = `<!doctype html>
     }
 
     function renderRawManual() {
-      rawManual.innerHTML = manual.sources.map((source) => (
-        '<details class="source-box" open><summary>' + source.title + '</summary><div class="source-text">' + source.content + '</div></details>'
+      rawToc.innerHTML = manual.sources.map((source, sourceIndex) => (
+        '<button type="button" data-jump-target="source-' + sourceIndex + '">' + safeHtml(source.title) + '</button>'
       )).join('');
+      rawManual.innerHTML = manual.sources.map((source, sourceIndex) => {
+        const blocks = source.content
+          .split(/\\n{2,}/)
+          .map((block) => block.trim())
+          .filter(Boolean);
+        return '<section class="source-group" id="source-' + sourceIndex + '">' +
+          '<h3>' + safeHtml(source.title) + '</h3>' +
+          blocks.map((block, blockIndex) => {
+            const firstLine = block.split('\\n')[0].trim();
+            const heading = firstLine.length <= 28 ? firstLine : '原文段落 ' + (blockIndex + 1);
+            return '<article class="source-card" id="source-' + sourceIndex + '-' + blockIndex + '" data-search-text="' + safeHtml([source.title, block].join(' ')) + '">' +
+              '<h3>' + safeHtml(heading) + '</h3>' +
+              '<p class="source-text">' + safeHtml(block) + '</p>' +
+              '<div class="module-actions"><button type="button" class="small-action" data-copy-source="' + sourceIndex + '-' + blockIndex + '">复制</button><button type="button" class="small-action" data-jump-target="process">回到总流程</button></div>' +
+            '</article>';
+          }).join('') +
+        '</section>';
+      }).join('');
+      rawToc.querySelectorAll('[data-jump-target]').forEach((button) => {
+        button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
+      });
+      rawManual.querySelectorAll('[data-copy-source]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const card = button.closest('.source-card');
+          copyText(card ? card.innerText : '');
+        });
+      });
+    }
+
+    function getTargetId(item) {
+      if (item.dataset.targetId) return item.dataset.targetId;
+      if (item.id) return item.id;
+      const owner = item.closest('[id]');
+      return owner ? owner.id : 'process';
+    }
+
+    function getResultTitle(item) {
+      const cardTitle = item.querySelector('h3')?.textContent || item.closest('.band')?.querySelector('h2')?.textContent || item.textContent;
+      return cardTitle.trim().slice(0, 42);
+    }
+
+    function renderSearchResults(query) {
+      if (!query) {
+        searchResults.classList.remove('show');
+        searchResults.innerHTML = '';
+        return;
+      }
+      const matches = [...document.querySelectorAll('[data-search-text]:not(.hidden)')]
+        .slice(0, 6)
+        .map((item) => ({
+          title: getResultTitle(item),
+          targetId: getTargetId(item),
+          location: item.closest('.band')?.querySelector('.eyebrow')?.textContent || item.closest('section[id]')?.id || '流程位置'
+        }));
+      searchResults.innerHTML = matches.length
+        ? matches.map((match) => '<button type="button" class="result-button" data-jump-target="' + safeHtml(match.targetId) + '"><span>匹配位置：' + safeHtml(match.location) + '</span>' + safeHtml(match.title) + '</button>').join('')
+        : '<div class="result-button"><span>匹配位置</span>没有找到，换个关键词试试</div>';
+      searchResults.classList.add('show');
+      searchResults.querySelectorAll('[data-jump-target]').forEach((button) => {
+        button.addEventListener('click', () => scrollToTarget(button.dataset.jumpTarget));
+      });
     }
 
     function filterManual() {
@@ -1411,15 +1714,18 @@ const html = `<!doctype html>
         item.classList.toggle('hidden', !match);
         if (match) visible += 1;
       });
+      renderSearchResults(query);
       emptyState.classList.toggle('show', visible === 0);
     }
 
     renderNav();
+    renderFlowGuide();
     renderQuickFlows();
     renderFramework();
+    renderThinking();
     renderReviewTools();
-    renderPersonas();
     renderModules();
+    renderModelCollection();
     renderScripts();
     renderToolbox();
     renderRawManual();
