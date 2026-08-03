@@ -130,17 +130,17 @@ def add_title(doc):
 
 
 def add_numbered_list(doc, items):
-    for item in items:
-        paragraph = doc.add_paragraph(style="List Number")
+    for index, item in enumerate(items, start=1):
+        paragraph = doc.add_paragraph()
         paragraph.paragraph_format.space_after = Pt(3)
-        paragraph.add_run(str(item))
+        paragraph.add_run(f"{index}. {item}")
 
 
 def add_bullets(doc, items):
     for item in items:
-        paragraph = doc.add_paragraph(style="List Bullet")
+        paragraph = doc.add_paragraph()
         paragraph.paragraph_format.space_after = Pt(3)
-        paragraph.add_run(str(item))
+        paragraph.add_run(f"- {item}")
 
 
 def add_label_table(doc, rows):
@@ -200,9 +200,9 @@ def add_raw_lines(doc, lines):
             continue
         ordered = re.match(r"^([0-9]{1,2}[.、）)]|第[0-9一二三四五六七八九十]+[天步])\s*(.+)$", text)
         if ordered:
-            paragraph = doc.add_paragraph(style="List Number")
+            paragraph = doc.add_paragraph()
             paragraph.paragraph_format.space_after = Pt(3)
-            paragraph.add_run(ordered.group(2))
+            paragraph.add_run(text)
         else:
             doc.add_paragraph(text)
 

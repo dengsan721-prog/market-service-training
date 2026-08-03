@@ -39,13 +39,21 @@ def main():
         for paragraph in doc.paragraphs
         if paragraph.text.strip() in forbidden_exact
     ]
-    if missing or paragraph_forbidden:
+    auto_numbered = [
+        paragraph.text
+        for paragraph in doc.paragraphs
+        if paragraph.style and paragraph.style.name == "List Number"
+    ]
+    if missing or paragraph_forbidden or auto_numbered:
         if missing:
             print("Missing:")
             print("\n".join(missing))
         if paragraph_forbidden:
             print("Forbidden wrapper paragraphs:")
             print("\n".join(paragraph_forbidden))
+        if auto_numbered:
+            print("Auto-numbered paragraphs should preserve literal source numbering:")
+            print("\n".join(auto_numbered[:20]))
         raise SystemExit(1)
     print(f"export docx check passed: {path}")
 
