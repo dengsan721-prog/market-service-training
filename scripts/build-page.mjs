@@ -522,7 +522,7 @@ const serviceFramework = [
   },
   {
     number: '4',
-    title: '四步服务流程 / 四阶人才漏斗 / 四步个人服务步骤',
+    title: '四步流程 / 人才漏斗',
     body: '四步服务流程：进人-直播、沙龙；留人-内容工具与情感服务；育人-付费学习；转人-转介绍、转合作。四阶人才漏斗：粉丝、客户、优质客户、合作伙伴。四种人才特征：特种兵、普通兵、潜水兵、逃兵，思考成为哪一种兵收获成长最快。四步个人服务步骤：检测-幸福自检表，问题可视化；诊断-一正一反对比，问出核心点，顾客知错；方案-基础群、公益课、专栏、研学班等不同阶段提高免疫力；陪伴-关系和成绩双提高，接幸福回家。'
   },
   {
@@ -1437,17 +1437,39 @@ const html = `<!doctype html>
     }
     .raw-copy-list {
       display: grid;
-      gap: 6px;
+      gap: 10px;
     }
     .raw-copy-row {
+      border-radius: 12px;
+      padding: 10px;
+      background: var(--mirror-tint);
+      border-left: 3px solid var(--mirror-accent);
+    }
+    .raw-module-head {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) auto;
       gap: 8px;
       align-items: start;
-      border-radius: 10px;
-      padding: 9px 10px;
-      background: var(--mirror-tint);
-      border-left: 3px solid var(--mirror-accent);
+    }
+    .raw-module-title {
+      margin: 0;
+      color: #1d1d1f;
+      font-size: 15px;
+      line-height: 1.45;
+      font-weight: 950;
+    }
+    .raw-line-list {
+      display: grid;
+      gap: 5px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+    .raw-line {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
     }
     .raw-order {
       min-width: 24px;
@@ -1464,11 +1486,15 @@ const html = `<!doctype html>
       color: #1d1d1f;
       font-weight: 900;
     }
-    .raw-copy-row span {
+    .raw-line span:last-child,
+    .raw-copy-row > p {
       color: #3a3a3c;
       line-height: 1.56;
       font-size: 14px;
       font-weight: 600;
+    }
+    .raw-copy-row > p {
+      margin: 8px 0 0;
     }
     .tone-salon {
       --mirror-tint: rgba(52,199,89,.10);
@@ -2023,10 +2049,13 @@ const html = `<!doctype html>
         gap: 8px;
       }
       .raw-copy-row {
-        grid-template-columns: minmax(0, 1fr) auto;
         padding: 8px 9px;
       }
-      .raw-copy-row span {
+      .raw-module-head {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+      }
+      .raw-line span:last-child,
+      .raw-copy-row > p {
         font-size: 13px;
         line-height: 1.5;
       }
@@ -2108,7 +2137,9 @@ const html = `<!doctype html>
               <button type="button" data-content-target="rawCamp7">7天训练营模块</button>
               <button type="button" data-content-target="rawTalent">幸福早课人才培养营模块</button>
               <button type="button" data-content-target="rawOther">其他原文</button>
-              <button type="button" data-content-target="abilityOther">其他资料</button>
+              <button type="button" data-content-target="abilityFramework">123456</button>
+              <button type="button" data-content-target="abilityThinking">总监思维</button>
+              <button type="button" data-content-target="abilityTools">工具模型</button>
             </div>
           </div>
         </section>
@@ -2200,16 +2231,29 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band ability-module-card ability-other content-panel" id="abilityOther" hidden>
+        <section class="band ability-module-card ability-other content-panel" id="abilityFramework" hidden>
           <div class="band-inner">
             <p class="eyebrow">镜子库</p>
-            <h2>其他资料</h2>
-            <p>市场服务123456、总监思维、工具模型放在这里，作为单独能力内容提取。</p>
-            <h3 class="ability-section-title">驿站主市场服务123456（4.0）250903</h3>
+            <h2>123456</h2>
+            <p>市场服务123456按结构查看，方便驿站主快速回忆角色、目标、流程、人才和工具。</p>
             <div class="framework-grid" id="frameworkGrid"></div>
-            <h3 class="ability-section-title">市场服务思维与分工</h3>
+          </div>
+        </section>
+
+        <section class="band ability-module-card ability-other content-panel" id="abilityThinking" hidden>
+          <div class="band-inner">
+            <p class="eyebrow">镜子库</p>
+            <h2>总监思维</h2>
+            <p>总监和驿站主的分工、心态辅导、顾虑处理、学习效果，单独放在这里照镜子。</p>
             <div class="framework-grid" id="thinkingGrid"></div>
-            <h3 class="ability-section-title">工具模型</h3>
+          </div>
+        </section>
+
+        <section class="band ability-module-card ability-other content-panel" id="abilityTools" hidden>
+          <div class="band-inner">
+            <p class="eyebrow">镜子库</p>
+            <h2>工具模型</h2>
+            <p>自检表、优点清单、市场服务模型和123456参考图，作为现场辅助工具使用。</p>
             <div class="tool-grid" id="toolGrid"></div>
           </div>
         </section>
@@ -2736,24 +2780,84 @@ const html = `<!doctype html>
         const lines = splitDisplayLines(source.content)
           .map((line) => line.trim())
           .filter(Boolean);
-        let generatedOrder = 0;
-        target.innerHTML = lines.map((line, index) => {
-          const parsed = parseRawOrder(line);
-          const heading = isRawHeading(line);
-          const order = parsed.order || (heading ? '' : String(++generatedOrder));
-          return '<div class="raw-copy-row" data-search-text="' + safeHtml([source.title, line].join(' ')) + '">' +
-            '<span class="raw-order' + (order ? '' : ' empty') + '">' + safeHtml(order) + '</span>' +
-            '<span>' + formatRawLine(parsed.text || line, index) + '</span>' +
-            compactCopyButton(line, 'line-copy') +
-          '</div>';
+        const blocks = buildRawMirrorBlocks(lines, source.title);
+        target.innerHTML = blocks.map((block, index) => {
+          const displayTitle = simplifyRawBlockTitle(block.title, block.lines);
+          const displayLines = block.lines.length ? block.lines : [block.title];
+          const copyText = [block.order ? block.order + ' ' + displayTitle : displayTitle, ...displayLines].join('\\n');
+          return '<article class="raw-copy-row" data-search-text="' + safeHtml([source.title, copyText].join(' ')) + '">' +
+            '<div class="raw-module-head">' +
+              '<span class="raw-order' + (block.order ? '' : ' empty') + '">' + safeHtml(block.order) + '</span>' +
+              '<h3 class="raw-module-title">' + safeHtml(displayTitle || ('内容模块 ' + (index + 1))) + '</h3>' +
+              compactCopyButton(copyText, 'line-copy') +
+            '</div>' +
+            renderRawBlockLines(displayLines) +
+          '</article>';
         }).join('');
         bindCompactCopy(target);
       });
     }
 
+    function simplifyRawBlockTitle(title, lines) {
+      const text = String(title || '').trim();
+      if (!text) return '';
+      if (!lines.length && text.length > 18) return '说明';
+      if (text.includes('流程与标准')) return '流程标准';
+      if (text.includes('若想最高效')) return '标准说明';
+      if (text.length > 22) return text.slice(0, 20) + '…';
+      return text;
+    }
+
+    function buildRawMirrorBlocks(lines, sourceTitle) {
+      const blocks = [];
+      let current = null;
+      lines.forEach((line) => {
+        if (isSourceWrapperLine(line, sourceTitle)) return;
+        const parsed = parseRawOrder(line);
+        const startsBlock = isRawBlockHeading(line) || !current;
+        if (startsBlock) {
+          if (current) blocks.push(current);
+          current = {
+            order: parsed.order,
+            title: parsed.text || line,
+            lines: []
+          };
+          return;
+        }
+        current.lines.push(line);
+      });
+      if (current) blocks.push(current);
+      return blocks.filter((block) => block.title || block.lines.length);
+    }
+
+    function isSourceWrapperLine(line, sourceTitle) {
+      const text = String(line || '').trim();
+      return text === sourceTitle || text.endsWith(sourceTitle);
+    }
+
+    function isRawBlockHeading(line) {
+      const text = String(line || '').trim();
+      const parsed = parseRawOrder(text);
+      const title = parsed.text || text;
+      if (/^(心态标准|动作标准|复制标准)$/.test(title)) return true;
+      if (/^(破冰|发心|热场|提要求|主题|分享|采访|闭环|榜样采访)$/.test(title)) return true;
+      return text.length <= 54 && /^([一二三四五六七八九十]+、|[（(]?[一二三四五六七八九十]+[）)]|第[0-9一二三四五六七八九十]+天|正式|导入|🌈|📚|✅[0-9]?|⚠)/.test(text);
+    }
+
+    function renderRawBlockLines(lines) {
+      if (!lines.length) return '';
+      return '<div class="raw-line-list">' + lines.map((line) => {
+        const parsed = parseRawOrder(line);
+        return '<div class="raw-line">' +
+          '<span class="raw-order' + (parsed.order ? '' : ' empty') + '">' + safeHtml(parsed.order) + '</span>' +
+          '<span>' + formatRawLine(parsed.text || line) + '</span>' +
+        '</div>';
+      }).join('') + '</div>';
+    }
+
     function parseRawOrder(line) {
       const text = String(line || '').trim();
-      const match = text.match(/^([0-9]{1,2}[.、）)]|[一二三四五六七八九十]+[、）)]|第[0-9一二三四五六七八九十]+[天步]|[①②③④⑤⑥⑦⑧⑨⑩])\\s*(.+)$/);
+      const match = text.match(/^([0-9]{1,2}[.、）)]|[（(]?[一二三四五六七八九十]+[、）)]|第[0-9一二三四五六七八九十]+[天步]|[①②③④⑤⑥⑦⑧⑨⑩])\\s*(.+)$/);
       if (!match) return { order: '', text };
       return { order: match[1], text: match[2].trim() };
     }
