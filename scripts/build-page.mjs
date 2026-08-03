@@ -1162,7 +1162,6 @@ const html = `<!doctype html>
       gap: 8px;
       margin-top: 22px;
       padding: 8px;
-      border: 1px solid var(--line);
       border-radius: 20px;
       background: #f5f5f7;
     }
@@ -1187,11 +1186,9 @@ const html = `<!doctype html>
       margin-top: 16px;
     }
     .flow-stage-card {
-      border-radius: 28px;
-      border: 1px solid var(--line);
-      background: #fff;
-      padding: 24px;
-      box-shadow: 0 16px 40px rgba(0,0,0,.08);
+      border-radius: 0;
+      background: transparent;
+      padding: 4px 0 0;
     }
     .stage-kicker {
       display: flex;
@@ -1227,13 +1224,13 @@ const html = `<!doctype html>
     .stage-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 20px;
+      gap: 10px;
+      margin-top: 18px;
     }
     .stage-block {
-      border-radius: 20px;
+      border-radius: 16px;
       background: #f7f7f8;
-      padding: 16px;
+      padding: 15px;
     }
     .stage-block h4 {
       margin: 0 0 10px;
@@ -1262,13 +1259,11 @@ const html = `<!doctype html>
     }
     .stage-source {
       grid-column: 1 / -1;
-      background: #fff;
-      border: 1px solid var(--line);
+      background: rgba(245,245,247,.72);
     }
     .stage-original {
       grid-column: 1 / -1;
-      background: #fff;
-      border: 1px solid var(--line);
+      background: rgba(245,245,247,.72);
     }
     .stage-original-intro {
       margin: 0 0 12px;
@@ -1283,10 +1278,9 @@ const html = `<!doctype html>
     }
     .stage-original-group {
       min-width: 0;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: #f7f7f8;
-      padding: 14px;
+      border-radius: 12px;
+      background: #fff;
+      padding: 12px;
     }
     .stage-original-group h5 {
       margin: 0 0 8px;
@@ -1359,10 +1353,9 @@ const html = `<!doctype html>
     }
     .logic-card, .process-step, .flow-card, .framework-card {
       min-width: 0;
-      border-radius: 22px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.74);
-      padding: 16px;
+      border-radius: 16px;
+      background: #f7f7f8;
+      padding: 15px;
     }
     .logic-card strong, .process-step strong {
       display: block;
@@ -1425,16 +1418,14 @@ const html = `<!doctype html>
     }
     .review-list li, .question-list li {
       margin: 10px 0;
-      border-radius: 16px;
+      border-radius: 12px;
       padding: 12px 14px;
-      background: rgba(255,255,255,.78);
-      border: 1px solid var(--line);
+      background: #f7f7f8;
     }
     .tool-card {
       min-width: 0;
-      border-radius: 24px;
-      border: 1px solid var(--line);
-      background: #fff;
+      border-radius: 16px;
+      background: #f7f7f8;
       overflow: hidden;
     }
     .tool-card img {
@@ -1705,10 +1696,9 @@ const html = `<!doctype html>
       margin-top: 18px;
     }
     .script-card {
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      background: #fff;
-      padding: 18px;
+      border-radius: 16px;
+      background: #f7f7f8;
+      padding: 16px;
     }
     .script-top {
       display: flex;
@@ -1736,11 +1726,10 @@ const html = `<!doctype html>
       font-weight: 600;
     }
     details.source-box {
-      border-radius: 24px;
-      border: 1px solid var(--line);
-      background: #fff;
-      padding: 16px 18px;
-      margin-top: 14px;
+      border-radius: 16px;
+      background: #f7f7f8;
+      padding: 14px 16px;
+      margin-top: 12px;
     }
     details.source-box summary {
       cursor: pointer;
@@ -1770,10 +1759,11 @@ const html = `<!doctype html>
       .page-shell { margin-bottom: 28px; }
       .content { gap: 10px; }
       .band {
-        border-radius: 20px;
-        box-shadow: 0 10px 28px rgba(0,0,0,.06);
+        border: 0;
+        border-radius: 16px;
+        box-shadow: none;
       }
-      .band-inner { padding: 16px; }
+      .band-inner { padding: 14px; }
       .layout { grid-template-columns: 1fr; }
       .main-flow-tabs {
         display: flex;
@@ -1794,8 +1784,8 @@ const html = `<!doctype html>
       }
       .flow-stage-panel { margin-top: 10px; }
       .flow-stage-card {
-        border-radius: 16px;
-        padding: 14px;
+        border-radius: 0;
+        padding: 0;
         box-shadow: none;
       }
       .flow-stage-card h3 { font-size: 28px; }
@@ -1816,12 +1806,12 @@ const html = `<!doctype html>
       }
       .stage-grid {
         grid-template-columns: 1fr;
-        gap: 8px;
-        margin-top: 12px;
+        gap: 6px;
+        margin-top: 10px;
       }
       .stage-block {
-        border-radius: 12px;
-        padding: 12px;
+        border-radius: 10px;
+        padding: 10px 11px;
       }
       .stage-block h4 {
         margin-bottom: 8px;
@@ -1836,8 +1826,8 @@ const html = `<!doctype html>
         line-height: 1.6;
       }
       .stage-original-group {
-        border-radius: 12px;
-        padding: 12px;
+        border-radius: 10px;
+        padding: 10px;
       }
       .content-tabs {
         margin-top: 12px;
@@ -1846,6 +1836,14 @@ const html = `<!doctype html>
       .content-tabs button {
         padding: 8px 10px;
         font-size: 12px;
+      }
+      .logic-card, .process-step, .flow-card, .framework-card,
+      .section-block, .script-card, details.source-box {
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .tool-card {
+        border-radius: 12px;
       }
       .sidebar { position: static; }
       .module-nav {
@@ -1868,12 +1866,15 @@ const html = `<!doctype html>
     @media (max-width: 420px) {
       .topbar-inner, .hero, .layout, .page-shell { width: calc(100% - 8px); }
       .hero { padding-top: 20px; }
-      .band { border-radius: 16px; }
-      .band-inner, .module-body, .module-head { padding: 12px; }
+      .band { border-radius: 12px; }
+      .band-inner, .module-body, .module-head { padding: 10px; }
       h1 { font-size: 30px; }
-      .flow-stage-card { padding: 10px; }
+      .flow-stage-card { padding: 0; }
       .flow-stage-card h3 { font-size: 25px; }
       .stage-goal { font-size: 14px; }
+      .stage-block {
+        padding: 9px 10px;
+      }
     }
   </style>
 </head>
