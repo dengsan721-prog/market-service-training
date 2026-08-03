@@ -1766,7 +1766,6 @@ const html = `<!doctype html>
       <div class="content">
         <section class="band required-master-flow" id="marketFlow">
           <div class="band-inner">
-            <p class="eyebrow">必须掌握的事：流程与标准</p>
             <h2>一条流程串起所有标准与内容。</h2>
             <p>市场服务人员打开以后，只看自己处在哪一步：这一步做什么、标准是什么、原话怎么说、做完怎么复盘。</p>
             <nav class="main-flow-tabs" id="mainFlow" aria-label="必须掌握的主流程"></nav>
