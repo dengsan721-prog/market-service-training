@@ -1389,6 +1389,9 @@ const html = `<!doctype html>
     .mini-copy {
       padding: 6px 8px;
     }
+    .line-copy {
+      padding: 6px 7px;
+    }
     .content-tabs {
       display: flex;
       overflow-x: auto;
@@ -1438,12 +1441,24 @@ const html = `<!doctype html>
     }
     .raw-copy-row {
       display: grid;
-      grid-template-columns: minmax(0, 1fr);
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 8px;
       align-items: start;
       border-radius: 10px;
       padding: 9px 10px;
       background: var(--mirror-tint);
       border-left: 3px solid var(--mirror-accent);
+    }
+    .raw-order {
+      min-width: 24px;
+      color: var(--mirror-accent);
+      font-size: 12px;
+      font-weight: 950;
+      line-height: 1.55;
+      text-align: right;
+    }
+    .raw-order.empty {
+      min-width: 0;
     }
     .raw-copy-row strong {
       color: #1d1d1f;
@@ -2561,7 +2576,7 @@ const html = `<!doctype html>
     }
 
     function isOriginalHeading(text) {
-      return /^(心态标准|动作标准|复制标准|学习要求|作业要求|交作业的标准|留作业、收作业标准)[：:]?$/.test(text);
+      return /^(心态标准|动作标准|复制标准)[：:]?$/.test(text);
     }
 
     function initContentTabs() {
@@ -2721,12 +2736,26 @@ const html = `<!doctype html>
         const lines = splitDisplayLines(source.content)
           .map((line) => line.trim())
           .filter(Boolean);
-        target.innerHTML = lines.map((line, index) => (
-          '<div class="raw-copy-row" data-search-text="' + safeHtml([source.title, line].join(' ')) + '">' +
-            '<span>' + formatRawLine(line, index) + '</span>' +
-          '</div>'
-        )).join('');
+        let generatedOrder = 0;
+        target.innerHTML = lines.map((line, index) => {
+          const parsed = parseRawOrder(line);
+          const heading = isRawHeading(line);
+          const order = parsed.order || (heading ? '' : String(++generatedOrder));
+          return '<div class="raw-copy-row" data-search-text="' + safeHtml([source.title, line].join(' ')) + '">' +
+            '<span class="raw-order' + (order ? '' : ' empty') + '">' + safeHtml(order) + '</span>' +
+            '<span>' + formatRawLine(parsed.text || line, index) + '</span>' +
+            compactCopyButton(line, 'line-copy') +
+          '</div>';
+        }).join('');
+        bindCompactCopy(target);
       });
+    }
+
+    function parseRawOrder(line) {
+      const text = String(line || '').trim();
+      const match = text.match(/^([0-9]{1,2}[.、）)]|[一二三四五六七八九十]+[、）)]|第[0-9一二三四五六七八九十]+[天步]|[①②③④⑤⑥⑦⑧⑨⑩])\\s*(.+)$/);
+      if (!match) return { order: '', text };
+      return { order: match[1], text: match[2].trim() };
     }
 
     function formatRawLine(line, index) {
