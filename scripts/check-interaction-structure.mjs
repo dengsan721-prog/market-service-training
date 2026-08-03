@@ -98,6 +98,26 @@ const rawSalonStyle = await page.$eval('#rawSalon .raw-module-card', (card) => {
 assert(rawSalonStyle.titleBackground !== 'rgba(0, 0, 0, 0)', '沙龙模块标题没有单独色块');
 assert(rawSalonStyle.titleFontSize !== rawSalonStyle.lineFontSize, '沙龙模块标题和正文字号没有区分');
 
+for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
+  await page.locator(`[data-content-target="${target}"]`).click();
+  await page.waitForTimeout(100);
+  const wrapperTitles = await page.$eval(`#${target}`, (root) => {
+    const forbidden = ['7天幸福训练营', '幸福早课人才培养营', '幸福学院市场培训手册'];
+    return [...root.querySelectorAll('.raw-module-card')]
+      .flatMap((card) => {
+        const title = card.querySelector('.raw-module-title')?.textContent.trim() || '';
+        const firstLine = card.querySelector('.raw-line span:last-child')?.textContent.trim() || '';
+        return [title, firstLine];
+      })
+      .filter((text) => (
+        forbidden.some((item) => text === item || text.startsWith(`${item}（`)) ||
+        /^0[）)]$/.test(text) ||
+        text === '我不相信人，我只相信流程。'
+      ));
+  });
+  assert(wrapperTitles.length === 0, `${target} 仍显示原文外壳标题：${wrapperTitles.join(' / ')}`);
+}
+
 await page.locator('[data-content-target="abilityThinking"]').click();
 const thinking = await page.$eval('#abilityThinking', (root) => ({
   numbers: [...root.querySelectorAll('.framework-number')].map((node) => node.textContent.trim())

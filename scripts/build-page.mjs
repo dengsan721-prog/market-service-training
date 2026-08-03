@@ -103,10 +103,7 @@ const rawMirrorSources = [
     id: 'rawOther',
     title: '榜样选拔与教练招募',
     tone: 'other',
-    content: joinRawParts([
-      marketManualText.slice(0, Math.max(0, marketManualText.indexOf('一、沙龙模块'))),
-      sliceByHeadings(marketManualText, '四、榜样选拔与教练招募')
-    ])
+    content: sliceByHeadings(marketManualText, '四、榜样选拔与教练招募')
   }
 ];
 
@@ -2839,7 +2836,23 @@ const html = `<!doctype html>
 
     function isSourceWrapperLine(line, sourceTitle) {
       const text = String(line || '').trim();
-      return text === sourceTitle || text.endsWith(sourceTitle);
+      const parsed = parseRawOrder(text);
+      const bareText = (parsed.text || text).replace(/[：:]$/, '').trim();
+      if (/^0[）)]$/.test(text) || /^0[）)]$/.test(bareText)) return true;
+      const wrapperTitles = [
+        sourceTitle,
+        sourceTitle.replace(/模块$/, ''),
+        '7天幸福训练营',
+        '幸福早课人才培养营',
+        '幸福学院市场培训手册',
+        '幸福学院市场培训手册（1.0）'
+      ];
+      return wrapperTitles.some((title) => (
+        text === title ||
+        text.endsWith(title) ||
+        bareText === title ||
+        bareText.startsWith(title + '（')
+      ));
     }
 
     function isRawBlockHeading(line) {
