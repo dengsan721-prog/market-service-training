@@ -101,7 +101,7 @@ const rawMirrorSources = [
   },
   {
     id: 'rawOther',
-    title: '其他',
+    title: '榜样选拔与教练招募',
     tone: 'other',
     content: joinRawParts([
       marketManualText.slice(0, Math.max(0, marketManualText.indexOf('一、沙龙模块'))),
@@ -792,32 +792,32 @@ const masterFlow = [
     original: [
       '若想最高效服务出效果，负责人必须严格按照以下标准：',
       '心态标准：',
-      '7天训练营的顾客是从沙龙或者转介绍来的，不用邀约破冰。',
-      '真知错的学员，当天就能完成作业；假知错的学员，一定会拖延，完不成作业。',
-      '不配合、不按要求实践的学员，后面再给一次机会下次再参加，2次都不合格者，取消1年内学习资格。',
+      '1.7天训练营的顾客是从沙龙或者转介绍来的，不用邀约破冰。',
+      '2.真知错的学员，当天就能完成作业；假知错的学员，一定会拖延，完不成作业。',
+      '3.不配合、不按要求实践的学员，后面再给一次机会下次再参加，2次都不合格者，取消1年内学习资格。',
       '动作标准：',
-      '一个教练带2个顾客，就是一个幸福训练营，一天可以错开开设多个营，不混合开班。',
-      '转介绍的顾客，可以直接参加幸福训练营。',
-      '7天幸福训练营受益通过审核的榜样学员，可带沙龙和7天幸福训练营，但不能带21天。',
-      '每天课程之前必须要通关，强化幸福能力交付，保证幸福教练掌握正确的标准。',
-      '随时随地及时发现榜样，推荐榜样。',
-      '每个人训练营的人，必须要准备自己的发心故事，并完整通关。',
-      '突破成长的榜样在一个群，接受榜样采访，进行激活。',
+      '1.一个教练带2个顾客，就是一个幸福训练营，一天可以错开开设多个营，不混合开班。',
+      '2.转介绍的顾客，可以直接参加幸福训练营。',
+      '3.7天幸福训练营受益通过审核的榜样学员，可带沙龙和7天幸福训练营，但不能带21天。',
+      '4.每天课程之前必须要通关，强化幸福能力交付，保证幸福教练掌握正确的标准。',
+      '5.随时随地及时发现榜样，推荐榜样。',
+      '6.每个人训练营的人，必须要准备自己的发心故事，并完整通关。',
+      '7.突破成长的榜样在一个群，接受榜样采访，进行激活。',
       '学习要求：',
       '1.全程开视频。',
       '2.每天提前5分进会议室。',
       '作业要求：',
-      '留作业、收作业。',
-      '交作业的标准',
-      '你今天你给哪一个家人表达了，在哪一个场景下用的？',
-      '你当时说了一段什么样的话，你的家人给了你什么样的一个反应或者反馈？',
-      '你又是什么样的心情？',
-      '提交方式：文字语音不限作业。',
-      '提交时间：明天上午8点钟之前。',
+      '1.留作业、收作业。',
+      '2.交作业的标准',
+      '3.你今天你给哪一个家人表达了，在哪一个场景下用的？',
+      '4.你当时说了一段什么样的话，你的家人给了你什么样的一个反应或者反馈？',
+      '5.你又是什么样的心情？',
+      '6.提交方式：文字语音不限作业。',
+      '7.提交时间：明天上午8点钟之前。',
       '复制标准：',
-      '建立榜样群，有突破的榜样及时进群，所有的榜样都在一个群，等待被采访。',
-      '通过审核成为幸福教练的，建立幸福教练群，所有幸福教练在一个群。',
-      '有事允许请假，人性化管理，放下一期就好了，但是连着两期学习态度不端正，取消学习资格，删除拉黑微信避免被消耗。'
+      '1.建立榜样群，有突破的榜样及时进群，所有的榜样都在一个群，等待被采访。',
+      '2.通过审核成为幸福教练的，建立幸福教练群，所有幸福教练在一个群。',
+      '3.有事允许请假，人性化管理，放下一期就好了，但是连着两期学习态度不端正，取消学习资格，删除拉黑微信避免被消耗。'
     ],
     source: '对应能力：7天幸福训练营、7天课程展开、作业与复盘。'
   },
@@ -1443,7 +1443,8 @@ const html = `<!doctype html>
     .raw-module-card {
       border-radius: 12px;
       padding: 10px;
-      background: var(--mirror-tint);
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.08);
       border-left: 3px solid var(--mirror-accent);
     }
     .raw-module-head {
@@ -1451,13 +1452,17 @@ const html = `<!doctype html>
       grid-template-columns: auto minmax(0, 1fr);
       gap: 8px;
       align-items: start;
+      border-radius: 10px;
+      padding: 8px 9px;
+      background: var(--mirror-tint);
     }
     .raw-module-title {
       margin: 0;
       color: #1d1d1f;
-      font-size: 15px;
+      font-size: 15.5px;
       line-height: 1.45;
       font-weight: 950;
+      background: var(--mirror-tint);
     }
     .raw-line-list {
       display: grid;
@@ -1613,7 +1618,11 @@ const html = `<!doctype html>
       background: #111;
       font-weight: 900;
     }
-    .review-list li, .question-list li {
+    .review-list li {
+      margin: 10px 0;
+      padding: 0 0 0 2px;
+    }
+    .question-list li {
       margin: 10px 0;
       border-radius: 12px;
       padding: 12px 14px;
@@ -2137,8 +2146,8 @@ const html = `<!doctype html>
               <button type="button" data-content-target="rawSalon">沙龙模块</button>
               <button type="button" data-content-target="rawCamp7">7天训练营模块</button>
               <button type="button" data-content-target="rawTalent">幸福早课人才培养营模块</button>
-              <button type="button" data-content-target="rawOther">其他原文</button>
-              <button type="button" data-content-target="abilityFramework">123456</button>
+              <button type="button" data-content-target="rawOther">榜样选拔与教练招募</button>
+              <button type="button" data-content-target="abilityFramework">市场服务</button>
               <button type="button" data-content-target="abilityThinking">总监思维</button>
               <button type="button" data-content-target="abilityTools">工具模型</button>
             </div>
@@ -2217,7 +2226,7 @@ const html = `<!doctype html>
             <p>按照原文标准整理关键问题，重点看是否按要求参与、是否完成作业、是否及时反馈和筛选。</p>
             <div class="section-block">
               <h4>关键问题</h4>
-              <ul>
+              <ol class="review-list">
                 <li>学员是不是从沙龙或者转介绍筛选来的？有没有跳过筛选？</li>
                 <li>是不是一个教练带2个顾客？有没有混营？</li>
                 <li>每天课程之前有没有通关？教练是否掌握正确标准？</li>
@@ -2225,14 +2234,14 @@ const html = `<!doctype html>
                 <li>作业有没有按时提交？是否具体到对象、场景、原话、反馈和心情？</li>
                 <li>不配合、不按要求实践的学员有没有按标准处理？</li>
                 <li>沙龙和7天训练营搜集来的榜样，是否统一进入一个大群，等待被采访？</li>
-              </ul>
+              </ol>
             </div>
           </div>
         </section>
 
         <section class="band ability-module-card ability-other content-panel" id="abilityFramework" hidden>
           <div class="band-inner">
-            <h2>123456</h2>
+            <h2>市场服务</h2>
             <p>市场服务123456按结构查看，方便驿站主快速回忆角色、目标、流程、人才和工具。</p>
             <div class="framework-grid" id="frameworkGrid"></div>
           </div>
@@ -2294,8 +2303,8 @@ const html = `<!doctype html>
           <div class="band-inner">
             <div class="mirror-raw-head">
               <div>
-                <h2>其他原文</h2>
-                <p>除沙龙、7天训练营、幸福早课人才培养营之外的原文，统一放在这里随查随看。</p>
+                <h2>榜样选拔与教练招募</h2>
+                <p>榜样选拔、榜样群、教练招募和严格复制标准，统一放在这里随查随看。</p>
               </div>
             </div>
             <div class="raw-copy-list" id="rawOtherRows"></div>
@@ -2620,7 +2629,7 @@ const html = `<!doctype html>
     }
 
     function isOriginalHeading(text) {
-      return /^(心态标准|动作标准|复制标准)[：:]?$/.test(text);
+      return /^(心态标准|动作标准|学习要求|作业要求|复制标准)[：:]?$/.test(text);
     }
 
     function initContentTabs() {
@@ -2663,9 +2672,9 @@ const html = `<!doctype html>
     }
 
     function renderThinking() {
-      thinkingGrid.innerHTML = manual.directorThinking.map((item) => (
+      thinkingGrid.innerHTML = manual.directorThinking.map((item, index) => (
         '<article class="framework-card" data-search-text="' + safeHtml([item.title, item.body].join(' ')) + '">' +
-          '<div class="framework-number">•</div>' +
+          '<div class="framework-number">' + (index + 1) + '</div>' +
           '<div><h3>' + safeHtml(item.title) + '</h3>' + formatDisplayText(item.body) + '</div>' +
         '</article>'
       )).join('');
@@ -2837,7 +2846,7 @@ const html = `<!doctype html>
       const text = String(line || '').trim();
       const parsed = parseRawOrder(text);
       const title = parsed.text || text;
-      if (/^(心态标准|动作标准|复制标准)$/.test(title)) return true;
+      if (/^(心态标准|动作标准|学习要求|作业要求|复制标准)$/.test(title)) return true;
       if (/^(破冰|发心|热场|提要求|主题|分享|采访|闭环|榜样采访)$/.test(title)) return true;
       return text.length <= 54 && /^([一二三四五六七八九十]+、|[（(]?[一二三四五六七八九十]+[）)]|第[0-9一二三四五六七八九十]+天|正式|导入|🌈|📚|✅[0-9]?|⚠)/.test(text);
     }
