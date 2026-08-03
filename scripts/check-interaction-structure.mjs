@@ -23,6 +23,13 @@ const page = await browser.newPage({
 await page.goto(pageUrl, { waitUntil: 'networkidle' });
 await page.waitForSelector('#workspaceTabs');
 
+const exportLink = await page.$eval('a[href="exports/market-service-manual.docx"]', (link) => ({
+  text: link.textContent.trim(),
+  download: link.getAttribute('download')
+}));
+assert(exportLink.text.includes('导出Word文档'), '页面缺少导出 Word 文档按钮');
+assert(exportLink.download === '幸福学院市场服务手册.docx', '导出文档下载文件名不正确');
+
 await page.locator('[data-master-flow-index="2"]').click();
 await page.waitForTimeout(100);
 const campOriginal = await page.$eval('.stage-original', (root) => {

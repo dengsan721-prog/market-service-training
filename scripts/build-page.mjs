@@ -2114,6 +2114,9 @@ const html = `<!doctype html>
       <img class="hero-mini-logo" src="assets/logo.png" alt="幸福驿站">
       <h1>幸福学院市场服务手册</h1>
       <p class="hero-copy">我不相信人，我只相信流程。</p>
+      <div class="hero-actions">
+        <a class="pill-link" href="exports/market-service-manual.docx" download="幸福学院市场服务手册.docx">导出Word文档</a>
+      </div>
     </section>
 
     <section class="page-shell">
