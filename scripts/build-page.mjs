@@ -622,6 +622,12 @@ const masterFlow = [
     title: '来人先承接',
     tag: '破冰 / 转介绍 / 直播间粉丝',
     goal: '不管人是破冰来的、转介绍来的，还是直播间来的粉丝，第一件事不是讲一堆知识，而是通过简单沟通了解他需要解决什么问题。',
+    process: [
+      '简单沟通，先了解他需要解决什么问题。',
+      '不分析、不安慰、不证明自己懂，不急着给答案。',
+      '统一用万能话术承接。',
+      '把下一步引到免费幸福沙龙。'
+    ],
     standards: [
       '先问清楚：孩子问题、家庭问题、关系问题、心态问题，还是其他幸福问题。',
       '不要陷入分析，不急着证明自己懂，不急着给答案。',
@@ -644,6 +650,18 @@ const masterFlow = [
     title: '免费幸福沙龙',
     tag: '用沙龙让顾客知错',
     goal: '沙龙不是讲知识炫能力，而是用体验、发问、点评、作业，让顾客把注意力回到自己身上，自己看见问题。',
+    process: [
+      '邀约。',
+      '讲发心。',
+      '热场。',
+      '提要求。',
+      '主题。',
+      '分享。',
+      '引导式采访。',
+      '心愿闭环。',
+      '留作业、收作业。',
+      '发现榜样，统一进群，等待被采访。'
+    ],
     standards: [
       '严格按照邀约、讲发心、热场、提要求、主题、分享、引导式采访、心愿闭环执行。',
       '一场沙龙只讲一个主题，难度越小、内容越少，越容易复制。',
@@ -698,6 +716,16 @@ const masterFlow = [
     title: '7天幸福训练营',
     tag: '沙龙筛选导入',
     goal: '沙龙筛选出来有学习态度、有受益、有行动的人，进入 7 天训练营，持续内观、行动、反馈。',
+    process: [
+      '沙龙或者转介绍筛选导入。',
+      '一个教练带2个顾客，不能混营。',
+      '每天课程前通关。',
+      '每天提要求。',
+      '每天主题训练。',
+      '每天留作业、收作业。',
+      '有突破榜样，统一进群，等待被采访。',
+      '每天复盘反馈。'
+    ],
     standards: [
       '7天训练营的顾客从沙龙或者转介绍来，不用邀约破冰。',
       '一个教练带2个顾客，就是一个幸福训练营，不能混营。',
@@ -752,6 +780,12 @@ const masterFlow = [
     title: '系统学习',
     tag: '掌握一辈子幸福能力',
     goal: '7天训练营筛选出真正愿意改变的人，进入系统学习环境，持续学习，持续改变，掌握一辈子幸福的能力。',
+    process: [
+      '确认学员是自己愿意继续学习。',
+      '讲清楚持续学习、持续改变的必要性。',
+      '坚持三种学员不收，只收一种学员。',
+      '进入系统学习环境，掌握一辈子幸福能力。'
+    ],
     standards: [
       '让学员明白：一天的学习不能解决一辈子的问题。',
       '进入一个环境，持续学习，持续改变，越来越好。',
@@ -774,6 +808,12 @@ const masterFlow = [
     title: '合作伙伴',
     tag: '参与幸福驿站事业',
     goal: '从受益学员、榜样、教练中筛选愿意帮助别人、愿意严格复制流程的人，参与幸福驿站事业。',
+    process: [
+      '从受益学员、榜样、教练中观察行动。',
+      '看是否愿意帮助别人。',
+      '看家人支持、时间精力和执行标准。',
+      '按流程复盘，进入合作伙伴路径。'
+    ],
     standards: [
       '合作伙伴不是看热情，而是看受益、行动、家人支持、时间精力和严格执行流程。',
       '所有人的角色都是受益分享者，不是老师，不是导师，不是大师。',
@@ -796,6 +836,14 @@ const masterFlow = [
     title: '幸福早课人才培养营',
     tag: '人才进入系统成长',
     goal: '把筛选出来的人才继续放到训练环境里，先交付幸福能力，再交付健康管理能力，让人才在系统中成长。',
+    process: [
+      '7天毕业且满足要求，才能升级进入。',
+      '单营不超过10人，可同时开多个营，不能混营。',
+      '实行一人一课。',
+      '每天预习通关。',
+      '每天完成作业并提交。',
+      '每天反馈复盘。'
+    ],
     standards: [
       '7天毕业且满足要求的学员，才能升级进入幸福早课人才培养营。',
       '单营人数不超过10人，可同时开设多个营，不能混营。',
@@ -1197,6 +1245,9 @@ const html = `<!doctype html>
       color: #2c2c2e;
       line-height: 1.68;
       font-weight: 680;
+    }
+    .stage-process {
+      background: rgba(52,199,89,.10);
     }
     .stage-script {
       background: rgba(0,113,227,.08);
@@ -1715,19 +1766,87 @@ const html = `<!doctype html>
     }
     .empty.show { display: block; }
     @media (max-width: 860px) {
-      .topbar-inner, .hero, .layout, .page-shell { width: min(100% - 20px, 680px); }
+      .topbar-inner, .hero, .layout, .page-shell { width: min(100% - 12px, 680px); }
+      .page-shell { margin-bottom: 28px; }
+      .content { gap: 10px; }
+      .band {
+        border-radius: 20px;
+        box-shadow: 0 10px 28px rgba(0,0,0,.06);
+      }
+      .band-inner { padding: 16px; }
       .layout { grid-template-columns: 1fr; }
       .main-flow-tabs {
         display: flex;
         overflow-x: auto;
         scrollbar-width: none;
+        gap: 6px;
+        margin-top: 14px;
+        padding: 6px;
+        border-radius: 14px;
       }
       .main-flow-tabs::-webkit-scrollbar { display: none; }
       .main-flow-tabs button {
         flex: 0 0 auto;
-        min-width: 116px;
+        min-width: 102px;
+        border-radius: 10px;
+        padding: 9px 8px;
+        font-size: 12px;
       }
-      .stage-grid { grid-template-columns: 1fr; }
+      .flow-stage-panel { margin-top: 10px; }
+      .flow-stage-card {
+        border-radius: 16px;
+        padding: 14px;
+        box-shadow: none;
+      }
+      .flow-stage-card h3 { font-size: 28px; }
+      .stage-kicker {
+        gap: 8px;
+        margin-bottom: 8px;
+        font-size: 12px;
+      }
+      .stage-number {
+        width: 30px;
+        height: 30px;
+        font-size: 12px;
+      }
+      .stage-goal {
+        margin-top: 8px;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+      .stage-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .stage-block {
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .stage-block h4 {
+        margin-bottom: 8px;
+        font-size: 14px;
+      }
+      .stage-block ul {
+        padding-left: 18px;
+        line-height: 1.58;
+      }
+      .stage-script p,
+      .stage-source p {
+        line-height: 1.6;
+      }
+      .stage-original-group {
+        border-radius: 12px;
+        padding: 12px;
+      }
+      .content-tabs {
+        margin-top: 12px;
+        gap: 6px;
+      }
+      .content-tabs button {
+        padding: 8px 10px;
+        font-size: 12px;
+      }
       .sidebar { position: static; }
       .module-nav {
         display: flex;
@@ -1747,10 +1866,14 @@ const html = `<!doctype html>
       .brand-logo { width: 116px; }
     }
     @media (max-width: 420px) {
-      .hero { padding-top: 28px; }
-      .band-inner, .module-body, .module-head { padding: 18px; }
-      h1 { font-size: 34px; }
-      .flow-stage-card { padding: 18px; }
+      .topbar-inner, .hero, .layout, .page-shell { width: calc(100% - 8px); }
+      .hero { padding-top: 20px; }
+      .band { border-radius: 16px; }
+      .band-inner, .module-body, .module-head { padding: 12px; }
+      h1 { font-size: 30px; }
+      .flow-stage-card { padding: 10px; }
+      .flow-stage-card h3 { font-size: 25px; }
+      .stage-goal { font-size: 14px; }
     }
   </style>
 </head>
@@ -2102,16 +2225,17 @@ const html = `<!doctype html>
     function renderMasterStage(index) {
       const stage = manual.masterFlow[index] || manual.masterFlow[0];
       flowStagePanel.innerHTML =
-        '<article class="flow-stage-card" data-search-text="' + safeHtml([stage.title, stage.tag, stage.goal, stage.standards.join(' '), stage.script.join(' '), stage.review.join(' ')].join(' ')) + '">' +
+        '<article class="flow-stage-card" data-search-text="' + safeHtml([stage.title, stage.tag, stage.goal, (stage.process || []).join(' '), stage.standards.join(' '), stage.script.join(' '), stage.review.join(' ')].join(' ')) + '">' +
           '<div class="stage-kicker"><span class="stage-number">' + safeHtml(stage.number) + '</span><span>' + safeHtml(stage.tag) + '</span></div>' +
           '<h3>' + safeHtml(stage.title) + '</h3>' +
           '<p class="stage-goal">' + safeHtml(stage.goal) + '</p>' +
           '<div class="stage-grid">' +
+            renderStageList('stage-process', '具体流程', stage.process || []) +
             renderStageList('stage-standard', '标准', stage.standards) +
             renderStageScript(stage.script) +
             renderStageList('stage-review', '复盘', stage.review) +
             renderStageOriginal(stage.original) +
-            '<div class="stage-block stage-source"><h4>能力库位置</h4><p>' + safeHtml(stage.source) + '</p></div>' +
+            '<div class="stage-block stage-source"><h4>内容库位置</h4><p>' + safeHtml(stage.source.replace('对应能力', '对应内容')) + '</p></div>' +
           '</div>' +
         '</article>';
     }
