@@ -1370,9 +1370,14 @@ const html = `<!doctype html>
       font-size: 15px;
     }
     .stage-original-group ul,
-    .stage-original-group ol {
+    .stage-original-group ol,
+    .stage-original-line-list {
       margin: 0;
-      padding-left: 18px;
+      padding-left: 0;
+    }
+    .stage-original-line-list {
+      display: grid;
+      gap: 5px;
     }
     .mini-copy {
       flex: 0 0 auto;
@@ -1466,6 +1471,7 @@ const html = `<!doctype html>
       grid-template-columns: auto minmax(0, 1fr);
       gap: 8px;
       align-items: start;
+      list-style: none;
     }
     .raw-order {
       min-width: 24px;
@@ -2599,10 +2605,18 @@ const html = `<!doctype html>
       return '<div class="stage-block stage-original"><h4><span>标准原文</span>' + compactCopyButton(lines.join('\\n')) + '</h4>' +
         (intro.length ? '<div class="stage-original-intro">' + intro.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' : '') +
         '<div class="stage-original-groups">' +
-          groups.map((group) => '<div class="stage-original-group"><h5><span>' + safeHtml(group.title) + '</span>' + compactCopyButton([group.title, ...group.lines].join('\\n')) + '</h5><ul>' +
-            group.lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
-          '</ul></div>').join('') +
+          groups.map((group) => '<div class="stage-original-group"><h5><span>' + safeHtml(group.title) + '</span>' + compactCopyButton([group.title, ...group.lines].join('\\n')) + '</h5><div class="stage-original-line-list">' +
+            group.lines.map((line) => renderNumberedTextLine(line)).join('') +
+          '</div></div>').join('') +
         '</div></div>';
+    }
+
+    function renderNumberedTextLine(line) {
+      const parsed = parseRawOrder(line);
+      return '<div class="raw-line">' +
+        '<span class="raw-order' + (parsed.order ? '' : ' empty') + '">' + safeHtml(parsed.order) + '</span>' +
+        '<span>' + formatRawLine(parsed.text || line) + '</span>' +
+      '</div>';
     }
 
     function isOriginalHeading(text) {
