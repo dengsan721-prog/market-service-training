@@ -2071,13 +2071,13 @@ const html = `<!doctype html>
     <section class="page-shell">
       <div class="content">
         <nav class="workspace-tabs" id="workspaceTabs" aria-label="工作台切换">
-          <button type="button" class="active" data-workspace-target="marketFlow">大流程|一条流程从陌生人到合作伙伴</button>
+          <button type="button" class="active" data-workspace-target="marketFlow">大流程|从陌生人到合作伙伴</button>
           <button type="button" data-workspace-target="mirrorLibrary">镜子库|用流程标准照镜子</button>
         </nav>
 
         <section class="band required-master-flow workspace-panel" id="marketFlow">
           <div class="band-inner">
-            <h2>大流程|一条流程从陌生人到合作伙伴</h2>
+            <h2>大流程|从陌生人到合作伙伴</h2>
             <p>市场服务人员打开以后，只看自己处在哪一步：这一步做什么、标准是什么、原话怎么说、做完怎么复盘。</p>
             <nav class="main-flow-tabs" id="mainFlow" aria-label="必须掌握的主流程"></nav>
             <div class="flow-stage-panel" id="flowStagePanel"></div>
