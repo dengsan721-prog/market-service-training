@@ -64,6 +64,52 @@ const sources = sourceFiles.map((source) => ({
     : ''
 }));
 
+function sliceByHeadings(content, startText, endText) {
+  const start = content.indexOf(startText);
+  if (start < 0) return '';
+  const end = endText ? content.indexOf(endText, start + startText.length) : -1;
+  return content.slice(start, end > start ? end : undefined).trim();
+}
+
+function joinRawParts(parts) {
+  return parts.map((part) => String(part || '').trim()).filter(Boolean).join('\n\n');
+}
+
+const marketManualText = sources[0]?.content || '';
+const campManualText = sources[1]?.content || '';
+const rawMirrorSources = [
+  {
+    id: 'rawSalon',
+    title: '沙龙模块',
+    tone: 'salon',
+    content: sliceByHeadings(marketManualText, '一、沙龙模块', '二、7天幸福训练营')
+  },
+  {
+    id: 'rawCamp7',
+    title: '7天训练营模块',
+    tone: 'camp',
+    content: joinRawParts([
+      sliceByHeadings(marketManualText, '二、7天幸福训练营', '三、幸福早课人才培养营'),
+      campManualText
+    ])
+  },
+  {
+    id: 'rawTalent',
+    title: '幸福早课人才培养营模块',
+    tone: 'talent',
+    content: sliceByHeadings(marketManualText, '三、幸福早课人才培养营', '四、榜样选拔与教练招募')
+  },
+  {
+    id: 'rawOther',
+    title: '其他',
+    tone: 'other',
+    content: joinRawParts([
+      marketManualText.slice(0, Math.max(0, marketManualText.indexOf('一、沙龙模块'))),
+      sliceByHeadings(marketManualText, '四、榜样选拔与教练招募')
+    ])
+  }
+];
+
 const modules = [
   {
     id: 'core',
@@ -931,7 +977,7 @@ const toolbox = [
   }
 ];
 
-const data = { modules, scriptLibrary, sources, quickFlows, serviceFramework, directorThinking, salonReview, flowGuide, masterFlow, modelCollection, toolbox };
+const data = { modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, flowGuide, masterFlow, modelCollection, toolbox };
 
 function escapeHtml(value) {
   return String(value)
@@ -1097,6 +1143,34 @@ const html = `<!doctype html>
       width: min(1120px, calc(100% - 32px));
       margin: 0 auto 56px;
     }
+    .workspace-tabs {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 6px;
+      border-radius: 18px;
+      background: #f5f5f7;
+    }
+    .workspace-tabs button {
+      min-width: 0;
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 10px;
+      background: transparent;
+      color: #3a3a3c;
+      font-weight: 900;
+      line-height: 1.25;
+      cursor: pointer;
+    }
+    .workspace-tabs button.active {
+      color: #fff;
+      background: #1d1d1f;
+      box-shadow: 0 10px 24px rgba(0,0,0,.14);
+    }
+    .workspace-panel[hidden] {
+      display: none !important;
+    }
     .sidebar {
       position: sticky;
       top: 74px;
@@ -1233,10 +1307,15 @@ const html = `<!doctype html>
       padding: 15px;
     }
     .stage-block h4 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
       margin: 0 0 10px;
       font-size: 16px;
     }
-    .stage-block ul {
+    .stage-block ul,
+    .stage-block ol {
       margin: 0;
       padding-left: 20px;
       color: #2c2c2e;
@@ -1283,12 +1362,35 @@ const html = `<!doctype html>
       padding: 12px;
     }
     .stage-original-group h5 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
       margin: 0 0 8px;
       font-size: 15px;
     }
-    .stage-original-group ul {
+    .stage-original-group ul,
+    .stage-original-group ol {
       margin: 0;
       padding-left: 18px;
+    }
+    .mini-copy,
+    .line-copy {
+      flex: 0 0 auto;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(0,113,227,.10);
+      color: var(--blue);
+      font-size: 12px;
+      line-height: 1;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .mini-copy {
+      padding: 6px 8px;
+    }
+    .line-copy {
+      padding: 6px 7px;
     }
     .content-tabs {
       display: flex;
@@ -1316,6 +1418,62 @@ const html = `<!doctype html>
     }
     .content-panel[hidden] {
       display: none !important;
+    }
+    .mirror-raw-panel {
+      --mirror-tint: #f7f7f8;
+      --mirror-accent: #0071e3;
+    }
+    .mirror-raw-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .mirror-raw-panel h3 {
+      margin: 0;
+      font-size: clamp(24px, 3.2vw, 34px);
+      line-height: 1.15;
+    }
+    .raw-copy-list {
+      display: grid;
+      gap: 6px;
+    }
+    .raw-copy-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: start;
+      border-radius: 10px;
+      padding: 9px 10px;
+      background: var(--mirror-tint);
+      border-left: 3px solid var(--mirror-accent);
+    }
+    .raw-copy-row strong {
+      color: #1d1d1f;
+      font-weight: 900;
+    }
+    .raw-copy-row span {
+      color: #3a3a3c;
+      line-height: 1.56;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .tone-salon {
+      --mirror-tint: rgba(52,199,89,.10);
+      --mirror-accent: #34c759;
+    }
+    .tone-camp {
+      --mirror-tint: rgba(0,113,227,.10);
+      --mirror-accent: #0071e3;
+    }
+    .tone-talent {
+      --mirror-tint: rgba(255,149,0,.13);
+      --mirror-accent: #ff9500;
+    }
+    .tone-other {
+      --mirror-tint: rgba(142,142,147,.14);
+      --mirror-accent: #8e8e93;
     }
     .ability-two-col {
       display: grid;
@@ -1758,6 +1916,17 @@ const html = `<!doctype html>
       .topbar-inner, .hero, .layout, .page-shell { width: min(100% - 12px, 680px); }
       .page-shell { margin-bottom: 28px; }
       .content { gap: 10px; }
+      .workspace-tabs {
+        gap: 6px;
+        margin-bottom: 8px;
+        padding: 5px;
+        border-radius: 14px;
+      }
+      .workspace-tabs button {
+        border-radius: 10px;
+        padding: 9px 8px;
+        font-size: 12px;
+      }
       .band {
         border: 0;
         border-radius: 16px;
@@ -1817,7 +1986,8 @@ const html = `<!doctype html>
         margin-bottom: 8px;
         font-size: 14px;
       }
-      .stage-block ul {
+      .stage-block ul,
+      .stage-block ol {
         padding-left: 18px;
         line-height: 1.58;
       }
@@ -1836,6 +2006,18 @@ const html = `<!doctype html>
       .content-tabs button {
         padding: 8px 10px;
         font-size: 12px;
+      }
+      .mirror-raw-head {
+        display: grid;
+        gap: 8px;
+      }
+      .raw-copy-row {
+        grid-template-columns: minmax(0, 1fr) auto;
+        padding: 8px 9px;
+      }
+      .raw-copy-row span {
+        font-size: 13px;
+        line-height: 1.5;
       }
       .logic-card, .process-step, .flow-card, .framework-card,
       .section-block, .script-card, details.source-box {
@@ -1888,26 +2070,34 @@ const html = `<!doctype html>
 
     <section class="page-shell">
       <div class="content">
-        <section class="band required-master-flow" id="marketFlow">
+        <nav class="workspace-tabs" id="workspaceTabs" aria-label="工作台切换">
+          <button type="button" class="active" data-workspace-target="marketFlow">大流程|一条流程从陌生人到合作伙伴</button>
+          <button type="button" data-workspace-target="mirrorLibrary">镜子库|用流程标准照镜子</button>
+        </nav>
+
+        <section class="band required-master-flow workspace-panel" id="marketFlow">
           <div class="band-inner">
-            <h2>一条流程串起所有标准与内容。</h2>
+            <h2>大流程|一条流程从陌生人到合作伙伴</h2>
             <p>市场服务人员打开以后，只看自己处在哪一步：这一步做什么、标准是什么、原话怎么说、做完怎么复盘。</p>
             <nav class="main-flow-tabs" id="mainFlow" aria-label="必须掌握的主流程"></nav>
             <div class="flow-stage-panel" id="flowStagePanel"></div>
           </div>
         </section>
 
-        <section class="band content-library" id="supplementInfo">
+        <section class="band content-library workspace-panel" id="mirrorLibrary" hidden>
           <div class="band-inner">
-            <p class="eyebrow">内容库</p>
-            <h2>内容库|具体流程与标准</h2>
-            <p>内容库不是主流程。需要哪一项就横向切换哪一项，用完回到上面的服务步骤继续执行。</p>
+            <p class="eyebrow">镜子库</p>
+            <h2>镜子库|用流程标准照镜子</h2>
+            <p>镜子库是大流程某一个环节的具体操作。需要哪一步，就切到对应模块，对照流程标准复盘自己有没有按要求执行。</p>
             <div class="content-tabs" id="contentTabs" role="tablist" aria-label="内容库切换">
               <button type="button" class="active" data-content-target="abilitySalonReview">沙龙复盘</button>
               <button type="button" data-content-target="abilityCamp7Review">7天训练营复盘</button>
               <button type="button" data-content-target="modelCollection">榜样采访</button>
-              <button type="button" data-content-target="raw">原文全文</button>
-              <button type="button" data-content-target="abilityOther">其他</button>
+              <button type="button" data-content-target="rawSalon">沙龙模块</button>
+              <button type="button" data-content-target="rawCamp7">7天训练营模块</button>
+              <button type="button" data-content-target="rawTalent">幸福早课人才培养营模块</button>
+              <button type="button" data-content-target="rawOther">其他原文</button>
+              <button type="button" data-content-target="abilityOther">其他资料</button>
             </div>
           </div>
         </section>
@@ -1942,7 +2132,7 @@ const html = `<!doctype html>
         <section class="band ability-module-card ability-salon-review content-panel" id="abilitySalonReview">
           <span id="salonReview" class="anchor-sentinel" aria-hidden="true"></span>
           <div class="band-inner">
-            <p class="eyebrow">内容库</p>
+            <p class="eyebrow">镜子库</p>
             <h2>沙龙复盘</h2>
             <p>按照原文标准整理关键问题，活动结束后对照核查。</p>
             <h3 class="ability-section-title">复盘清单</h3>
@@ -1981,7 +2171,7 @@ const html = `<!doctype html>
 
         <section class="band ability-module-card ability-camp7-review content-panel" id="abilityCamp7Review" hidden>
           <div class="band-inner">
-            <p class="eyebrow">内容库</p>
+            <p class="eyebrow">镜子库</p>
             <h2>7天训练营复盘</h2>
             <p>按照原文标准整理关键问题，重点看是否按要求参与、是否完成作业、是否及时反馈和筛选。</p>
             <div class="section-block">
@@ -2001,8 +2191,8 @@ const html = `<!doctype html>
 
         <section class="band ability-module-card ability-other content-panel" id="abilityOther" hidden>
           <div class="band-inner">
-            <p class="eyebrow">内容库</p>
-            <h2>其他</h2>
+            <p class="eyebrow">镜子库</p>
+            <h2>其他资料</h2>
             <p>市场服务123456、总监思维、工具模型放在这里，作为单独能力内容提取。</p>
             <h3 class="ability-section-title">驿站主市场服务123456（4.0）250903</h3>
             <div class="framework-grid" id="frameworkGrid"></div>
@@ -2010,6 +2200,58 @@ const html = `<!doctype html>
             <div class="framework-grid" id="thinkingGrid"></div>
             <h3 class="ability-section-title">工具模型</h3>
             <div class="tool-grid" id="toolGrid"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card mirror-raw-panel tone-salon content-panel" id="rawSalon" hidden>
+          <div class="band-inner">
+            <div class="mirror-raw-head">
+              <div>
+                <p class="eyebrow">镜子库</p>
+                <h2>沙龙模块</h2>
+                <p>按沙龙原文拆成一行一项，标题加粗，内容保留原话，右侧小按钮可复制。</p>
+              </div>
+            </div>
+            <div class="raw-copy-list" id="rawSalonRows"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card mirror-raw-panel tone-camp content-panel" id="rawCamp7" hidden>
+          <div class="band-inner">
+            <div class="mirror-raw-head">
+              <div>
+                <p class="eyebrow">镜子库</p>
+                <h2>7天训练营模块</h2>
+                <p>包含市场培训手册里的7天训练营标准，以及《7幸福训练营》复制标准流程。</p>
+              </div>
+            </div>
+            <div class="raw-copy-list" id="rawCamp7Rows"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card mirror-raw-panel tone-talent content-panel" id="rawTalent" hidden>
+          <div class="band-inner">
+            <div class="mirror-raw-head">
+              <div>
+                <p class="eyebrow">镜子库</p>
+                <h2>幸福早课人才培养营模块</h2>
+                <p>按照人才培养营原文呈现流程与标准，方便培训、通关和复盘。</p>
+              </div>
+            </div>
+            <div class="raw-copy-list" id="rawTalentRows"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card mirror-raw-panel tone-other content-panel" id="rawOther" hidden>
+          <div class="band-inner">
+            <div class="mirror-raw-head">
+              <div>
+                <p class="eyebrow">镜子库</p>
+                <h2>其他原文</h2>
+                <p>除沙龙、7天训练营、幸福早课人才培养营之外的原文，统一放在这里随查随复制。</p>
+              </div>
+            </div>
+            <div class="raw-copy-list" id="rawOtherRows"></div>
           </div>
         </section>
 
@@ -2107,6 +2349,7 @@ const html = `<!doctype html>
     const toolGrid = document.getElementById('toolGrid');
     const rawToc = document.getElementById('rawToc');
     const contentTabs = document.getElementById('contentTabs');
+    const workspaceTabs = document.getElementById('workspaceTabs');
 
     function repairAbilityCopy() {
       const model = document.getElementById('modelCollection');
@@ -2114,7 +2357,7 @@ const html = `<!doctype html>
         const eyebrow = model.querySelector('.eyebrow');
         const title = model.querySelector('h2');
         const intro = model.querySelector('p:not(.eyebrow)');
-        if (eyebrow) eyebrow.textContent = '内容库';
+        if (eyebrow) eyebrow.textContent = '镜子库';
         if (title) title.textContent = '榜样采访';
         if (intro) {
         intro.textContent = '不管是沙龙还是7天训练营，搜集来的榜样都统一进入一个大群，等待被采访。采集不是随便聊天，而是把学员真实改变的场景、时间、细节、心情、结果完整采集出来，形成可传播的案例。';
@@ -2209,6 +2452,47 @@ const html = `<!doctype html>
       }
     }
 
+    function compactCopyButton(text, className = 'mini-copy') {
+      return '<button type="button" class="' + className + '" data-copy-text="' + safeHtml(text) + '" aria-label="复制">复制</button>';
+    }
+
+    async function copyCompactText(button) {
+      await copyText(button.dataset.copyText || '');
+      const original = button.textContent;
+      button.textContent = '已复制';
+      window.setTimeout(() => {
+        button.textContent = original || '复制';
+      }, 900);
+    }
+
+    function bindCompactCopy(root = document) {
+      root.querySelectorAll('[data-copy-text]').forEach((button) => {
+        if (button.dataset.copyBound) return;
+        button.dataset.copyBound = '1';
+        button.addEventListener('click', () => copyCompactText(button));
+      });
+    }
+
+    function initWorkspaceTabs() {
+      if (!workspaceTabs) return;
+      const buttons = [...workspaceTabs.querySelectorAll('[data-workspace-target]')];
+      const panels = [...document.querySelectorAll('.workspace-panel')];
+      const contentPanels = [...document.querySelectorAll('.content-panel')];
+      function activate(targetId) {
+        buttons.forEach((button) => button.classList.toggle('active', button.dataset.workspaceTarget === targetId));
+        panels.forEach((panel) => {
+          panel.hidden = panel.id !== targetId;
+        });
+        contentPanels.forEach((panel) => {
+          panel.hidden = targetId !== 'mirrorLibrary' || panel.id !== (contentTabs?.querySelector('button.active')?.dataset.contentTarget || 'abilitySalonReview');
+        });
+      }
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => activate(button.dataset.workspaceTarget));
+      });
+      activate(buttons[0]?.dataset.workspaceTarget || 'marketFlow');
+    }
+
     function renderMasterFlow(activeIndex = 0) {
       mainFlow.innerHTML = manual.masterFlow.map((stage, index) => (
         '<button type="button" class="' + (index === activeIndex ? 'active' : '') + '" data-master-flow-index="' + index + '">' +
@@ -2236,21 +2520,23 @@ const html = `<!doctype html>
             renderStageScript(stage.script) +
             renderStageList('stage-review', '复盘', stage.review) +
             renderStageOriginal(stage.original) +
-            '<div class="stage-block stage-source"><h4>内容库位置</h4><p>' + safeHtml(stage.source.replace('对应能力', '对应内容')) + '</p></div>' +
+            '<div class="stage-block stage-source"><h4><span>内容库位置</span>' + compactCopyButton(stage.source.replace('对应能力', '对应内容')) + '</h4><p>' + safeHtml(stage.source.replace('对应能力', '对应内容')) + '</p></div>' +
           '</div>' +
         '</article>';
+      bindCompactCopy(flowStagePanel);
     }
 
     function renderStageList(className, title, lines) {
-      return '<div class="stage-block ' + className + '"><h4>' + title + '</h4><ul>' +
+      if (!lines || !lines.length) return '';
+      return '<div class="stage-block ' + className + '"><h4><span>' + title + '</span>' + compactCopyButton(lines.join('\\n')) + '</h4><ol>' +
         lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
-      '</ul></div>';
+      '</ol></div>';
     }
 
     function renderStageScript(lines) {
-      return '<div class="stage-block stage-script"><h4>原话照搬</h4><p>' +
-        lines.map((line) => safeHtml(line)).join('\\n') +
-      '</p></div>';
+      return '<div class="stage-block stage-script"><h4><span>原话照搬</span>' + compactCopyButton(lines.join('\\n')) + '</h4><ol>' +
+        lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
+      '</ol></div>';
     }
 
     function renderStageOriginal(lines) {
@@ -2269,12 +2555,12 @@ const html = `<!doctype html>
         if (current) current.lines.push(text);
         else intro.push(text);
       });
-      return '<div class="stage-block stage-original"><h4>标准原文</h4>' +
+      return '<div class="stage-block stage-original"><h4><span>标准原文</span>' + compactCopyButton(lines.join('\\n')) + '</h4>' +
         (intro.length ? '<div class="stage-original-intro">' + intro.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' : '') +
         '<div class="stage-original-groups">' +
-          groups.map((group) => '<div class="stage-original-group"><h5>' + safeHtml(group.title) + '</h5><ul>' +
+          groups.map((group) => '<div class="stage-original-group"><h5><span>' + safeHtml(group.title) + '</span>' + compactCopyButton([group.title, ...group.lines].join('\\n')) + '</h5><ol>' +
             group.lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
-          '</ul></div>').join('') +
+          '</ol></div>').join('') +
         '</div></div>';
     }
 
@@ -2288,8 +2574,9 @@ const html = `<!doctype html>
       const panels = [...document.querySelectorAll('.content-panel')];
       function activate(targetId) {
         buttons.forEach((button) => button.classList.toggle('active', button.dataset.contentTarget === targetId));
+        const mirrorActive = !document.getElementById('mirrorLibrary')?.hidden;
         panels.forEach((panel) => {
-          panel.hidden = panel.id !== targetId;
+          panel.hidden = !mirrorActive || panel.id !== targetId;
         });
       }
       buttons.forEach((button) => {
@@ -2431,6 +2718,43 @@ const html = `<!doctype html>
       });
     }
 
+    function renderMirrorRawPanels() {
+      (manual.rawMirrorSources || []).forEach((source) => {
+        const target = document.getElementById(source.id + 'Rows');
+        if (!target) return;
+        const lines = splitDisplayLines(source.content)
+          .map((line) => line.trim())
+          .filter(Boolean);
+        target.innerHTML = lines.map((line, index) => (
+          '<div class="raw-copy-row" data-search-text="' + safeHtml([source.title, line].join(' ')) + '">' +
+            '<span>' + formatRawLine(line, index) + '</span>' +
+            compactCopyButton(line, 'line-copy') +
+          '</div>'
+        )).join('');
+        bindCompactCopy(target);
+      });
+    }
+
+    function formatRawLine(line, index) {
+      const text = String(line || '').trim();
+      if (!text) return '';
+      const heading = isRawHeading(text);
+      if (heading) return '<strong>' + safeHtml(text) + '</strong>';
+      const colonMatch = text.match(/^([^：:]{2,18})[：:](.+)$/);
+      if (colonMatch) {
+        return '<strong>' + safeHtml(colonMatch[1] + '：') + '</strong>' + safeHtml(colonMatch[2].trim());
+      }
+      const numberMatch = text.match(/^([0-9]{1,2}[.、）)]|[一二三四五六七八九十]+[）、]|第[0-9一二三四五六七八九十]+[天步]|[①②③④⑤⑥⑦⑧⑨⑩])\\s*(.+)$/);
+      if (numberMatch) {
+        return '<strong>' + safeHtml(numberMatch[1]) + '</strong>' + safeHtml(numberMatch[2]);
+      }
+      return safeHtml(text);
+    }
+
+    function isRawHeading(text) {
+      return text.length <= 34 && /^(一、|二、|三、|四、|五、|六、|七、|八、|九、|十、|[一二三四五六七八九十]+）|第[0-9一二三四五六七八九十]+天|正式|导入|\\(|（|🌈|✅|📚|⚠)/.test(text);
+    }
+
     function getTargetId(item) {
       if (item.dataset.targetId) return item.dataset.targetId;
       if (item.id) return item.id;
@@ -2492,7 +2816,9 @@ const html = `<!doctype html>
     renderScripts();
     renderToolbox();
     renderRawManual();
+    renderMirrorRawPanels();
     initContentTabs();
+    initWorkspaceTabs();
 
     const observer = new IntersectionObserver((entries) => {
       const active = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
