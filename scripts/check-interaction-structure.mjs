@@ -29,6 +29,12 @@ const exportLink = await page.$eval('a[href="exports/market-service-manual.docx"
 }));
 assert(exportLink.text.includes('导出Word文档'), '页面缺少导出 Word 文档按钮');
 assert(exportLink.download === '幸福学院市场服务手册.docx', '导出文档下载文件名不正确');
+const markdownExportLink = await page.$eval('a[href="exports/market-service-manual.md"]', (link) => ({
+  text: link.textContent.trim(),
+  download: link.getAttribute('download')
+}));
+assert(markdownExportLink.text.includes('导出MD文档'), '页面缺少导出 MD 文档按钮');
+assert(markdownExportLink.download === '幸福学院市场服务手册.md', '导出 MD 下载文件名不正确');
 
 await page.locator('[data-master-flow-index="2"]').click();
 await page.waitForTimeout(100);
