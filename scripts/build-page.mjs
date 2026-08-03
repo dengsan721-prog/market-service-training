@@ -1389,9 +1389,6 @@ const html = `<!doctype html>
     .mini-copy {
       padding: 6px 8px;
     }
-    .line-copy {
-      padding: 6px 7px;
-    }
     .content-tabs {
       display: flex;
       overflow-x: auto;
@@ -1441,8 +1438,7 @@ const html = `<!doctype html>
     }
     .raw-copy-row {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
-      gap: 8px;
+      grid-template-columns: minmax(0, 1fr);
       align-items: start;
       border-radius: 10px;
       padding: 9px 10px;
@@ -2558,9 +2554,9 @@ const html = `<!doctype html>
       return '<div class="stage-block stage-original"><h4><span>标准原文</span>' + compactCopyButton(lines.join('\\n')) + '</h4>' +
         (intro.length ? '<div class="stage-original-intro">' + intro.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' : '') +
         '<div class="stage-original-groups">' +
-          groups.map((group) => '<div class="stage-original-group"><h5><span>' + safeHtml(group.title) + '</span>' + compactCopyButton([group.title, ...group.lines].join('\\n')) + '</h5><ol>' +
+          groups.map((group) => '<div class="stage-original-group"><h5><span>' + safeHtml(group.title) + '</span>' + compactCopyButton([group.title, ...group.lines].join('\\n')) + '</h5><ul>' +
             group.lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
-          '</ol></div>').join('') +
+          '</ul></div>').join('') +
         '</div></div>';
     }
 
@@ -2728,10 +2724,8 @@ const html = `<!doctype html>
         target.innerHTML = lines.map((line, index) => (
           '<div class="raw-copy-row" data-search-text="' + safeHtml([source.title, line].join(' ')) + '">' +
             '<span>' + formatRawLine(line, index) + '</span>' +
-            compactCopyButton(line, 'line-copy') +
           '</div>'
         )).join('');
-        bindCompactCopy(target);
       });
     }
 
