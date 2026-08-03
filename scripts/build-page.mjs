@@ -1374,8 +1374,7 @@ const html = `<!doctype html>
       margin: 0;
       padding-left: 18px;
     }
-    .mini-copy,
-    .line-copy {
+    .mini-copy {
       flex: 0 0 auto;
       border: 0;
       border-radius: 999px;
@@ -1388,9 +1387,6 @@ const html = `<!doctype html>
     }
     .mini-copy {
       padding: 6px 8px;
-    }
-    .line-copy {
-      padding: 6px 7px;
     }
     .content-tabs {
       display: flex;
@@ -1439,7 +1435,7 @@ const html = `<!doctype html>
       display: grid;
       gap: 10px;
     }
-    .raw-copy-row {
+    .raw-module-card {
       border-radius: 12px;
       padding: 10px;
       background: var(--mirror-tint);
@@ -1447,7 +1443,7 @@ const html = `<!doctype html>
     }
     .raw-module-head {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-columns: auto minmax(0, 1fr);
       gap: 8px;
       align-items: start;
     }
@@ -1482,18 +1478,18 @@ const html = `<!doctype html>
     .raw-order.empty {
       min-width: 0;
     }
-    .raw-copy-row strong {
+    .raw-module-card strong {
       color: #1d1d1f;
       font-weight: 900;
     }
     .raw-line span:last-child,
-    .raw-copy-row > p {
+    .raw-module-card > p {
       color: #3a3a3c;
       line-height: 1.56;
       font-size: 14px;
       font-weight: 600;
     }
-    .raw-copy-row > p {
+    .raw-module-card > p {
       margin: 8px 0 0;
     }
     .tone-salon {
@@ -2048,14 +2044,14 @@ const html = `<!doctype html>
         display: grid;
         gap: 8px;
       }
-      .raw-copy-row {
+      .raw-module-card {
         padding: 8px 9px;
       }
       .raw-module-head {
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-columns: auto minmax(0, 1fr);
       }
       .raw-line span:last-child,
-      .raw-copy-row > p {
+      .raw-module-card > p {
         font-size: 13px;
         line-height: 1.5;
       }
@@ -2126,7 +2122,6 @@ const html = `<!doctype html>
 
         <section class="band content-library workspace-panel" id="mirrorLibrary" hidden>
           <div class="band-inner">
-            <p class="eyebrow">镜子库</p>
             <h2>镜子库|用流程标准照镜子</h2>
             <p>镜子库是大流程某一个环节的具体操作。需要哪一步，就切到对应模块，对照流程标准复盘自己有没有按要求执行。</p>
             <div class="content-tabs" id="contentTabs" role="tablist" aria-label="内容库切换">
@@ -2174,7 +2169,6 @@ const html = `<!doctype html>
         <section class="band ability-module-card ability-salon-review content-panel" id="abilitySalonReview">
           <span id="salonReview" class="anchor-sentinel" aria-hidden="true"></span>
           <div class="band-inner">
-            <p class="eyebrow">镜子库</p>
             <h2>沙龙复盘</h2>
             <p>按照原文标准整理关键问题，活动结束后对照核查。</p>
             <h3 class="ability-section-title">复盘清单</h3>
@@ -2213,7 +2207,6 @@ const html = `<!doctype html>
 
         <section class="band ability-module-card ability-camp7-review content-panel" id="abilityCamp7Review" hidden>
           <div class="band-inner">
-            <p class="eyebrow">镜子库</p>
             <h2>7天训练营复盘</h2>
             <p>按照原文标准整理关键问题，重点看是否按要求参与、是否完成作业、是否及时反馈和筛选。</p>
             <div class="section-block">
@@ -2233,7 +2226,6 @@ const html = `<!doctype html>
 
         <section class="band ability-module-card ability-other content-panel" id="abilityFramework" hidden>
           <div class="band-inner">
-            <p class="eyebrow">镜子库</p>
             <h2>123456</h2>
             <p>市场服务123456按结构查看，方便驿站主快速回忆角色、目标、流程、人才和工具。</p>
             <div class="framework-grid" id="frameworkGrid"></div>
@@ -2242,7 +2234,6 @@ const html = `<!doctype html>
 
         <section class="band ability-module-card ability-other content-panel" id="abilityThinking" hidden>
           <div class="band-inner">
-            <p class="eyebrow">镜子库</p>
             <h2>总监思维</h2>
             <p>总监和驿站主的分工、心态辅导、顾虑处理、学习效果，单独放在这里照镜子。</p>
             <div class="framework-grid" id="thinkingGrid"></div>
@@ -2251,7 +2242,6 @@ const html = `<!doctype html>
 
         <section class="band ability-module-card ability-other content-panel" id="abilityTools" hidden>
           <div class="band-inner">
-            <p class="eyebrow">镜子库</p>
             <h2>工具模型</h2>
             <p>自检表、优点清单、市场服务模型和123456参考图，作为现场辅助工具使用。</p>
             <div class="tool-grid" id="toolGrid"></div>
@@ -2262,9 +2252,8 @@ const html = `<!doctype html>
           <div class="band-inner">
             <div class="mirror-raw-head">
               <div>
-                <p class="eyebrow">镜子库</p>
                 <h2>沙龙模块</h2>
-                <p>按沙龙原文拆成一行一项，标题加粗，内容保留原话，右侧小按钮可复制。</p>
+                <p>按沙龙原文拆成内容模块，标题加粗，内容保留原话和原序号。</p>
               </div>
             </div>
             <div class="raw-copy-list" id="rawSalonRows"></div>
@@ -2275,7 +2264,6 @@ const html = `<!doctype html>
           <div class="band-inner">
             <div class="mirror-raw-head">
               <div>
-                <p class="eyebrow">镜子库</p>
                 <h2>7天训练营模块</h2>
                 <p>包含市场培训手册里的7天训练营标准，以及《7幸福训练营》复制标准流程。</p>
               </div>
@@ -2288,7 +2276,6 @@ const html = `<!doctype html>
           <div class="band-inner">
             <div class="mirror-raw-head">
               <div>
-                <p class="eyebrow">镜子库</p>
                 <h2>幸福早课人才培养营模块</h2>
                 <p>按照人才培养营原文呈现流程与标准，方便培训、通关和复盘。</p>
               </div>
@@ -2301,9 +2288,8 @@ const html = `<!doctype html>
           <div class="band-inner">
             <div class="mirror-raw-head">
               <div>
-                <p class="eyebrow">镜子库</p>
                 <h2>其他原文</h2>
-                <p>除沙龙、7天训练营、幸福早课人才培养营之外的原文，统一放在这里随查随复制。</p>
+                <p>除沙龙、7天训练营、幸福早课人才培养营之外的原文，统一放在这里随查随看。</p>
               </div>
             </div>
             <div class="raw-copy-list" id="rawOtherRows"></div>
@@ -2412,7 +2398,7 @@ const html = `<!doctype html>
         const eyebrow = model.querySelector('.eyebrow');
         const title = model.querySelector('h2');
         const intro = model.querySelector('p:not(.eyebrow)');
-        if (eyebrow) eyebrow.textContent = '镜子库';
+        if (eyebrow) eyebrow.remove();
         if (title) title.textContent = '榜样采访';
         if (intro) {
         intro.textContent = '不管是沙龙还是7天训练营，搜集来的榜样都统一进入一个大群，等待被采访。采集不是随便聊天，而是把学员真实改变的场景、时间、细节、心情、结果完整采集出来，形成可传播的案例。';
@@ -2784,17 +2770,15 @@ const html = `<!doctype html>
         target.innerHTML = blocks.map((block, index) => {
           const displayTitle = simplifyRawBlockTitle(block.title, block.lines);
           const displayLines = block.lines.length ? block.lines : [block.title];
-          const copyText = [block.order ? block.order + ' ' + displayTitle : displayTitle, ...displayLines].join('\\n');
-          return '<article class="raw-copy-row" data-search-text="' + safeHtml([source.title, copyText].join(' ')) + '">' +
+          const moduleText = [block.order ? block.order + ' ' + displayTitle : displayTitle, ...displayLines].join('\\n');
+          return '<article class="raw-module-card" data-search-text="' + safeHtml([source.title, moduleText].join(' ')) + '">' +
             '<div class="raw-module-head">' +
               '<span class="raw-order' + (block.order ? '' : ' empty') + '">' + safeHtml(block.order) + '</span>' +
               '<h3 class="raw-module-title">' + safeHtml(displayTitle || ('内容模块 ' + (index + 1))) + '</h3>' +
-              compactCopyButton(copyText, 'line-copy') +
             '</div>' +
             renderRawBlockLines(displayLines) +
           '</article>';
         }).join('');
-        bindCompactCopy(target);
       });
     }
 
@@ -2922,7 +2906,7 @@ const html = `<!doctype html>
         : compact;
       return expanded
         .replace(/([。！？；;])(?=(第[0-9一二三四五六七八九十]+[步天]|[0-9]{1,2}[.、]|[①②③④⑤⑥⑦⑧⑨⑩]|✅|⚠|💡|😇|😄|📢|⛏|🚀|🥇|🍀|🌟))/g, '$1\\n')
-        .replace(/([^\\\\n])(?=(第[0-9一二三四五六七八九十]+步[:：]|[0-9]{1,2}[.、](?!\\\\d)|[①②③④⑤⑥⑦⑧⑨⑩]|✅|⚠|💡|😇|😄|📢|⛏|🚀|🥇|🍀|🌟))/g, '$1\\n')
+        .replace(/([^\\\\n\\d])(?=(第[0-9一二三四五六七八九十]+步[:：]|[0-9]{1,2}[.、](?!\\\\d)|[①②③④⑤⑥⑦⑧⑨⑩]|✅|⚠|💡|😇|😄|📢|⛏|🚀|🥇|🍀|🌟))/g, '$1\\n')
         .replace(/([^\\\\n])(?=(一个服务理念|一类角色定位|两个沟通心法|两种开拓方法|三个必做目标|三大核心关注|四步服务流程|四阶人才漏斗|四种人才特征|四步个人服务步骤|五步标准沟通|五步人才培养|六个销售武器|我们的共同约定|对于幸福驿站市场服务的认识|三种学员不收|只收一种学员))/g, '$1\\n')
         .split('\\n');
     }
