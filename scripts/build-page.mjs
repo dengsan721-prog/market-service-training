@@ -14,7 +14,7 @@ const assetFiles = [
   },
   {
     key: 'service123456',
-    title: '驿站主市场服务123456（3.0）',
+    title: '驿站主市场服务123456（4.0）250903',
     source: 'C:/Users/Administrator/AppData/Local/Temp/codex-clipboard-713728d1-a101-490c-9375-f7ce0452f107.png',
     file: 'market-service-123456.png'
   },
@@ -49,7 +49,7 @@ assetFiles.forEach((asset) => {
 const sourceFiles = [
   {
     title: '幸福学院市场培训手册（1.0）',
-    path: 'C:/Users/Administrator/.codex/attachments/474164d5-3991-4d5b-b68e-23cff00bbc3c/pasted-text.txt'
+    path: 'C:/Users/Administrator/.codex/attachments/a94350ec-194f-422e-bbd4-e8ff21cae1ed/pasted-text.txt'
   },
   {
     title: '《7幸福训练营》复制标准流程',
@@ -505,6 +505,7 @@ const salonReview = [
   '是否布置作业：作业有对象、场景、原话、反馈、心情和提交时间。',
   '是否收作业：沙龙结束不是结束，必须跟进作业和反馈。',
   '是否承接下一步：根据顾客问题，引入7天幸福训练营。',
+  '是否发现榜样：不管是沙龙还是7天训练营，搜集来的榜样都统一进入一个大群，等待被采访。',
   '是否复盘自己：效果不好先找教练和流程问题，不找客户原因。'
 ];
 
@@ -646,7 +647,8 @@ const masterFlow = [
     standards: [
       '严格按照邀约、讲发心、热场、提要求、主题、分享、引导式采访、心愿闭环执行。',
       '一场沙龙只讲一个主题，难度越小、内容越少，越容易复制。',
-      '沙龙结束必须留作业、收作业，有结果就继续承接，没有结果就复盘教练和流程。'
+      '沙龙结束必须留作业、收作业，有结果就继续承接，没有结果就复盘教练和流程。',
+      '突破成长的榜样统一进一个群，接受榜样采访，进行激活。'
     ],
     script: [
       '今天这场学习有没有帮到大家？',
@@ -659,6 +661,30 @@ const masterFlow = [
       '有没有让顾客参与，而不是旁听？',
       '有没有布置作业并约定提交时间？'
     ],
+    original: [
+      '若想最高效服务出效果，开沙龙的人必须严格按照以下标准：',
+      '心态标准：',
+      '1.只服务有真实幸福需求的人，不接受自称“完全幸福”的学员，用案例激活或幸福自检表让对号入座。',
+      '2.遇到抗拒态度人员直接淘汰，不浪费时间。',
+      '3.我们的态度决定学员态度，立好标准就不会被消耗。',
+      '动作标准：',
+      '1.一个开沙龙的人一场沙龙只带2人，两个都是顾客，不允许旁听，只能参与。',
+      '2.陌生人沙龙结束后面对面建群，方便留作业、收作业、通知下次沙龙；教练也要完成作业，并提交。',
+      '3.转介绍客户可以直接进7天幸福训练营。',
+      '4.教练没有完成作业，取消教练资格。',
+      '5.如果顾客因为实际问题，允许请假，做到有温度，人性化。',
+      '6.随时随地及时发现榜样，推荐榜样，这个是每一个开沙龙的人的能力。',
+      '7.每个人开沙龙的人，必须要准备自己的发心故事，并完整通关。',
+      '8.作业交付：明确到具体时间点；回家不愿意给家人表达的顾客，要了解清楚原因，给1次机会，仍然拒绝给家人表达的，就取消1年学习资格。',
+      '9.突破成长的榜样在一个群，接受榜样采访，进行激活。',
+      '10.留作业、收作业标准。',
+      '复制标准：',
+      '1.严格按照8步标准流程。',
+      '2.复制核心原则：难度越小、内容越少，越容易推广复制。',
+      '3.市场验证成熟有效，个人不能修改标准；如果在市场中某个点上验证了有共性卡点问题，统一升级标准。',
+      '4.每天给开沙龙的人通关，确认对流程清晰，对内容理解，做到完全正确复制，不敷衍，不放水，不能通关一次，管好几天，拒绝学习型只学不做的沙龙，拒绝我想着……我以为……我觉得……',
+      '5.只要是沙龙标准流程里面没有的，不要说，不要做。'
+    ],
     source: '对应能力：沙龙模块、沙龙后复盘、工具与模型。'
   },
   {
@@ -669,7 +695,8 @@ const masterFlow = [
     standards: [
       '7天训练营的顾客从沙龙或者转介绍来，不用邀约破冰。',
       '一个教练带2个顾客，就是一个幸福训练营，不能混营。',
-      '每天提要求、做主题训练、留作业、收作业、复盘反馈。'
+      '每天提要求、做主题训练、留作业、收作业、复盘反馈。',
+      '建立榜样群，有突破的榜样及时进群，所有榜样都在一个群，等待被采访。'
     ],
     script: [
       '大家想早一天解决问题，还是晚一天解决问题？',
@@ -681,6 +708,26 @@ const masterFlow = [
       '学员有没有按要求全程参与？',
       '作业有没有具体到人、场景、说了什么、反馈是什么？',
       '效果不理想时，有没有第一时间复盘流程和教练问题？'
+    ],
+    original: [
+      '7天训练营的顾客是从沙龙或者转介绍来的，不用邀约破冰。',
+      '一个教练带2个顾客，就是一个幸福训练营，一天可以错开开设多个营，不混合开班。',
+      '转介绍的顾客，可以直接参加幸福训练营。',
+      '7天幸福训练营受益通过审核的榜样学员，可带沙龙和7天幸福训练营，但不能带21天。',
+      '每天课程之前必须要通关，强化幸福能力交付，保证幸福教练掌握正确的标准。',
+      '真知错的学员，当天就能完成作业；假知错的学员，一定会拖延，完不成作业。',
+      '不配合、不按要求实践的学员，后面再给一次机会下次再参加，2次都不合格者，取消1年内学习资格。',
+      '随时随地及时发现榜样，推荐榜样。',
+      '每个人训练营的人，必须要准备自己的发心故事，并完整通关。',
+      '突破成长的榜样在一个群，接受榜样采访，进行激活。',
+      '学习要求：',
+      '1.全程开视频。',
+      '2.每天提前5分进会议室。',
+      '作业要求：',
+      '留作业、收作业。',
+      '建立榜样群，有突破的榜样及时进群，所有的榜样都在一个群，等待被采访。',
+      '通过审核成为幸福教练的，建立幸福教练群，所有幸福教练在一个群。',
+      '有事允许请假，人性化管理，放下一期就好了，但是连着两期学习态度不端正，取消学习资格，删除拉黑微信避免被消耗。'
     ],
     source: '对应能力：7天幸福训练营、7天课程展开、作业与复盘。'
   },
@@ -767,28 +814,33 @@ const modelCollection = {
     },
     {
       title: '补充，查漏补缺',
-      body: '根据16个问题进行补充发问。',
+      body: '根据17个问题进行补充发问。',
       purpose: '核心目的是一次性采集完整。'
+    },
+    {
+      title: '采访过程中对于榜样的回应激活方式是点评',
+      body: '点评的结构：\n1）顾客过去没做到，意识到错误，点出苦衷和辛苦\n2）顾客现在做到，点出努力和收获\n3）顾客未来可能做到，点出自信和可能\n\n点评的七个角度：\n第一，点评对方外在\n第二，点评能力优秀\n第三，点评前后变化\n第四，点评对方给你的真实感受\n第五，点评对方的辛苦\n第六，点评自己向对方学到什么\n第七，点评人品和人格魅力',
+      purpose: '核心目的用点评激活顾客。'
     }
   ],
   questions: [
-    '自我介绍：你是谁，来自哪里，什么职业，通过学习解决了你什么问题？',
-    '学习前遇到什么问题，到了什么程度？',
-    '学习后是什么程度，学习后的变化？',
-    '学了什么内容？学了这些内容，多长时间发生的变化？一定要量化，场景细节一定要表达。',
-    '以前为了解决这些问题，你学过什么内容？都用过哪些方法？花了多少钱？花了多长时间？效果怎么样？',
-    '通过这个学习，你知道自己错在哪里了吗？',
-    '如果没有这次学习，继续以前的错误方式，最终会给你带来什么样的后果？',
-    '如果不想出现这个不好的后果，接下来应该怎么做？',
-    '你为什么愿意把自己的故事分享出来，你想帮助谁？你的愿望是什么？',
-    '对没来学习的人或者不相信的人，让你送给他们一句话，你怎么表达？',
-    '在这里学习和你原来在其他地方学习，最大的区别是什么？',
-    '现在有这么好的结果，你有怎样的心情和感受？',
-    '像你这样的问题，在你身边的人里面遇到的多不多？',
-    '通过你自身的这段经历，你会给同样经历的朋友说一句什么话？',
-    '你第1次听大春之道的内容是什么时候？在哪里？什么内容？为什么这个内容吸引你？当时你报名了吗？没有，那时候为什么没来学习？',
-    '什么时候报的名？学习前有什么顾虑？学习后这些顾虑解决了吗？',
-    '你为什么立马决定报名？'
+    '你当时是带着什么问题来的？',
+    '达到了什么程度？',
+    '你那时候的心情是怎么样？',
+    '曾经发生的最严重的，让你记忆最深刻的一件事儿是什么事儿？可以分享一个吗？',
+    '发生矛盾之后你是怎么解决的？都用了哪些方法？如果是学习过的人，可以问他们花了多少钱。效果怎么样？',
+    '你在学习第几天的时候，家里开始改变的？',
+    '当时是在什么场景下给家人用的？说了些什么话？',
+    '你当时是怀着什么心情给家人表达的？',
+    '表达完家人是什么反应，或者给了你什么反馈？',
+    '如果你到现在没学到这样的内容，你家里会变成什么样？',
+    '这个结果是你想要的吗？',
+    '通过学习你知道之前哪些地方做的不对？',
+    '接下来咱们如果想持续幸福，那正确的做法该怎么做？',
+    '今天你通过学习，拿到了自己的幸福，有没有一些心里话，对直播间其他有同样家庭烦恼的家人们说两句？',
+    '你身边跟咱们没学习之前一样，家里鸡飞狗跳，孩子不听话，家人之间无法沟通的家庭多不多？如果让你给他们说一段话，你会说什么？',
+    '你拿到幸福以后，你愿意把你的经历分享出来，去帮助他们从家庭内耗的泥潭里摆脱出来吗？',
+    '如果有时间，有精力的情况下，你愿意加入到幸福教练的行列里，跟我们一样帮助更多人吗？'
   ]
 };
 
@@ -1146,6 +1198,11 @@ const html = `<!doctype html>
       background: #fff;
       border: 1px solid var(--line);
     }
+    .stage-original {
+      grid-column: 1 / -1;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
     .ability-index {
       display: flex;
       flex-wrap: wrap;
@@ -1162,12 +1219,21 @@ const html = `<!doctype html>
       font-size: 13px;
       font-weight: 850;
     }
+    .ability-two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
     .band {
       border-radius: 30px;
       border: 1px solid var(--line);
       background: var(--panel);
       box-shadow: var(--shadow);
       overflow: hidden;
+    }
+    .legacy-section {
+      display: none;
     }
     .band-inner { padding: clamp(20px, 4vw, 34px); }
     .band h2 {
@@ -1621,7 +1687,7 @@ const html = `<!doctype html>
         width: auto;
         white-space: nowrap;
       }
-      .logic-grid, .process-map, .entry-grid, .framework-grid, .tool-grid, .guide-grid, .collection-grid, .raw-layout { grid-template-columns: 1fr; }
+      .logic-grid, .process-map, .entry-grid, .framework-grid, .tool-grid, .guide-grid, .collection-grid, .raw-layout, .ability-two-col { grid-template-columns: 1fr; }
       .raw-toc { position: static; }
       .module-head { grid-template-columns: 1fr; }
       .top-links { display: none; }
@@ -1661,56 +1727,125 @@ const html = `<!doctype html>
             <h2>能力库｜具体流程与标准</h2>
             <p>能力库不是主流程。需要哪一项就直接打开哪一项，用完就回到当下服务动作。</p>
             <div class="ability-index">
-              <a href="#quickFlows">场景入口</a>
-              <a href="#service1234567">市场服务123456</a>
-              <a href="#thinking">思维与分工</a>
-              <a href="#salonReview">沙龙复盘</a>
-              <a href="#modules">完整流程手册</a>
-              <a href="#modelCollection">榜样采集</a>
-              <a href="#scripts">原文话术库</a>
-              <a href="#toolbox">工具与模型</a>
+              <a href="#abilitySalon">沙龙</a>
+              <a href="#abilitySalonReview">沙龙复盘</a>
+              <a href="#abilityCamp7">7天训练营</a>
+              <a href="#abilityCamp7Review">7天训练营复盘</a>
+              <a href="#modelCollection">榜样采访</a>
               <a href="#raw">原文全文</a>
+              <a href="#abilityOther">其他</a>
             </div>
           </div>
         </section>
 
-        <section class="band" id="quickFlows">
+        <section class="band ability-module-card ability-salon" id="abilitySalon">
           <div class="band-inner">
-            <p class="eyebrow">能力库 / 场景入口</p>
-            <h2>单独提取现场场景标准。</h2>
-            <p>这里不承担主流程导航，只作为能力库内容：需要哪一类场景，就直接打开哪一类。</p>
-            <div class="entry-grid" id="quickFlowGrid"></div>
+            <p class="eyebrow">能力库</p>
+            <h2>沙龙</h2>
+            <p>沙龙模块保留提炼总结和标准原文，现场需要开沙龙、通关、核查时直接看这一块。</p>
+            <div class="ability-two-col">
+              <div class="section-block">
+                <h4>提炼总结</h4>
+                <ul>
+                  <li>沙龙不是传授知识，是用体验、发问、点评和作业让顾客看到自己。</li>
+                  <li>一场沙龙只讲一个主题，难度越小、内容越少，越容易复制。</li>
+                  <li>沙龙结束必须留作业、收作业、复盘反馈。</li>
+                </ul>
+              </div>
+              <div class="section-block">
+                <h4>标准原文</h4>
+                <ul>
+                  <li>严格按照8步标准流程。</li>
+                  <li>一个开沙龙的人一场沙龙只带2人，两个都是顾客，不允许旁听，只能参与。</li>
+                  <li>陌生人沙龙结束后面对面建群，方便留作业、收作业、通知下次沙龙；教练也要完成作业，并提交。</li>
+                  <li>只要是沙龙标准流程里面没有的，不要说，不要做。</li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section class="band" id="service1234567">
+        <section class="band ability-module-card ability-salon-review" id="abilitySalonReview">
+          <span id="salonReview" class="anchor-sentinel" aria-hidden="true"></span>
           <div class="band-inner">
-            <p class="eyebrow">市场服务1234567</p>
-            <h2>驿站主市场服务123456（4.0）250903。</h2>
-            <p>用服务理念、角色定位、沟通心法、开拓方法、目标、流程、人才、工具和共同约定，管住全部市场服务动作。</p>
-            <div class="framework-grid" id="frameworkGrid"></div>
-          </div>
-        </section>
-
-        <section class="band" id="thinking">
-          <div class="band-inner">
-            <p class="eyebrow">市场服务思维与分工</p>
-            <h2>先理解角色，再按照流程做事。</h2>
-            <p>这些思维帮助驿站主和总监逐步去掉过去多余思维、多余动作，回到有效的流程和标准。</p>
-            <div class="framework-grid" id="thinkingGrid"></div>
-          </div>
-        </section>
-
-        <section class="band" id="salonReview">
-          <div class="band-inner">
-            <p class="eyebrow">沙龙后复盘</p>
-            <h2>活动结束后，对照复盘清单看是否按要求执行。</h2>
-            <p>复盘不是找客户原因，而是看自己有没有按流程标准做，哪里漏了，下一次怎么补。</p>
+            <p class="eyebrow">能力库</p>
+            <h2>沙龙复盘</h2>
+            <p>按照原文标准整理关键问题，活动结束后对照核查。</p>
+            <h3 class="ability-section-title">复盘清单</h3>
             <ol class="review-list" id="reviewList"></ol>
           </div>
         </section>
 
-        <section class="band">
+        <section class="band ability-module-card ability-camp7" id="abilityCamp7">
+          <div class="band-inner">
+            <p class="eyebrow">能力库</p>
+            <h2>7天训练营</h2>
+            <p>7天训练营保留提炼总结和标准原文，重点是沙龙筛选导入、持续提要求、作业、反馈和升级。</p>
+            <div class="ability-two-col">
+              <div class="section-block">
+                <h4>提炼总结</h4>
+                <ul>
+                  <li>顾客从沙龙或者转介绍来，不用邀约破冰。</li>
+                  <li>一个教练带2个顾客，就是一个幸福训练营，不混合开班。</li>
+                  <li>每天课程之前必须通关，保证幸福教练掌握正确标准。</li>
+                  <li>每天通过提要求、主题训练、作业实践、榜样采访和闭环升级，帮助学员内观行动。</li>
+                </ul>
+              </div>
+              <div class="section-block">
+                <h4>标准原文</h4>
+                <ul>
+                  <li>7天训练营的顾客是从沙龙或者转介绍来的，不用邀约破冰。</li>
+                  <li>一个教练带2个顾客，就是一个幸福训练营，一天可以错开开设多个营，不混合开班。</li>
+                  <li>每天课程之前必须要通关，强化幸福能力交付，保证幸福教练掌握正确的标准。</li>
+                  <li>不配合、不按要求实践的学员，后面再给一次机会下次再参加，2次都不合格者，取消1年内学习资格。</li>
+                  <li>随时随地及时发现榜样，推荐榜样。</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card ability-camp7-review" id="abilityCamp7Review">
+          <div class="band-inner">
+            <p class="eyebrow">能力库</p>
+            <h2>7天训练营复盘</h2>
+            <p>按照原文标准整理关键问题，重点看是否按要求参与、是否完成作业、是否及时反馈和筛选。</p>
+            <div class="section-block">
+              <h4>关键问题</h4>
+              <ul>
+                <li>学员是不是从沙龙或者转介绍筛选来的？有没有跳过筛选？</li>
+                <li>是不是一个教练带2个顾客？有没有混营？</li>
+                <li>每天课程之前有没有通关？教练是否掌握正确标准？</li>
+                <li>学员有没有全程开视频、提前进会议室、按要求参与？</li>
+                <li>作业有没有按时提交？是否具体到对象、场景、原话、反馈和心情？</li>
+                <li>不配合、不按要求实践的学员有没有按标准处理？</li>
+                <li>沙龙和7天训练营搜集来的榜样，是否统一进入一个大群，等待被采访？</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card ability-other" id="abilityOther">
+          <div class="band-inner">
+            <p class="eyebrow">能力库</p>
+            <h2>其他</h2>
+            <p>市场服务123456、总监思维、工具模型放在这里，作为单独能力内容提取。</p>
+            <h3 class="ability-section-title">驿站主市场服务123456（4.0）250903</h3>
+            <div class="framework-grid" id="frameworkGrid"></div>
+            <h3 class="ability-section-title">市场服务思维与分工</h3>
+            <div class="framework-grid" id="thinkingGrid"></div>
+            <h3 class="ability-section-title">工具模型</h3>
+            <div class="tool-grid" id="toolGrid"></div>
+          </div>
+        </section>
+
+        <section class="band legacy-section" id="quickFlows" aria-hidden="true">
+          <div class="band-inner">
+            <div class="entry-grid" id="quickFlowGrid"></div>
+          </div>
+        </section>
+
+        <section class="band legacy-section" aria-hidden="true">
           <div class="band-inner">
             <p class="eyebrow">核心逻辑</p>
             <h2>流程让人相信，行动让人看见。</h2>
@@ -1722,7 +1857,7 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section id="modules">
+        <section class="legacy-section" id="modules" aria-hidden="true">
           <div class="band">
             <div class="band-inner">
               <p class="eyebrow">完整流程手册</p>
@@ -1734,7 +1869,7 @@ const html = `<!doctype html>
           <div class="empty" id="emptyState">没有匹配内容，换一个关键词试试。</div>
         </section>
 
-        <section class="band" id="modelCollection">
+        <section class="band ability-module-card ability-model" id="modelCollection">
           <div class="band-inner">
             <p class="eyebrow">榜样采集标准与流程</p>
             <h2>先激活情感，再按16问一次性采集完整。</h2>
@@ -1747,7 +1882,7 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band" id="scripts">
+        <section class="band legacy-section" id="scripts" aria-hidden="true">
           <div class="band-inner">
             <p class="eyebrow">原文话术库</p>
             <h2>常用话术直接照搬。</h2>
@@ -1756,7 +1891,7 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band" id="toolbox">
+        <section class="band legacy-section" id="toolbox" aria-hidden="true">
           <div class="band-inner">
             <p class="eyebrow">工具与模型</p>
             <h2>模型、表格和原图都放在这里，现场能直接对照。</h2>
@@ -1765,7 +1900,7 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band" id="raw">
+        <section class="band ability-module-card ability-raw" id="raw">
           <div class="band-inner">
             <p class="eyebrow">原文全文</p>
             <h2>完整文稿也在页面里。</h2>
@@ -1797,6 +1932,43 @@ const html = `<!doctype html>
     const collectionQuestions = document.getElementById('collectionQuestions');
     const toolGrid = document.getElementById('toolGrid');
     const rawToc = document.getElementById('rawToc');
+
+    function repairAbilityCopy() {
+      const model = document.getElementById('modelCollection');
+      if (model) {
+        const eyebrow = model.querySelector('.eyebrow');
+        const title = model.querySelector('h2');
+        const intro = model.querySelector('p:not(.eyebrow)');
+        if (eyebrow) eyebrow.textContent = '能力库';
+        if (title) title.textContent = '榜样采访';
+        if (intro) {
+        intro.textContent = '不管是沙龙还是7天训练营，搜集来的榜样都统一进入一个大群，等待被采访。采集不是随便聊天，而是把学员真实改变的场景、时间、细节、心情、结果完整采集出来，形成可传播的案例。';
+        }
+      }
+      replaceList('#abilitySalon .ability-two-col .section-block:nth-child(2) ul', [
+        '严格按照8步标准流程。',
+        '一个开沙龙的人一场沙龙只带2人，两个都是顾客，不允许旁听，只能参与。',
+        '陌生人沙龙结束后面对面建群，方便留作业、收作业、通知下次沙龙；教练也要完成作业，并提交。',
+        '随时随地及时发现榜样，推荐榜样，这个是每一个开沙龙的人的能力。',
+        '突破成长的榜样在一个群，接受榜样采访，进行激活。',
+        '只要是沙龙标准流程里面没有的，不要说，不要做。'
+      ]);
+      replaceList('#abilityCamp7 .ability-two-col .section-block:nth-child(2) ul', [
+        '7天训练营的顾客是从沙龙或者转介绍来的，不用邀约破冰。',
+        '一个教练带2个顾客，就是一个幸福训练营，一天可以错开开设多个营，不混合开班。',
+        '转介绍的顾客，可以直接参加幸福训练营。',
+        '7天幸福训练营受益通过审核的榜样学员，可带沙龙和7天幸福训练营，但不能带21天。',
+        '每天课程之前必须要通关，强化幸福能力交付，保证幸福教练掌握正确的标准。',
+        '突破成长的榜样在一个群，接受榜样采访，进行激活。',
+        '建立榜样群，有突破的榜样及时进群，所有的榜样都在一个群，等待被采访。'
+      ]);
+    }
+
+    function replaceList(selector, lines) {
+      const list = document.querySelector(selector);
+      if (!list) return;
+      list.innerHTML = lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('');
+      }
 
     function normalizeText(value) {
       return String(value || '').toLowerCase().replace(/\\s+/g, '');
@@ -1887,6 +2059,7 @@ const html = `<!doctype html>
             renderStageList('stage-standard', '标准', stage.standards) +
             renderStageScript(stage.script) +
             renderStageList('stage-review', '复盘', stage.review) +
+            renderStageOriginal(stage.original) +
             '<div class="stage-block stage-source"><h4>能力库位置</h4><p>' + safeHtml(stage.source) + '</p></div>' +
           '</div>' +
         '</article>';
@@ -1904,7 +2077,15 @@ const html = `<!doctype html>
       '</p></div>';
     }
 
+    function renderStageOriginal(lines) {
+      if (!lines || !lines.length) return '';
+      return '<div class="stage-block stage-original"><h4>标准原文</h4><ul>' +
+        lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
+      '</ul></div>';
+    }
+
     function renderQuickFlows() {
+      if (!quickFlowGrid) return;
       quickFlowGrid.innerHTML = manual.quickFlows.map((flow) => {
         const searchText = [flow.title, flow.tag, flow.standard, flow.steps.join(' '), flow.keywords || ''].join(' ');
         return '<article class="flow-card" data-search-text="' + safeHtml(searchText) + '">' +
@@ -2086,6 +2267,7 @@ const html = `<!doctype html>
       return cardTitle.trim().slice(0, 42);
     }
 
+    repairAbilityCopy();
     renderMasterFlow();
     renderQuickFlows();
     renderFramework();
