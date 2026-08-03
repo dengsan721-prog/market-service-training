@@ -678,6 +678,12 @@ const masterFlow = [
       '8.作业交付：明确到具体时间点；回家不愿意给家人表达的顾客，要了解清楚原因，给1次机会，仍然拒绝给家人表达的，就取消1年学习资格。',
       '9.突破成长的榜样在一个群，接受榜样采访，进行激活。',
       '10.留作业、收作业标准。',
+      '交作业的标准',
+      '你今天你给哪一个家人表达了，在哪一个场景下用的？',
+      '你当时说了一段什么样的话，你的家人给了你什么样的一个反应或者反馈？',
+      '你又是什么样的心情？',
+      '提交方式：文字语音不限作业。',
+      '提交时间：明天上午8点钟之前。',
       '复制标准：',
       '1.严格按照8步标准流程。',
       '2.复制核心原则：难度越小、内容越少，越容易推广复制。',
@@ -710,13 +716,16 @@ const masterFlow = [
       '效果不理想时，有没有第一时间复盘流程和教练问题？'
     ],
     original: [
+      '若想最高效服务出效果，负责人必须严格按照以下标准：',
+      '心态标准：',
       '7天训练营的顾客是从沙龙或者转介绍来的，不用邀约破冰。',
+      '真知错的学员，当天就能完成作业；假知错的学员，一定会拖延，完不成作业。',
+      '不配合、不按要求实践的学员，后面再给一次机会下次再参加，2次都不合格者，取消1年内学习资格。',
+      '动作标准：',
       '一个教练带2个顾客，就是一个幸福训练营，一天可以错开开设多个营，不混合开班。',
       '转介绍的顾客，可以直接参加幸福训练营。',
       '7天幸福训练营受益通过审核的榜样学员，可带沙龙和7天幸福训练营，但不能带21天。',
       '每天课程之前必须要通关，强化幸福能力交付，保证幸福教练掌握正确的标准。',
-      '真知错的学员，当天就能完成作业；假知错的学员，一定会拖延，完不成作业。',
-      '不配合、不按要求实践的学员，后面再给一次机会下次再参加，2次都不合格者，取消1年内学习资格。',
       '随时随地及时发现榜样，推荐榜样。',
       '每个人训练营的人，必须要准备自己的发心故事，并完整通关。',
       '突破成长的榜样在一个群，接受榜样采访，进行激活。',
@@ -725,6 +734,13 @@ const masterFlow = [
       '2.每天提前5分进会议室。',
       '作业要求：',
       '留作业、收作业。',
+      '交作业的标准',
+      '你今天你给哪一个家人表达了，在哪一个场景下用的？',
+      '你当时说了一段什么样的话，你的家人给了你什么样的一个反应或者反馈？',
+      '你又是什么样的心情？',
+      '提交方式：文字语音不限作业。',
+      '提交时间：明天上午8点钟之前。',
+      '复制标准：',
       '建立榜样群，有突破的榜样及时进群，所有的榜样都在一个群，等待被采访。',
       '通过审核成为幸福教练的，建立幸福教练群，所有幸福教练在一个群。',
       '有事允许请假，人性化管理，放下一期就好了，但是连着两期学习态度不端正，取消学习资格，删除拉黑微信避免被消耗。'
@@ -1203,21 +1219,58 @@ const html = `<!doctype html>
       background: #fff;
       border: 1px solid var(--line);
     }
-    .ability-index {
+    .stage-original-intro {
+      margin: 0 0 12px;
+      color: #1d1d1f;
+      line-height: 1.7;
+      font-weight: 760;
+    }
+    .stage-original-groups {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .stage-original-group {
+      min-width: 0;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #f7f7f8;
+      padding: 14px;
+    }
+    .stage-original-group h5 {
+      margin: 0 0 8px;
+      font-size: 15px;
+    }
+    .stage-original-group ul {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .content-tabs {
       display: flex;
-      flex-wrap: wrap;
+      overflow-x: auto;
       gap: 8px;
       margin-top: 18px;
+      padding-bottom: 2px;
+      scrollbar-width: none;
     }
-    .ability-index a {
+    .content-tabs::-webkit-scrollbar { display: none; }
+    .content-tabs button {
+      flex: 0 0 auto;
       border-radius: 999px;
       border: 1px solid var(--line);
       background: #fff;
       color: #1d1d1f;
       padding: 9px 12px;
-      text-decoration: none;
       font-size: 13px;
       font-weight: 850;
+    }
+    .content-tabs button.active {
+      border-color: rgba(0,113,227,.35);
+      background: rgba(0,113,227,.10);
+      color: var(--blue);
+    }
+    .content-panel[hidden] {
+      display: none !important;
     }
     .ability-two-col {
       display: grid;
@@ -1687,7 +1740,7 @@ const html = `<!doctype html>
         width: auto;
         white-space: nowrap;
       }
-      .logic-grid, .process-map, .entry-grid, .framework-grid, .tool-grid, .guide-grid, .collection-grid, .raw-layout, .ability-two-col { grid-template-columns: 1fr; }
+      .logic-grid, .process-map, .entry-grid, .framework-grid, .tool-grid, .guide-grid, .collection-grid, .raw-layout, .ability-two-col, .stage-original-groups { grid-template-columns: 1fr; }
       .raw-toc { position: static; }
       .module-head { grid-template-columns: 1fr; }
       .top-links { display: none; }
@@ -1721,24 +1774,22 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band ability-library" id="supplementInfo">
+        <section class="band content-library" id="supplementInfo">
           <div class="band-inner">
-            <p class="eyebrow">能力库</p>
-            <h2>能力库｜具体流程与标准</h2>
-            <p>能力库不是主流程。需要哪一项就直接打开哪一项，用完就回到当下服务动作。</p>
-            <div class="ability-index">
-              <a href="#abilitySalon">沙龙</a>
-              <a href="#abilitySalonReview">沙龙复盘</a>
-              <a href="#abilityCamp7">7天训练营</a>
-              <a href="#abilityCamp7Review">7天训练营复盘</a>
-              <a href="#modelCollection">榜样采访</a>
-              <a href="#raw">原文全文</a>
-              <a href="#abilityOther">其他</a>
+            <p class="eyebrow">内容库</p>
+            <h2>内容库|具体流程与标准</h2>
+            <p>内容库不是主流程。需要哪一项就横向切换哪一项，用完回到上面的服务步骤继续执行。</p>
+            <div class="content-tabs" id="contentTabs" role="tablist" aria-label="内容库切换">
+              <button type="button" class="active" data-content-target="abilitySalonReview">沙龙复盘</button>
+              <button type="button" data-content-target="abilityCamp7Review">7天训练营复盘</button>
+              <button type="button" data-content-target="modelCollection">榜样采访</button>
+              <button type="button" data-content-target="raw">原文全文</button>
+              <button type="button" data-content-target="abilityOther">其他</button>
             </div>
           </div>
         </section>
 
-        <section class="band ability-module-card ability-salon" id="abilitySalon">
+        <section class="band ability-module-card ability-salon legacy-section" id="abilitySalon" aria-hidden="true">
           <div class="band-inner">
             <p class="eyebrow">能力库</p>
             <h2>沙龙</h2>
@@ -1765,10 +1816,10 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band ability-module-card ability-salon-review" id="abilitySalonReview">
+        <section class="band ability-module-card ability-salon-review content-panel" id="abilitySalonReview">
           <span id="salonReview" class="anchor-sentinel" aria-hidden="true"></span>
           <div class="band-inner">
-            <p class="eyebrow">能力库</p>
+            <p class="eyebrow">内容库</p>
             <h2>沙龙复盘</h2>
             <p>按照原文标准整理关键问题，活动结束后对照核查。</p>
             <h3 class="ability-section-title">复盘清单</h3>
@@ -1776,7 +1827,7 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band ability-module-card ability-camp7" id="abilityCamp7">
+        <section class="band ability-module-card ability-camp7 legacy-section" id="abilityCamp7" aria-hidden="true">
           <div class="band-inner">
             <p class="eyebrow">能力库</p>
             <h2>7天训练营</h2>
@@ -1805,9 +1856,9 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band ability-module-card ability-camp7-review" id="abilityCamp7Review">
+        <section class="band ability-module-card ability-camp7-review content-panel" id="abilityCamp7Review" hidden>
           <div class="band-inner">
-            <p class="eyebrow">能力库</p>
+            <p class="eyebrow">内容库</p>
             <h2>7天训练营复盘</h2>
             <p>按照原文标准整理关键问题，重点看是否按要求参与、是否完成作业、是否及时反馈和筛选。</p>
             <div class="section-block">
@@ -1825,9 +1876,9 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band ability-module-card ability-other" id="abilityOther">
+        <section class="band ability-module-card ability-other content-panel" id="abilityOther" hidden>
           <div class="band-inner">
-            <p class="eyebrow">能力库</p>
+            <p class="eyebrow">内容库</p>
             <h2>其他</h2>
             <p>市场服务123456、总监思维、工具模型放在这里，作为单独能力内容提取。</p>
             <h3 class="ability-section-title">驿站主市场服务123456（4.0）250903</h3>
@@ -1869,7 +1920,7 @@ const html = `<!doctype html>
           <div class="empty" id="emptyState">没有匹配内容，换一个关键词试试。</div>
         </section>
 
-        <section class="band ability-module-card ability-model" id="modelCollection">
+        <section class="band ability-module-card ability-model content-panel" id="modelCollection" hidden>
           <div class="band-inner">
             <p class="eyebrow">榜样采集标准与流程</p>
             <h2>先激活情感，再按16问一次性采集完整。</h2>
@@ -1900,7 +1951,7 @@ const html = `<!doctype html>
           </div>
         </section>
 
-        <section class="band ability-module-card ability-raw" id="raw">
+        <section class="band ability-module-card ability-raw content-panel" id="raw" hidden>
           <div class="band-inner">
             <p class="eyebrow">原文全文</p>
             <h2>完整文稿也在页面里。</h2>
@@ -1932,6 +1983,7 @@ const html = `<!doctype html>
     const collectionQuestions = document.getElementById('collectionQuestions');
     const toolGrid = document.getElementById('toolGrid');
     const rawToc = document.getElementById('rawToc');
+    const contentTabs = document.getElementById('contentTabs');
 
     function repairAbilityCopy() {
       const model = document.getElementById('modelCollection');
@@ -1939,7 +1991,7 @@ const html = `<!doctype html>
         const eyebrow = model.querySelector('.eyebrow');
         const title = model.querySelector('h2');
         const intro = model.querySelector('p:not(.eyebrow)');
-        if (eyebrow) eyebrow.textContent = '能力库';
+        if (eyebrow) eyebrow.textContent = '内容库';
         if (title) title.textContent = '榜样采访';
         if (intro) {
         intro.textContent = '不管是沙龙还是7天训练营，搜集来的榜样都统一进入一个大群，等待被采访。采集不是随便聊天，而是把学员真实改变的场景、时间、细节、心情、结果完整采集出来，形成可传播的案例。';
@@ -2079,9 +2131,47 @@ const html = `<!doctype html>
 
     function renderStageOriginal(lines) {
       if (!lines || !lines.length) return '';
-      return '<div class="stage-block stage-original"><h4>标准原文</h4><ul>' +
-        lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
-      '</ul></div>';
+      const intro = [];
+      const groups = [];
+      let current = null;
+      lines.forEach((line) => {
+        const text = String(line || '').trim();
+        if (!text) return;
+        if (isOriginalHeading(text)) {
+          current = { title: text.replace(/：$/, ''), lines: [] };
+          groups.push(current);
+          return;
+        }
+        if (current) current.lines.push(text);
+        else intro.push(text);
+      });
+      return '<div class="stage-block stage-original"><h4>标准原文</h4>' +
+        (intro.length ? '<div class="stage-original-intro">' + intro.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' : '') +
+        '<div class="stage-original-groups">' +
+          groups.map((group) => '<div class="stage-original-group"><h5>' + safeHtml(group.title) + '</h5><ul>' +
+            group.lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
+          '</ul></div>').join('') +
+        '</div></div>';
+    }
+
+    function isOriginalHeading(text) {
+      return /^(心态标准|动作标准|复制标准|学习要求|作业要求|交作业的标准|留作业、收作业标准)[：:]?$/.test(text);
+    }
+
+    function initContentTabs() {
+      if (!contentTabs) return;
+      const buttons = [...contentTabs.querySelectorAll('[data-content-target]')];
+      const panels = [...document.querySelectorAll('.content-panel')];
+      function activate(targetId) {
+        buttons.forEach((button) => button.classList.toggle('active', button.dataset.contentTarget === targetId));
+        panels.forEach((panel) => {
+          panel.hidden = panel.id !== targetId;
+        });
+      }
+      buttons.forEach((button) => {
+        button.addEventListener('click', () => activate(button.dataset.contentTarget));
+      });
+      activate(buttons[0]?.dataset.contentTarget || panels[0]?.id);
     }
 
     function renderQuickFlows() {
@@ -2278,6 +2368,7 @@ const html = `<!doctype html>
     renderScripts();
     renderToolbox();
     renderRawManual();
+    initContentTabs();
 
     const observer = new IntersectionObserver((entries) => {
       const active = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
