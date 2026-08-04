@@ -23,18 +23,11 @@ const page = await browser.newPage({
 await page.goto(pageUrl, { waitUntil: 'networkidle' });
 await page.waitForSelector('#workspaceTabs');
 
-const exportLink = await page.$eval('a[href="exports/market-service-manual.docx"]', (link) => ({
-  text: link.textContent.trim(),
-  download: link.getAttribute('download')
-}));
-assert(exportLink.text.includes('导出Word文档'), '页面缺少导出 Word 文档按钮');
-assert(exportLink.download === '幸福学院市场服务手册.docx', '导出文档下载文件名不正确');
-const markdownExportLink = await page.$eval('a[href="exports/market-service-manual.md"]', (link) => ({
-  text: link.textContent.trim(),
-  download: link.getAttribute('download')
-}));
-assert(markdownExportLink.text.includes('导出MD文档'), '页面缺少导出 MD 文档按钮');
-assert(markdownExportLink.download === '幸福学院市场服务手册.md', '导出 MD 下载文件名不正确');
+const visibleExportLinks = await page.locator('a[href="exports/market-service-manual.docx"], a[href="exports/market-service-manual.md"]').count();
+assert(visibleExportLinks === 0, '页面仍显示 Word 或 MD 下载入口');
+
+const activeWorkspaceStyle = await page.$eval('#workspaceTabs button.active', (button) => getComputedStyle(button).backgroundColor);
+assert(activeWorkspaceStyle !== 'rgb(29, 29, 31)', '大流程/镜子库切换仍是黑色色块');
 
 await page.locator('[data-master-flow-index="2"]').click();
 await page.waitForTimeout(100);
@@ -50,7 +43,8 @@ const campOriginal = await page.$eval('.stage-original', (root) => {
     groupTitles: groups.map((group) => group.title),
     groups,
     totalOrders: groups.reduce((sum, group) => sum + group.orders.length, 0),
-    hasBrokenZero: groups.some((group) => group.orders.includes('0.'))
+    hasBrokenZero: groups.some((group) => group.orders.includes('0.')),
+    copyButtonCount: root.querySelectorAll('[data-copy-text]').length
   };
 });
 
@@ -61,15 +55,34 @@ assert(campOriginal.groupTitles.includes('学习要求'), '7天原文缺少学�
 assert(campOriginal.groupTitles.includes('作业要求'), '7天原文缺少作业要求分组');
 assert(campOriginal.totalOrders >= 15, `7天原文序号过少：${campOriginal.totalOrders}`);
 assert(!campOriginal.hasBrokenZero, '7天原文出现错误的 0. 序号');
+assert(campOriginal.copyButtonCount === 0, '大流程标准原文区域仍显示复制按钮');
 
 await page.locator('[data-workspace-target="mirrorLibrary"]').click();
 await page.waitForTimeout(100);
 
 const tabLabels = await page.$$eval('#contentTabs button', (buttons) => buttons.map((button) => button.textContent.trim()));
+assert(JSON.stringify(tabLabels) === JSON.stringify([
+  '沙龙',
+  '沙龙复盘',
+  '7天训练营',
+  '7天训练营复盘',
+  '榜样采访',
+  '榜样选拔与教练招募',
+  '人才培养营',
+  '市场服务',
+  '总监思维',
+  '工具模型'
+]), `镜子库 tab 顺序不正确：${tabLabels.join(' / ')}`);
 assert(tabLabels.includes('榜样选拔与教练招募'), '镜子库缺少“榜样选拔与教练招募”tab');
 assert(tabLabels.includes('市场服务'), '镜子库缺少“市场服务”tab');
 assert(!tabLabels.includes('其他原文'), '镜子库仍存在“其他原文”tab');
 assert(!tabLabels.includes('123456'), '镜子库仍存在“123456”tab');
+assert(!tabLabels.includes('沙龙模块'), '镜子库仍显示“沙龙模块”tab');
+assert(!tabLabels.includes('7天训练营模块'), '镜子库仍显示“7天训练营模块”tab');
+assert(!tabLabels.includes('幸福早课人才培养营模块'), '镜子库仍显示“幸福早课人才培养营模块”tab');
+
+const activeContentStyle = await page.$eval('#contentTabs button.active', (button) => getComputedStyle(button).backgroundColor);
+assert(activeContentStyle !== 'rgb(29, 29, 31)', '镜子库内容切换仍是黑色色块');
 
 await page.locator('[data-content-target="abilitySalonReview"]').click();
 const salonReview = await page.$eval('#abilitySalonReview', (root) => {
@@ -110,6 +123,8 @@ const rawSalonStyle = await page.$eval('#rawSalon .raw-module-card', (card) => {
 });
 assert(rawSalonStyle.titleBackground !== 'rgba(0, 0, 0, 0)', '沙龙模块标题没有单独色块');
 assert(rawSalonStyle.titleFontSize !== rawSalonStyle.lineFontSize, '沙龙模块标题和正文字号没有区分');
+const rawSalonCopies = await page.locator('#rawSalon .raw-module-card [data-copy-text]').count();
+assert(rawSalonCopies >= 3, '镜子库沙龙内容模块缺少复制按钮');
 
 for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
   await page.locator(`[data-content-target="${target}"]`).click();
@@ -129,6 +144,8 @@ for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
       ));
   });
   assert(wrapperTitles.length === 0, `${target} 仍显示原文外壳标题：${wrapperTitles.join(' / ')}`);
+  const copyCount = await page.locator(`#${target} .raw-module-card [data-copy-text]`).count();
+  assert(copyCount >= 1, `${target} 内容模块缺少复制按钮`);
 }
 
 await page.locator('[data-content-target="abilityThinking"]').click();

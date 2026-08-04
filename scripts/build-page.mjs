@@ -1356,8 +1356,8 @@ const html = `<!doctype html>
     }
     .workspace-tabs button.active {
       color: #fff;
-      background: #1d1d1f;
-      box-shadow: 0 10px 24px rgba(0,0,0,.14);
+      background: linear-gradient(135deg, #0071e3, #40a6ff);
+      box-shadow: 0 10px 24px rgba(0,113,227,.20);
     }
     .workspace-panel[hidden] {
       display: none !important;
@@ -1444,8 +1444,8 @@ const html = `<!doctype html>
     }
     .main-flow-tabs button.active {
       color: #fff;
-      background: var(--ink);
-      box-shadow: 0 10px 24px rgba(0,0,0,.16);
+      background: linear-gradient(135deg, #0071e3, #40a6ff);
+      box-shadow: 0 10px 24px rgba(0,113,227,.20);
     }
     .flow-stage-panel {
       margin-top: 16px;
@@ -1584,6 +1584,9 @@ const html = `<!doctype html>
     .mini-copy {
       padding: 6px 8px;
     }
+    .raw-copy-btn {
+      align-self: center;
+    }
     .content-tabs {
       display: flex;
       overflow-x: auto;
@@ -1640,7 +1643,7 @@ const html = `<!doctype html>
     }
     .raw-module-head {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr);
+      grid-template-columns: auto minmax(0, 1fr) auto;
       gap: 8px;
       align-items: start;
       border-radius: 10px;
@@ -2254,7 +2257,7 @@ const html = `<!doctype html>
         padding: 8px 9px;
       }
       .raw-module-head {
-        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-columns: auto minmax(0, 1fr) auto;
       }
       .raw-line span:last-child,
       .raw-module-card > p {
@@ -2308,10 +2311,6 @@ const html = `<!doctype html>
       <img class="hero-mini-logo" src="assets/logo.png" alt="幸福驿站">
       <h1>幸福学院市场服务手册</h1>
       <p class="hero-copy">我不相信人，我只相信流程。</p>
-      <div class="hero-actions">
-        <a class="pill-link" href="exports/market-service-manual.docx" download="幸福学院市场服务手册.docx">导出Word文档</a>
-        <a class="ghost-link" href="exports/market-service-manual.md" download="幸福学院市场服务手册.md">导出MD文档</a>
-      </div>
     </section>
 
     <section class="page-shell">
@@ -2335,13 +2334,13 @@ const html = `<!doctype html>
             <h2>镜子库|用流程标准照镜子</h2>
             <p>镜子库是大流程某一个环节的具体操作。需要哪一步，就切到对应模块，对照流程标准复盘自己有没有按要求执行。</p>
             <div class="content-tabs" id="contentTabs" role="tablist" aria-label="内容库切换">
-              <button type="button" class="active" data-content-target="abilitySalonReview">沙龙复盘</button>
+              <button type="button" class="active" data-content-target="rawSalon">沙龙</button>
+              <button type="button" data-content-target="abilitySalonReview">沙龙复盘</button>
+              <button type="button" data-content-target="rawCamp7">7天训练营</button>
               <button type="button" data-content-target="abilityCamp7Review">7天训练营复盘</button>
               <button type="button" data-content-target="modelCollection">榜样采访</button>
-              <button type="button" data-content-target="rawSalon">沙龙模块</button>
-              <button type="button" data-content-target="rawCamp7">7天训练营模块</button>
-              <button type="button" data-content-target="rawTalent">幸福早课人才培养营模块</button>
               <button type="button" data-content-target="rawOther">榜样选拔与教练招募</button>
+              <button type="button" data-content-target="rawTalent">人才培养营</button>
               <button type="button" data-content-target="abilityFramework">市场服务</button>
               <button type="button" data-content-target="abilityThinking">总监思维</button>
               <button type="button" data-content-target="abilityTools">工具模型</button>
@@ -2454,7 +2453,7 @@ const html = `<!doctype html>
           <div class="band-inner">
             <div class="mirror-raw-head">
               <div>
-                <h2>沙龙模块</h2>
+                <h2>沙龙</h2>
                 <p>按沙龙原文拆成内容模块，标题加粗，内容保留原话和原序号。</p>
               </div>
             </div>
@@ -2466,7 +2465,7 @@ const html = `<!doctype html>
           <div class="band-inner">
             <div class="mirror-raw-head">
               <div>
-                <h2>7天训练营模块</h2>
+                <h2>7天训练营</h2>
                 <p>包含市场培训手册里的7天训练营标准，以及《7幸福训练营》复制标准流程。</p>
               </div>
             </div>
@@ -2478,7 +2477,7 @@ const html = `<!doctype html>
           <div class="band-inner">
             <div class="mirror-raw-head">
               <div>
-                <h2>幸福早课人才培养营模块</h2>
+                <h2>人才培养营</h2>
                 <p>按照人才培养营原文呈现流程与标准，方便培训、通关和复盘。</p>
               </div>
             </div>
@@ -2798,10 +2797,10 @@ const html = `<!doctype html>
         if (current) current.lines.push(text);
         else intro.push(text);
       });
-      return '<div class="stage-block stage-original"><h4><span>标准原文</span>' + compactCopyButton(lines.join('\\n')) + '</h4>' +
+      return '<div class="stage-block stage-original"><h4><span>标准原文</span></h4>' +
         (intro.length ? '<div class="stage-original-intro">' + intro.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' : '') +
         '<div class="stage-original-groups">' +
-          groups.map((group) => '<div class="stage-original-group"><h5><span>' + safeHtml(group.title) + '</span>' + compactCopyButton([group.title, ...group.lines].join('\\n')) + '</h5><div class="stage-original-line-list">' +
+          groups.map((group) => '<div class="stage-original-group"><h5><span>' + safeHtml(group.title) + '</span></h5><div class="stage-original-line-list">' +
             group.lines.map((line) => renderNumberedTextLine(line)).join('') +
           '</div></div>').join('') +
         '</div></div>';
@@ -2991,6 +2990,7 @@ const html = `<!doctype html>
             '<div class="raw-module-head">' +
               '<span class="raw-order' + (block.order ? '' : ' empty') + '">' + safeHtml(block.order) + '</span>' +
               '<h3 class="raw-module-title">' + safeHtml(displayTitle || ('内容模块 ' + (index + 1))) + '</h3>' +
+              compactCopyButton(moduleText, 'mini-copy raw-copy-btn') +
             '</div>' +
             renderRawBlockLines(displayLines) +
           '</article>';
