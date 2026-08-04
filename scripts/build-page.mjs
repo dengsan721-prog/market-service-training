@@ -2787,11 +2787,30 @@ const html = `<!doctype html>
             renderStageList('stage-standard', '标准', stage.standards) +
             renderStageScript(stage.script) +
             renderStageList('stage-review', '复盘', stage.review) +
-            renderStageOriginal(stage.original) +
+            renderStageOriginal(getStageOriginalLines(stage)) +
             '<div class="stage-block stage-source"><h4><span>内容库位置</span></h4><p>' + safeHtml(stage.source.replace('对应能力', '对应内容')) + '</p></div>' +
           '</div>' +
         '</article>';
       bindCompactCopy(flowStagePanel);
+    }
+
+    function getStageOriginalLines(stage) {
+      const lines = stage.original || [];
+      if (stage.number !== '03') return lines;
+      const skipHeadings = new Set(['学习要求', '作业要求']);
+      const filtered = [];
+      let skipping = false;
+      lines.forEach((line) => {
+        const text = String(line || '').trim();
+        const heading = text.replace(/[：:]$/, '');
+        if (isOriginalHeading(text)) {
+          skipping = skipHeadings.has(heading);
+          if (!skipping) filtered.push(line);
+          return;
+        }
+        if (!skipping) filtered.push(line);
+      });
+      return filtered;
     }
 
     function renderStageList(className, title, lines) {

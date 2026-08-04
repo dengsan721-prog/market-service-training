@@ -51,9 +51,9 @@ const campOriginal = await page.$eval('.stage-original', (root) => {
 assert(campOriginal.groupTitles.includes('心态标准'), '7天原文缺少心态标准分组');
 assert(campOriginal.groupTitles.includes('动作标准'), '7天原文缺少动作标准分组');
 assert(campOriginal.groupTitles.includes('复制标准'), '7天原文缺少复制标准分组');
-assert(campOriginal.groupTitles.includes('学习要求'), '7天原文缺少学习要求分组');
-assert(campOriginal.groupTitles.includes('作业要求'), '7天原文缺少作业要求分组');
-assert(campOriginal.totalOrders >= 15, `7天原文序号过少：${campOriginal.totalOrders}`);
+assert(!campOriginal.groupTitles.includes('学习要求'), '大流程7天原文仍显示学习要求分组');
+assert(!campOriginal.groupTitles.includes('作业要求'), '大流程7天原文仍显示作业要求分组');
+assert(campOriginal.totalOrders >= 13, `7天原文序号过少：${campOriginal.totalOrders}`);
 assert(!campOriginal.hasBrokenZero, '7天原文出现错误的 0. 序号');
 assert(campOriginal.copyButtonCount >= campOriginal.groupTitles.length + 1, '大流程标准原文区域缺少复制按钮');
 const stageSourceCopyCount = await page.locator('.stage-source [data-copy-text]').count();
