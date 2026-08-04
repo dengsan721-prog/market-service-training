@@ -974,7 +974,201 @@ const toolbox = [
   }
 ];
 
-const data = { modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, flowGuide, masterFlow, modelCollection, toolbox };
+const camp7Review = [
+  '学员是不是从沙龙或者转介绍筛选来的？有没有跳过筛选？',
+  '是不是一个教练带2个顾客？有没有混营？',
+  '每天课程之前有没有通关？教练是否掌握正确标准？',
+  '学员有没有全程开视频、提前进会议室、按要求参与？',
+  '作业有没有按时提交？是否具体到对象、场景、原话、反馈和心情？',
+  '不配合、不按要求实践的学员有没有按标准处理？',
+  '沙龙和7天训练营搜集来的榜样，是否统一进入一个大群，等待被采访？'
+];
+
+function stripMarkdownText(value) {
+  return String(value || '')
+    .replace(/\r/g, '')
+    .trim()
+    .replace(/^\s*>\s*/, '')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .trim();
+}
+
+function isMarkdownHeading(line, level, title) {
+  return String(line || '').trim() === `${'#'.repeat(level)} ${title}`;
+}
+
+function splitMarkdownSections(lines, level) {
+  const marker = '#'.repeat(level);
+  const sections = [];
+  let current = null;
+  lines.forEach((line) => {
+    const text = String(line || '').trim();
+    if (text.startsWith(marker + ' ') && !text.startsWith(marker + '#')) {
+      if (current) sections.push(current);
+      current = { title: stripMarkdownText(text.slice(level).trim()), lines: [] };
+      return;
+    }
+    if (current) current.lines.push(line);
+  });
+  if (current) sections.push(current);
+  return sections;
+}
+
+function getMarkdownRange(lines, startTitle, endTitle) {
+  const start = lines.findIndex((line) => isMarkdownHeading(line, 1, startTitle));
+  if (start < 0) return [];
+  const end = endTitle
+    ? lines.findIndex((line, index) => index > start && isMarkdownHeading(line, 1, endTitle))
+    : -1;
+  return lines.slice(start + 1, end > start ? end : undefined);
+}
+
+function parseMarkdownList(lines, { keepMarkers = false } = {}) {
+  const items = [];
+  lines.forEach((line) => {
+    const text = stripMarkdownText(line);
+    if (!text || text === '---') return;
+    const ordered = text.match(/^([0-9]{1,3}[.、）)]|[一二三四五六七八九十]+[、）)]|第[0-9一二三四五六七八九十]+[天步])\s*(.+)$/);
+    if (ordered) {
+      items.push(keepMarkers ? text : ordered[2].trim());
+      return;
+    }
+    const bullet = text.match(/^[-*]\s+(.+)$/);
+    if (bullet) {
+      items.push(keepMarkers ? `* ${bullet[1].trim()}` : bullet[1].trim());
+      return;
+    }
+    items.push(text);
+  });
+  return items;
+}
+
+function parseStageMarkdown(section, fallback) {
+  const titleMatch = section.title.match(/^([0-9]{1,2})[.、]\s*(.+)$/);
+  const stage = { ...fallback };
+  if (titleMatch) {
+    stage.number = titleMatch[1];
+    stage.title = titleMatch[2].trim();
+  }
+
+  const subSections = splitMarkdownSections(section.lines, 3);
+  const beforeFirstSub = section.lines.slice(0, section.lines.findIndex((line) => String(line || '').trim().startsWith('### ')) > -1
+    ? section.lines.findIndex((line) => String(line || '').trim().startsWith('### '))
+    : section.lines.length);
+  beforeFirstSub.forEach((line) => {
+    const text = stripMarkdownText(line);
+    const meta = text.match(/^(入口\/定位|目标|查找来源)：\s*(.*)$/);
+    if (!meta) return;
+    if (meta[1] === '入口/定位') stage.tag = meta[2].trim();
+    if (meta[1] === '目标') stage.goal = meta[2].trim();
+    if (meta[1] === '查找来源') stage.source = meta[2].trim();
+  });
+
+  const sectionMap = new Map(subSections.map((item) => [item.title, item.lines]));
+  if (sectionMap.has('流程步骤')) stage.process = parseMarkdownList(sectionMap.get('流程步骤'));
+  if (sectionMap.has('执行标准')) stage.standards = parseMarkdownList(sectionMap.get('执行标准'));
+  if (sectionMap.has('话术原文')) stage.script = parseMarkdownList(sectionMap.get('话术原文'), { keepMarkers: true });
+  if (sectionMap.has('复盘问题')) stage.review = parseMarkdownList(sectionMap.get('复盘问题'));
+  if (sectionMap.has('标准原文')) stage.original = parseMarkdownList(sectionMap.get('标准原文'), { keepMarkers: true });
+  return stage;
+}
+
+function parseModelCollectionMarkdown(lines, fallback) {
+  const sections = splitMarkdownSections(lines, 3);
+  const steps = [];
+  let questions = fallback.questions || [];
+  sections.forEach((section) => {
+    if (section.title === '榜样采访问句模板') {
+      questions = parseMarkdownList(section.lines);
+      return;
+    }
+    const titleMatch = section.title.match(/^[0-9]{1,2}[.、]\s*(.+)$/);
+    const bodyLines = [];
+    let purpose = '';
+    section.lines.forEach((line) => {
+      const text = stripMarkdownText(line);
+      if (!text) return;
+      const purposeMatch = text.match(/^核心目的：\s*(.+)$/);
+      if (purposeMatch) purpose = purposeMatch[1].trim();
+      else bodyLines.push(text);
+    });
+    steps.push({
+      title: titleMatch ? titleMatch[1].trim() : section.title,
+      body: bodyLines.join('\n'),
+      purpose
+    });
+  });
+  return {
+    ...fallback,
+    steps: steps.length ? steps : fallback.steps,
+    questions
+  };
+}
+
+function parseFrameworkMarkdown(lines, fallback, numbered = true) {
+  const sections = splitMarkdownSections(lines, 3);
+  const parsed = sections.map((section, index) => {
+    const titleMatch = section.title.match(/^([0-9]{1,2})[.、]\s*(.+)$/);
+    return {
+      number: titleMatch ? titleMatch[1] : String(index + 1),
+      title: titleMatch ? titleMatch[2].trim() : section.title,
+      body: parseMarkdownList(section.lines, { keepMarkers: true }).join('\n')
+    };
+  });
+  if (!numbered) {
+    return parsed.map(({ title, body }) => ({ title, body }));
+  }
+  return parsed.length ? parsed : fallback;
+}
+
+function parseRawMarkdownSources(lines, fallback) {
+  const sections = splitMarkdownSections(lines, 2);
+  return fallback.map((source) => {
+    const section = sections.find((item) => item.title === source.title);
+    if (!section) return source;
+    return {
+      ...source,
+      content: parseMarkdownList(section.lines, { keepMarkers: true }).join('\n')
+    };
+  });
+}
+
+function applyMarkdownOverrides(baseData) {
+  const markdownFile = path.join(repoRoot, 'exports', 'market-service-manual.md');
+  if (!fs.existsSync(markdownFile)) return baseData;
+  const markdownLines = fs.readFileSync(markdownFile, 'utf8').replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
+
+  const flowRange = getMarkdownRange(markdownLines, '大流程｜从陌生人到合作伙伴', '镜子库｜用流程标准照镜子');
+  const flowSections = splitMarkdownSections(flowRange, 2);
+  const flowByNumber = new Map(flowSections.map((section) => {
+    const match = section.title.match(/^([0-9]{1,2})[.、]/);
+    return [match ? match[1] : section.title, section];
+  }));
+  const nextMasterFlow = baseData.masterFlow.map((stage) => {
+    const section = flowByNumber.get(stage.number);
+    return section ? parseStageMarkdown(section, stage) : stage;
+  });
+
+  const mirrorRange = getMarkdownRange(markdownLines, '镜子库｜用流程标准照镜子', '原文模块');
+  const mirrorSections = splitMarkdownSections(mirrorRange, 2);
+  const mirrorMap = new Map(mirrorSections.map((section) => [section.title, section.lines]));
+
+  const rawRange = getMarkdownRange(markdownLines, '原文模块');
+
+  return {
+    ...baseData,
+    masterFlow: nextMasterFlow,
+    salonReview: mirrorMap.has('沙龙复盘') ? parseMarkdownList(mirrorMap.get('沙龙复盘')) : baseData.salonReview,
+    camp7Review: mirrorMap.has('7天训练营复盘') ? parseMarkdownList(mirrorMap.get('7天训练营复盘')) : baseData.camp7Review,
+    modelCollection: mirrorMap.has('榜样采访') ? parseModelCollectionMarkdown(mirrorMap.get('榜样采访'), baseData.modelCollection) : baseData.modelCollection,
+    serviceFramework: mirrorMap.has('市场服务') ? parseFrameworkMarkdown(mirrorMap.get('市场服务'), baseData.serviceFramework) : baseData.serviceFramework,
+    directorThinking: mirrorMap.has('总监思维') ? parseFrameworkMarkdown(mirrorMap.get('总监思维'), baseData.directorThinking, false) : baseData.directorThinking,
+    rawMirrorSources: rawRange.length ? parseRawMarkdownSources(rawRange, baseData.rawMirrorSources) : baseData.rawMirrorSources
+  };
+}
+
+const data = applyMarkdownOverrides({ modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, camp7Review, flowGuide, masterFlow, modelCollection, toolbox });
 
 function escapeHtml(value) {
   return String(value)
@@ -2227,15 +2421,7 @@ const html = `<!doctype html>
             <p>按照原文标准整理关键问题，重点看是否按要求参与、是否完成作业、是否及时反馈和筛选。</p>
             <div class="section-block">
               <h4>关键问题</h4>
-              <ol class="review-list">
-                <li>学员是不是从沙龙或者转介绍筛选来的？有没有跳过筛选？</li>
-                <li>是不是一个教练带2个顾客？有没有混营？</li>
-                <li>每天课程之前有没有通关？教练是否掌握正确标准？</li>
-                <li>学员有没有全程开视频、提前进会议室、按要求参与？</li>
-                <li>作业有没有按时提交？是否具体到对象、场景、原话、反馈和心情？</li>
-                <li>不配合、不按要求实践的学员有没有按标准处理？</li>
-                <li>沙龙和7天训练营搜集来的榜样，是否统一进入一个大群，等待被采访？</li>
-              </ol>
+              <ol class="review-list" id="camp7ReviewList"></ol>
             </div>
           </div>
         </section>
@@ -2685,6 +2871,12 @@ const html = `<!doctype html>
       reviewList.innerHTML = manual.salonReview.map((item) => (
         '<li data-search-text="' + safeHtml(item) + '">' + safeHtml(item) + '</li>'
       )).join('');
+      const camp7ReviewList = document.getElementById('camp7ReviewList');
+      if (camp7ReviewList) {
+        camp7ReviewList.innerHTML = (manual.camp7Review || []).map((item) => (
+          '<li data-search-text="' + safeHtml(item) + '">' + safeHtml(item) + '</li>'
+        )).join('');
+      }
     }
 
     function renderModelCollection() {
