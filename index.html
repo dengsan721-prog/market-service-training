@@ -1582,7 +1582,7 @@
             renderStageScript(stage.script) +
             renderStageList('stage-review', '复盘', stage.review) +
             renderStageOriginal(stage.original) +
-            '<div class="stage-block stage-source"><h4><span>内容库位置</span>' + compactCopyButton(stage.source.replace('对应能力', '对应内容')) + '</h4><p>' + safeHtml(stage.source.replace('对应能力', '对应内容')) + '</p></div>' +
+            '<div class="stage-block stage-source"><h4><span>内容库位置</span></h4><p>' + safeHtml(stage.source.replace('对应能力', '对应内容')) + '</p></div>' +
           '</div>' +
         '</article>';
       bindCompactCopy(flowStagePanel);

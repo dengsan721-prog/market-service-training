@@ -56,6 +56,8 @@ assert(campOriginal.groupTitles.includes('作业要求'), '7天原文缺少作�
 assert(campOriginal.totalOrders >= 15, `7天原文序号过少：${campOriginal.totalOrders}`);
 assert(!campOriginal.hasBrokenZero, '7天原文出现错误的 0. 序号');
 assert(campOriginal.copyButtonCount === 0, '大流程标准原文区域仍显示复制按钮');
+const stageSourceCopyCount = await page.locator('.stage-source [data-copy-text]').count();
+assert(stageSourceCopyCount === 0, '大流程内容库位置仍显示复制按钮');
 
 await page.locator('[data-workspace-target="mirrorLibrary"]').click();
 await page.waitForTimeout(100);
