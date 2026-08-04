@@ -1849,7 +1849,7 @@
         const blocks = buildRawMirrorBlocks(lines, source.title, source.id);
         target.innerHTML = blocks.map((block, index) => {
           const displayTitle = simplifyRawBlockTitle(block.title, block.lines);
-          const displayLines = block.lines.length ? block.lines : [block.title];
+          const displayLines = getRawDisplayLines(source.id, displayTitle, block.lines.length ? block.lines : [block.title]);
           const moduleText = [block.order ? block.order + ' ' + displayTitle : displayTitle, ...displayLines].join('\n');
           const copyMarkup = shouldHideRawCopy(displayTitle, block.title, displayLines)
             ? ''
@@ -1877,9 +1877,21 @@
       return false;
     }
 
+    function getRawDisplayLines(sourceId, displayTitle, lines) {
+      if (sourceId === 'rawSalon' && String(displayTitle || '').includes('注意事项')) {
+        return [
+          '1. 如果对方没有回应，还是重新回到第一步',
+          '激活，连续两次、三次没有激活，今天的沟通暂停。',
+          '2. 如时机场合不对，直接暂停。'
+        ];
+      }
+      return lines;
+    }
+
     function simplifyRawBlockTitle(title, lines) {
       const text = String(title || '').trim();
       if (!text) return '';
+      if (text.startsWith('💕')) return text.length > 22 ? text.slice(0, 20) + '…' : text;
       if (!lines.length && text.length > 18) return '说明';
       if (text.includes('流程与标准')) return '流程标准';
       if (text.includes('若想最高效')) return '标准说明';
@@ -1906,7 +1918,18 @@
         current.lines.push(line);
       });
       if (current) blocks.push(current);
-      return blocks.filter((block) => block.title || block.lines.length);
+      return blocks.filter((block) => (
+        (block.title || block.lines.length) &&
+        !isEmptyWarningBlock(block)
+      ));
+    }
+
+    function isEmptyWarningBlock(block) {
+      const title = String(block.title || '').trim();
+      const meaningfulLines = (block.lines || [])
+        .map((line) => String(line || '').trim())
+        .filter((line) => line && line !== '⚠️');
+      return title === '⚠️' && meaningfulLines.length === 0;
     }
 
     function isSourceWrapperLine(line, sourceTitle) {
@@ -1948,8 +1971,9 @@
         if (/^(破冰|发心|热场|提要求|主题|分享|采访|闭环|榜样采访)$/.test(title)) return false;
         return text.length <= 54 && /^([一二三四五六七八九十]+、|[（(]?[一二三四五六七八九十]+[）)]|第[0-9一二三四五六七八九十]+天|正式|导入|🌈|📚|✅[0-9]?|⚠)/.test(text);
       }
+      if (sourceId === 'rawSalon' && /^💕/.test(text)) return true;
       if (/^(破冰|发心|热场|提要求|主题|分享|采访|闭环|榜样采访)$/.test(title)) return true;
-      return text.length <= 54 && /^([一二三四五六七八九十]+、|[（(]?[一二三四五六七八九十]+[）)]|第[0-9一二三四五六七八九十]+天|正式|导入|🌈|📚|✅[0-9]?|⚠)/.test(text);
+      return text.length <= 54 && /^([一二三四五六七八九十]+、|[（(]?[一二三四五六七八九十]+[）)]|第[0-9一二三四五六七八九十]+天|正式|导入|🌈|📚|✅[0-9]?|⚠|💕)/.test(text);
     }
 
     function renderRawBlockLines(lines) {

@@ -132,18 +132,37 @@ assert(rawSalonStyle.titleBackground !== 'rgba(0, 0, 0, 0)', '沙龙模块标题
 assert(rawSalonStyle.titleFontSize !== rawSalonStyle.lineFontSize, '沙龙模块标题和正文字号没有区分');
 const rawSalonCopyStats = await page.$eval('#rawSalon', (root) => {
   const buttons = [...root.querySelectorAll('.raw-module-card [data-copy-text]')];
+  const titles = [...root.querySelectorAll('.raw-module-title')].map((node) => node.textContent.trim());
   return {
     total: buttons.length,
+    titles,
     noCopyTitles: [...root.querySelectorAll('.raw-module-card')]
       .filter((card) => !card.querySelector('[data-copy-text]'))
       .map((card) => card.querySelector('.raw-module-title')?.textContent.trim() || '')
   };
 });
 assert(rawSalonCopyStats.total >= 3, '镜子库沙龙可复制原文卡片过少');
+assert(!rawSalonCopyStats.titles.includes('⚠️'), '镜子库沙龙仍显示空警告卡片');
+assert(rawSalonCopyStats.titles.some((title) => title.includes('注意事项')), '镜子库沙龙误删注意事项卡片');
 assert(rawSalonCopyStats.noCopyTitles.some((title) => title.includes('说明')), '截图中的说明卡片复制按钮没有去掉');
 assert(rawSalonCopyStats.noCopyTitles.some((title) => title.includes('文字激活邀约公式与案例')), '截图中的文字激活卡片复制按钮没有去掉');
 const rawSalonLineCopies = await page.locator('#rawSalon .raw-line [data-copy-text]').count();
 assert(rawSalonLineCopies === 0, '镜子库沙龙仍有行级复制按钮');
+const salonNotice = await page.$eval('#rawSalon', (root) => {
+  const noticeCard = [...root.querySelectorAll('.raw-module-card')]
+    .find((card) => card.querySelector('.raw-module-title')?.textContent.includes('注意事项'));
+  return {
+    lines: noticeCard ? [...noticeCard.querySelectorAll('.raw-line span:last-child')].map((node) => node.textContent.trim()) : [],
+    hasTalkPurposeCard: [...root.querySelectorAll('.raw-module-title')]
+      .some((node) => node.textContent.includes('讲发心'))
+  };
+});
+assert(JSON.stringify(salonNotice.lines) === JSON.stringify([
+  '如果对方没有回应，还是重新回到第一步',
+  '激活，连续两次、三次没有激活，今天的沟通暂停。',
+  '如时机场合不对，直接暂停。'
+]), `沙龙注意事项内容不正确：${salonNotice.lines.join(' / ')}`);
+assert(salonNotice.hasTalkPurposeCard, '沙龙讲发心内容没有独立成模块');
 
 for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
   await page.locator(`[data-content-target="${target}"]`).click();
