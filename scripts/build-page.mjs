@@ -2981,7 +2981,7 @@ const html = `<!doctype html>
         const lines = splitDisplayLines(source.content)
           .map((line) => line.trim())
           .filter(Boolean);
-        const blocks = buildRawMirrorBlocks(lines, source.title);
+        const blocks = buildRawMirrorBlocks(lines, source.title, source.id);
         target.innerHTML = blocks.map((block, index) => {
           const displayTitle = simplifyRawBlockTitle(block.title, block.lines);
           const displayLines = block.lines.length ? block.lines : [block.title];
@@ -3008,13 +3008,13 @@ const html = `<!doctype html>
       return text;
     }
 
-    function buildRawMirrorBlocks(lines, sourceTitle) {
+    function buildRawMirrorBlocks(lines, sourceTitle, sourceId = '') {
       const blocks = [];
       let current = null;
       lines.forEach((line) => {
         if (isSourceWrapperLine(line, sourceTitle)) return;
         const parsed = parseRawOrder(line);
-        const startsBlock = isRawBlockHeading(line) || !current;
+        const startsBlock = isRawBlockHeading(line, sourceTitle, sourceId) || !current;
         if (startsBlock) {
           if (current) blocks.push(current);
           current = {
@@ -3051,11 +3051,23 @@ const html = `<!doctype html>
       ));
     }
 
-    function isRawBlockHeading(line) {
+    function isRawBlockHeading(line, sourceTitle = '', sourceId = '') {
       const text = String(line || '').trim();
       const parsed = parseRawOrder(text);
       const title = parsed.text || text;
       if (/^(心态标准|动作标准|学习要求|作业要求|复制标准)$/.test(title)) return true;
+      if (sourceId === 'rawCamp7' || sourceTitle.includes('7天训练营')) {
+        if (/^(晚上分享标准|抢到的分享标准|每天实战作业标准)/.test(title)) return true;
+        if (/^导入/.test(text)) return true;
+        if (/^(第[0-9一二三四五六七八九十]+天|正式(学习)?训练第[0-9一二三四五六七八九十]+天)/.test(text)) return true;
+        if (/^(破冰|发心|热场|提要求|主题|分享|采访|闭环|榜样采访|从学会|互动游戏)/.test(title)) return false;
+        if (title.includes('从学会') || title.includes('互动游戏')) return false;
+        return text.length <= 54 && /^([（(]?[一二三四五六七八九十]+[）)]|⚠)/.test(text);
+      }
+      if (sourceId === 'rawOther' || sourceTitle.includes('榜样选拔与教练招募')) {
+        if (/^(破冰|发心|热场|提要求|主题|分享|采访|闭环|榜样采访)$/.test(title)) return false;
+        return text.length <= 54 && /^([一二三四五六七八九十]+、|[（(]?[一二三四五六七八九十]+[）)]|第[0-9一二三四五六七八九十]+天|正式|导入|🌈|📚|✅[0-9]?|⚠)/.test(text);
+      }
       if (/^(破冰|发心|热场|提要求|主题|分享|采访|闭环|榜样采访)$/.test(title)) return true;
       return text.length <= 54 && /^([一二三四五六七八九十]+、|[（(]?[一二三四五六七八九十]+[）)]|第[0-9一二三四五六七八九十]+天|正式|导入|🌈|📚|✅[0-9]?|⚠)/.test(text);
     }

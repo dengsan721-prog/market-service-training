@@ -127,6 +127,8 @@ assert(rawSalonStyle.titleBackground !== 'rgba(0, 0, 0, 0)', '沙龙模块标题
 assert(rawSalonStyle.titleFontSize !== rawSalonStyle.lineFontSize, '沙龙模块标题和正文字号没有区分');
 const rawSalonCopies = await page.locator('#rawSalon .raw-module-card [data-copy-text]').count();
 assert(rawSalonCopies >= 3, '镜子库沙龙内容模块缺少复制按钮');
+const rawSalonLineCopies = await page.locator('#rawSalon .raw-line [data-copy-text]').count();
+assert(rawSalonLineCopies === 0, '镜子库沙龙仍有行级复制按钮');
 
 for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
   await page.locator(`[data-content-target="${target}"]`).click();
@@ -146,8 +148,15 @@ for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
       ));
   });
   assert(wrapperTitles.length === 0, `${target} 仍显示原文外壳标题：${wrapperTitles.join(' / ')}`);
-  const copyCount = await page.locator(`#${target} .raw-module-card [data-copy-text]`).count();
+  const moduleCount = await page.locator(`#${target} .raw-module-card`).count();
+  const copyCount = await page.locator(`#${target} .raw-module-card > .raw-module-head [data-copy-text]`).count();
+  const lineCopyCount = await page.locator(`#${target} .raw-line [data-copy-text]`).count();
   assert(copyCount >= 1, `${target} 内容模块缺少复制按钮`);
+  assert(copyCount === moduleCount, `${target} 复制按钮不是按内容模块配置`);
+  assert(lineCopyCount === 0, `${target} 仍有行级复制按钮`);
+  if (target === 'rawCamp7') {
+    assert(moduleCount <= 25, `7天训练营模块拆分过细：${moduleCount}`);
+  }
 }
 
 await page.locator('[data-content-target="abilityThinking"]').click();
