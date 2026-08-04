@@ -55,7 +55,7 @@ assert(campOriginal.groupTitles.includes('学习要求'), '7天原文缺少学�
 assert(campOriginal.groupTitles.includes('作业要求'), '7天原文缺少作业要求分组');
 assert(campOriginal.totalOrders >= 15, `7天原文序号过少：${campOriginal.totalOrders}`);
 assert(!campOriginal.hasBrokenZero, '7天原文出现错误的 0. 序号');
-assert(campOriginal.copyButtonCount === 0, '大流程标准原文区域仍显示复制按钮');
+assert(campOriginal.copyButtonCount >= campOriginal.groupTitles.length + 1, '大流程标准原文区域缺少复制按钮');
 const stageSourceCopyCount = await page.locator('.stage-source [data-copy-text]').count();
 assert(stageSourceCopyCount === 0, '大流程内容库位置仍显示复制按钮');
 
@@ -85,6 +85,11 @@ assert(!tabLabels.includes('幸福早课人才培养营模块'), '镜子库仍�
 
 const activeContentStyle = await page.$eval('#contentTabs button.active', (button) => getComputedStyle(button).backgroundColor);
 assert(activeContentStyle !== 'rgb(29, 29, 31)', '镜子库内容切换仍是黑色色块');
+
+for (const target of ['abilitySalonReview', 'abilityCamp7Review', 'modelCollection', 'abilityFramework', 'abilityThinking', 'abilityTools']) {
+  const panelCopyCount = await page.locator(`#${target} > .band-inner > .copy-title-row [data-copy-panel="${target}"]`).count();
+  assert(panelCopyCount === 1, `${target} 缺少模块级复制按钮`);
+}
 
 await page.locator('[data-content-target="abilitySalonReview"]').click();
 const salonReview = await page.$eval('#abilitySalonReview', (root) => {

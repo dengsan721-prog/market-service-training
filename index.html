@@ -404,6 +404,19 @@
     .mini-copy {
       padding: 6px 8px;
     }
+    .copy-title-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 6px;
+    }
+    .copy-title-row h2 {
+      margin: 0;
+    }
+    .panel-copy-btn {
+      margin-top: 2px;
+    }
     .raw-copy-btn {
       align-self: center;
     }
@@ -1198,7 +1211,7 @@
         <section class="band ability-module-card ability-salon-review content-panel" id="abilitySalonReview">
           <span id="salonReview" class="anchor-sentinel" aria-hidden="true"></span>
           <div class="band-inner">
-            <h2>沙龙复盘</h2>
+            <div class="copy-title-row"><h2>沙龙复盘</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilitySalonReview" onclick="copyPanelText(this)">复制</button></div>
             <p>按照原文标准整理关键问题，活动结束后对照核查。</p>
             <h3 class="ability-section-title">复盘清单</h3>
             <ol class="review-list" id="reviewList"></ol>
@@ -1236,7 +1249,7 @@
 
         <section class="band ability-module-card ability-camp7-review content-panel" id="abilityCamp7Review" hidden>
           <div class="band-inner">
-            <h2>7天训练营复盘</h2>
+            <div class="copy-title-row"><h2>7天训练营复盘</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityCamp7Review" onclick="copyPanelText(this)">复制</button></div>
             <p>按照原文标准整理关键问题，重点看是否按要求参与、是否完成作业、是否及时反馈和筛选。</p>
             <div class="section-block">
               <h4>关键问题</h4>
@@ -1247,7 +1260,7 @@
 
         <section class="band ability-module-card ability-other content-panel" id="abilityFramework" hidden>
           <div class="band-inner">
-            <h2>市场服务</h2>
+            <div class="copy-title-row"><h2>市场服务</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityFramework" onclick="copyPanelText(this)">复制</button></div>
             <p>市场服务123456按结构查看，方便驿站主快速回忆角色、目标、流程、人才和工具。</p>
             <div class="framework-grid" id="frameworkGrid"></div>
           </div>
@@ -1255,7 +1268,7 @@
 
         <section class="band ability-module-card ability-other content-panel" id="abilityThinking" hidden>
           <div class="band-inner">
-            <h2>总监思维</h2>
+            <div class="copy-title-row"><h2>总监思维</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityThinking" onclick="copyPanelText(this)">复制</button></div>
             <p>总监和驿站主的分工、心态辅导、顾虑处理、学习效果，单独放在这里照镜子。</p>
             <div class="framework-grid" id="thinkingGrid"></div>
           </div>
@@ -1263,7 +1276,7 @@
 
         <section class="band ability-module-card ability-other content-panel" id="abilityTools" hidden>
           <div class="band-inner">
-            <h2>工具模型</h2>
+            <div class="copy-title-row"><h2>工具模型</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityTools" onclick="copyPanelText(this)">复制</button></div>
             <p>自检表、优点清单、市场服务模型和123456参考图，作为现场辅助工具使用。</p>
             <div class="tool-grid" id="toolGrid"></div>
           </div>
@@ -1350,7 +1363,7 @@
         <section class="band ability-module-card ability-model content-panel" id="modelCollection" hidden>
           <div class="band-inner">
             <p class="eyebrow">榜样采集标准与流程</p>
-            <h2>先激活情感，再按16问一次性采集完整。</h2>
+            <div class="copy-title-row"><h2>先激活情感，再按16问一次性采集完整。</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="modelCollection" onclick="copyPanelText(this)">复制</button></div>
             <p>榜样采集不是随便聊天，而是把学员真实改变的场景、时间、细节、心情、结果完整采集出来，形成可传播的案例。</p>
             <div class="collection-grid" id="collectionGrid"></div>
             <div class="section-block" style="margin-top:14px">
@@ -1519,12 +1532,12 @@
     }
 
     async function copyCompactText(button) {
-      await copyText(button.dataset.copyText || '');
       const original = button.textContent;
       button.textContent = '已复制';
+      await copyText(button.dataset.copyText || '');
       window.setTimeout(() => {
         button.textContent = original || '复制';
-      }, 900);
+      }, 1600);
     }
 
     function bindCompactCopy(root = document) {
@@ -1533,6 +1546,19 @@
         button.dataset.copyBound = '1';
         button.addEventListener('click', () => copyCompactText(button));
       });
+    }
+
+    async function copyPanelText(button) {
+      const target = document.getElementById(button.dataset.copyPanel || '');
+      if (!target) return;
+      const clone = target.cloneNode(true);
+      clone.querySelectorAll('button, [aria-hidden="true"]').forEach((node) => node.remove());
+      const original = button.textContent;
+      button.textContent = '已复制';
+      await copyText(clone.innerText.trim());
+      window.setTimeout(() => {
+        button.textContent = original || '复制';
+      }, 1600);
     }
 
     function initWorkspaceTabs() {
@@ -1617,10 +1643,10 @@
         if (current) current.lines.push(text);
         else intro.push(text);
       });
-      return '<div class="stage-block stage-original"><h4><span>标准原文</span></h4>' +
+      return '<div class="stage-block stage-original"><h4><span>标准原文</span>' + compactCopyButton(lines.join('\n')) + '</h4>' +
         (intro.length ? '<div class="stage-original-intro">' + intro.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' : '') +
         '<div class="stage-original-groups">' +
-          groups.map((group) => '<div class="stage-original-group"><h5><span>' + safeHtml(group.title) + '</span></h5><div class="stage-original-line-list">' +
+          groups.map((group) => '<div class="stage-original-group"><h5><span>' + safeHtml(group.title) + '</span>' + compactCopyButton([group.title, ...group.lines].join('\n')) + '</h5><div class="stage-original-line-list">' +
             group.lines.map((line) => renderNumberedTextLine(line)).join('') +
           '</div></div>').join('') +
         '</div></div>';
@@ -1992,6 +2018,7 @@
     renderToolbox();
     renderRawManual();
     renderMirrorRawPanels();
+    bindCompactCopy(document);
     initContentTabs();
     initWorkspaceTabs();
 
