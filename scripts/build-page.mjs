@@ -3012,16 +3012,30 @@ const html = `<!doctype html>
           const displayTitle = simplifyRawBlockTitle(block.title, block.lines);
           const displayLines = block.lines.length ? block.lines : [block.title];
           const moduleText = [block.order ? block.order + ' ' + displayTitle : displayTitle, ...displayLines].join('\\n');
+          const copyMarkup = shouldHideRawCopy(displayTitle, block.title, displayLines)
+            ? ''
+            : compactCopyButton(moduleText, 'mini-copy raw-copy-btn');
           return '<article class="raw-module-card" data-search-text="' + safeHtml([source.title, moduleText].join(' ')) + '">' +
             '<div class="raw-module-head">' +
               '<span class="raw-order' + (block.order ? '' : ' empty') + '">' + safeHtml(block.order) + '</span>' +
               '<h3 class="raw-module-title">' + safeHtml(displayTitle || ('内容模块 ' + (index + 1))) + '</h3>' +
-              compactCopyButton(moduleText, 'mini-copy raw-copy-btn') +
+              copyMarkup +
             '</div>' +
             renderRawBlockLines(displayLines) +
           '</article>';
         }).join('');
       });
+    }
+
+    function shouldHideRawCopy(displayTitle, originalTitle, lines) {
+      const title = String(displayTitle || originalTitle || '').replace(/\\*/g, '').trim();
+      const text = [title, ...lines].join('\\n');
+      if (title === '说明') return true;
+      if (title === '⚠️' || title.startsWith('⚠️')) return true;
+      if (title.includes('文字激活邀约公式与案例')) return true;
+      if (title.includes('请附上实战截图')) return true;
+      if (title === '流程标准' && !/8步|7天|训练|开营|闭环/.test(text)) return true;
+      return false;
     }
 
     function simplifyRawBlockTitle(title, lines) {
@@ -3083,6 +3097,7 @@ const html = `<!doctype html>
       const title = parsed.text || text;
       if (/^(心态标准|动作标准|学习要求|作业要求|复制标准)$/.test(title)) return true;
       if (sourceId === 'rawCamp7' || sourceTitle.includes('7天训练营')) {
+        if (title.includes('先让每个人分享7天下来的收获和感受') || text.includes('先让每个人分享7天下来的收获和感受')) return true;
         if (/^(晚上分享标准|抢到的分享标准|每天实战作业标准)/.test(title)) return true;
         if (/^导入/.test(text)) return true;
         if (/^(第[0-9一二三四五六七八九十]+天|正式(学习)?训练第[0-9一二三四五六七八九十]+天)/.test(text)) return true;

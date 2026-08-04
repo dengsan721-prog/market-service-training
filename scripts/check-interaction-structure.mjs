@@ -130,8 +130,18 @@ const rawSalonStyle = await page.$eval('#rawSalon .raw-module-card', (card) => {
 });
 assert(rawSalonStyle.titleBackground !== 'rgba(0, 0, 0, 0)', '沙龙模块标题没有单独色块');
 assert(rawSalonStyle.titleFontSize !== rawSalonStyle.lineFontSize, '沙龙模块标题和正文字号没有区分');
-const rawSalonCopies = await page.locator('#rawSalon .raw-module-card [data-copy-text]').count();
-assert(rawSalonCopies >= 3, '镜子库沙龙内容模块缺少复制按钮');
+const rawSalonCopyStats = await page.$eval('#rawSalon', (root) => {
+  const buttons = [...root.querySelectorAll('.raw-module-card [data-copy-text]')];
+  return {
+    total: buttons.length,
+    noCopyTitles: [...root.querySelectorAll('.raw-module-card')]
+      .filter((card) => !card.querySelector('[data-copy-text]'))
+      .map((card) => card.querySelector('.raw-module-title')?.textContent.trim() || '')
+  };
+});
+assert(rawSalonCopyStats.total >= 3, '镜子库沙龙可复制原文卡片过少');
+assert(rawSalonCopyStats.noCopyTitles.some((title) => title.includes('说明')), '截图中的说明卡片复制按钮没有去掉');
+assert(rawSalonCopyStats.noCopyTitles.some((title) => title.includes('文字激活邀约公式与案例')), '截图中的文字激活卡片复制按钮没有去掉');
 const rawSalonLineCopies = await page.locator('#rawSalon .raw-line [data-copy-text]').count();
 assert(rawSalonLineCopies === 0, '镜子库沙龙仍有行级复制按钮');
 
@@ -154,13 +164,25 @@ for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
   });
   assert(wrapperTitles.length === 0, `${target} 仍显示原文外壳标题：${wrapperTitles.join(' / ')}`);
   const moduleCount = await page.locator(`#${target} .raw-module-card`).count();
-  const copyCount = await page.locator(`#${target} .raw-module-card > .raw-module-head [data-copy-text]`).count();
+  const copyStats = await page.$eval(`#${target}`, (root) => {
+    const buttons = [...root.querySelectorAll('.raw-module-card > .raw-module-head [data-copy-text]')];
+    return {
+      total: buttons.length,
+      noCopyTitles: [...root.querySelectorAll('.raw-module-card')]
+        .filter((card) => !card.querySelector('[data-copy-text]'))
+        .map((card) => card.querySelector('.raw-module-title')?.textContent.trim() || ''),
+      hasCloseModule: [...root.querySelectorAll('.raw-module-card')]
+        .some((card) => card.textContent.includes('发心心愿拔高') && card.textContent.includes('流程复制要求'))
+    };
+  });
   const lineCopyCount = await page.locator(`#${target} .raw-line [data-copy-text]`).count();
-  assert(copyCount >= 1, `${target} 内容模块缺少复制按钮`);
-  assert(copyCount === moduleCount, `${target} 复制按钮不是按内容模块配置`);
+  assert(copyStats.total >= 1, `${target} 缺少可见原文卡片复制按钮`);
   assert(lineCopyCount === 0, `${target} 仍有行级复制按钮`);
   if (target === 'rawCamp7') {
     assert(moduleCount <= 25, `7天训练营模块拆分过细：${moduleCount}`);
+    assert(copyStats.noCopyTitles.some((title) => title.includes('说明')), '7天训练营说明卡片复制按钮没有去掉');
+    assert(copyStats.noCopyTitles.some((title) => title.includes('请附上实战截图')), '7天训练营截图提示卡片复制按钮没有去掉');
+    assert(copyStats.hasCloseModule, '7天训练营闭营分享要求没有单独成模块');
   }
 }
 
