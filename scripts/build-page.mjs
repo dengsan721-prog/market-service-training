@@ -64,6 +64,11 @@ const sources = sourceFiles.map((source) => ({
     : ''
 }));
 
+const interactiveQuestionLibraryFile = path.join(repoRoot, 'data', 'interactive-question-libraries.json');
+const interactiveQuestionLibraries = fs.existsSync(interactiveQuestionLibraryFile)
+  ? JSON.parse(fs.readFileSync(interactiveQuestionLibraryFile, 'utf8'))
+  : [];
+
 function sliceByHeadings(content, startText, endText) {
   const start = content.indexOf(startText);
   if (start < 0) return '';
@@ -1168,7 +1173,7 @@ function applyMarkdownOverrides(baseData) {
   };
 }
 
-const data = applyMarkdownOverrides({ modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, camp7Review, flowGuide, masterFlow, modelCollection, toolbox });
+const data = applyMarkdownOverrides({ modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, camp7Review, flowGuide, masterFlow, modelCollection, toolbox, interactiveQuestionLibraries });
 
 function escapeHtml(value) {
   return String(value)
@@ -1626,6 +1631,141 @@ const html = `<!doctype html>
     }
     .content-panel[hidden] {
       display: none !important;
+    }
+    .question-library-panel {
+      --question-accent: #0071e3;
+      --question-tint: rgba(0,113,227,.08);
+    }
+    .question-library-toolbar {
+      display: grid;
+      gap: 8px;
+      margin: 12px 0 14px;
+    }
+    .question-library-search {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      padding: 0 14px;
+      color: #1d1d1f;
+      font-size: 15px;
+      font-weight: 750;
+      outline: none;
+    }
+    .question-library-search:focus {
+      border-color: rgba(0,113,227,.42);
+      box-shadow: 0 0 0 4px rgba(0,113,227,.10);
+    }
+    .question-library-meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+      font-weight: 760;
+    }
+    .question-module-list {
+      display: grid;
+      gap: 12px;
+    }
+    .question-module {
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: rgba(255,255,255,.9);
+      overflow: hidden;
+    }
+    .question-module-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 11px 12px;
+      background: var(--question-tint);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .question-module-head h3 {
+      margin: 0;
+      color: #1d1d1f;
+      font-size: 17px;
+      line-height: 1.25;
+    }
+    .question-module-count {
+      flex: 0 0 auto;
+      color: var(--question-accent);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .question-course-list {
+      display: grid;
+      gap: 1px;
+      background: rgba(0,0,0,.06);
+    }
+    .question-course {
+      background: #fff;
+    }
+    .question-course summary {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      min-height: 44px;
+      padding: 9px 10px 9px 12px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .question-course summary::-webkit-details-marker {
+      display: none;
+    }
+    .question-course-title {
+      min-width: 0;
+      color: #1d1d1f;
+      font-size: 14px;
+      line-height: 1.35;
+      font-weight: 900;
+    }
+    .question-course-title::before {
+      content: "＋";
+      display: inline-block;
+      width: 18px;
+      color: var(--question-accent);
+      font-weight: 950;
+    }
+    .question-course[open] .question-course-title::before {
+      content: "－";
+    }
+    .question-course-body {
+      display: grid;
+      gap: 10px;
+      padding: 0 12px 12px 30px;
+    }
+    .question-block {
+      border-radius: 10px;
+      background: rgba(245,245,247,.82);
+      padding: 10px;
+    }
+    .question-block h4 {
+      margin: 0 0 7px;
+      color: var(--question-accent);
+      font-size: 13px;
+      line-height: 1.2;
+    }
+    .question-block ol {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .question-block li {
+      margin: 0 0 5px;
+      color: #1d1d1f;
+      font-size: 14px;
+      line-height: 1.62;
+      font-weight: 760;
+    }
+    .question-empty {
+      margin: 0;
+      padding: 18px 12px;
+      color: var(--muted);
+      font-weight: 800;
+      text-align: center;
     }
     .mirror-raw-panel {
       --mirror-tint: #f7f7f8;
@@ -2262,6 +2402,32 @@ const html = `<!doctype html>
         padding: 8px 10px;
         font-size: 12px;
       }
+      .question-library-toolbar {
+        margin: 10px 0 12px;
+      }
+      .question-library-search {
+        min-height: 38px;
+        font-size: 14px;
+      }
+      .question-module-list {
+        gap: 8px;
+      }
+      .question-module {
+        border-radius: 12px;
+      }
+      .question-module-head {
+        padding: 9px 10px;
+      }
+      .question-module-head h3 {
+        font-size: 15px;
+      }
+      .question-course summary {
+        min-height: 40px;
+        padding: 8px 8px 8px 10px;
+      }
+      .question-course-body {
+        padding: 0 8px 10px 22px;
+      }
       .mirror-raw-head {
         display: grid;
         gap: 8px;
@@ -2315,6 +2481,15 @@ const html = `<!doctype html>
       .stage-block {
         padding: 9px 10px;
       }
+      .question-course-title {
+        font-size: 13px;
+      }
+      .question-block {
+        padding: 8px;
+      }
+      .question-block li {
+        font-size: 13px;
+      }
     }
   </style>
 </head>
@@ -2357,6 +2532,9 @@ const html = `<!doctype html>
               <button type="button" data-content-target="abilityFramework">市场服务</button>
               <button type="button" data-content-target="abilityThinking">总监思维</button>
               <button type="button" data-content-target="abilityTools">工具模型</button>
+              <button type="button" data-content-target="drivingQuestions">幸福驾校互动问句</button>
+              <button type="button" data-content-target="mainCourseQuestions">主课互动问句</button>
+              <button type="button" data-content-target="therapyQuestions">智疗互动问句</button>
             </div>
           </div>
         </section>
@@ -2459,6 +2637,42 @@ const html = `<!doctype html>
             <div class="copy-title-row"><h2>工具模型</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityTools" onclick="copyPanelText(this)">复制</button></div>
             <p>自检表、优点清单、市场服务模型和123456参考图，作为现场辅助工具使用。</p>
             <div class="tool-grid" id="toolGrid"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card question-library-panel content-panel" id="drivingQuestions" hidden>
+          <div class="band-inner">
+            <div class="copy-title-row"><h2>幸福驾校互动问句</h2></div>
+            <p>只罗列模块和课程标题；点开课程后查看互动问句和作业，复制按钮会把问句与作业一起复制。</p>
+            <div class="question-library-toolbar">
+              <input class="question-library-search" type="search" placeholder="搜索课程标题、问句、作业关键词" data-question-search="drivingQuestions" aria-label="搜索幸福驾校互动问句">
+              <p class="question-library-meta" data-question-meta="drivingQuestions"></p>
+            </div>
+            <div class="question-module-list" id="drivingQuestionsList"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card question-library-panel content-panel" id="mainCourseQuestions" hidden>
+          <div class="band-inner">
+            <div class="copy-title-row"><h2>主课互动问句</h2></div>
+            <p>按季和课程标题查找；展开后可以把本课互动问句和作业整块复制。</p>
+            <div class="question-library-toolbar">
+              <input class="question-library-search" type="search" placeholder="搜索课程标题、问句、作业关键词" data-question-search="mainCourseQuestions" aria-label="搜索主课互动问句">
+              <p class="question-library-meta" data-question-meta="mainCourseQuestions"></p>
+            </div>
+            <div class="question-module-list" id="mainCourseQuestionsList"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card question-library-panel content-panel" id="therapyQuestions" hidden>
+          <div class="band-inner">
+            <div class="copy-title-row"><h2>智疗互动问句</h2></div>
+            <p>按季和课程标题查找；展开后可以把本课互动问句和作业整块复制。</p>
+            <div class="question-library-toolbar">
+              <input class="question-library-search" type="search" placeholder="搜索课程标题、问句、作业关键词" data-question-search="therapyQuestions" aria-label="搜索智疗互动问句">
+              <p class="question-library-meta" data-question-meta="therapyQuestions"></p>
+            </div>
+            <div class="question-module-list" id="therapyQuestionsList"></div>
           </div>
         </section>
 
@@ -2724,7 +2938,11 @@ const html = `<!doctype html>
       root.querySelectorAll('[data-copy-text]').forEach((button) => {
         if (button.dataset.copyBound) return;
         button.dataset.copyBound = '1';
-        button.addEventListener('click', () => copyCompactText(button));
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          copyCompactText(button);
+        });
       });
     }
 
@@ -3046,6 +3264,107 @@ const html = `<!doctype html>
       });
     }
 
+    function renderInteractiveQuestionLibraries() {
+      (manual.interactiveQuestionLibraries || []).forEach((library) => {
+        const target = document.getElementById(library.id + 'List');
+        if (!target) return;
+        const modules = library.modules || [];
+        target.innerHTML = modules.length
+          ? modules.map((module) => renderQuestionModule(module)).join('')
+          : '<p class="question-empty">暂无内容</p>';
+      });
+      bindCompactCopy(document);
+      initQuestionLibrarySearch();
+    }
+
+    function renderQuestionModule(module) {
+      const courses = module.courses || [];
+      return '<section class="question-module" data-question-module>' +
+        '<div class="question-module-head">' +
+          '<h3>' + safeHtml(module.title) + '</h3>' +
+          '<span class="question-module-count">' + courses.length + '课</span>' +
+        '</div>' +
+        '<div class="question-course-list">' +
+          courses.map((course) => renderQuestionCourse(module.title, course)).join('') +
+        '</div>' +
+      '</section>';
+    }
+
+    function renderQuestionCourse(moduleTitle, course) {
+      const copyText = buildQuestionCopyText(moduleTitle, course);
+      const searchText = [
+        moduleTitle,
+        course.title,
+        ...(course.questions || []),
+        ...(course.homework || [])
+      ].join(' ');
+      return '<details class="question-course" data-question-course data-search-text="' + safeHtml(searchText) + '">' +
+        '<summary>' +
+          '<span class="question-course-title">' + safeHtml(course.title) + '</span>' +
+          compactCopyButton(copyText, 'mini-copy question-copy-btn') +
+        '</summary>' +
+        '<div class="question-course-body">' +
+          renderQuestionItems('互动问题', course.questions || []) +
+          renderQuestionItems('作业', course.homework || []) +
+        '</div>' +
+      '</details>';
+    }
+
+    function renderQuestionItems(title, items) {
+      if (!items.length) return '';
+      return '<div class="question-block">' +
+        '<h4>' + safeHtml(title) + '</h4>' +
+        '<ol>' + items.map((item) => '<li>' + safeHtml(item) + '</li>').join('') + '</ol>' +
+      '</div>';
+    }
+
+    function buildQuestionCopyText(moduleTitle, course) {
+      const lines = [
+        moduleTitle,
+        course.title,
+        '',
+        '互动问题',
+        ...(course.questions || []).map((item, index) => (index + 1) + '. ' + item),
+        '',
+        '作业',
+        ...(course.homework || []).map((item, index) => (index + 1) + '. ' + item)
+      ];
+      return lines.join('\\n').trim();
+    }
+
+    function initQuestionLibrarySearch() {
+      document.querySelectorAll('[data-question-search]').forEach((input) => {
+        if (input.dataset.searchBound) return;
+        input.dataset.searchBound = '1';
+        const panelId = input.dataset.questionSearch;
+        const panel = document.getElementById(panelId);
+        const meta = document.querySelector('[data-question-meta="' + panelId + '"]');
+        const apply = () => {
+          if (!panel) return;
+          const keyword = input.value.trim().toLowerCase();
+          let total = 0;
+          let visible = 0;
+          panel.querySelectorAll('[data-question-course]').forEach((course) => {
+            total += 1;
+            const text = (course.dataset.searchText || '').toLowerCase();
+            const matched = !keyword || text.includes(keyword);
+            course.hidden = !matched;
+            if (matched) visible += 1;
+          });
+          panel.querySelectorAll('[data-question-module]').forEach((module) => {
+            module.hidden = ![...module.querySelectorAll('[data-question-course]')].some((course) => !course.hidden);
+          });
+          if (meta) {
+            meta.textContent = keyword
+              ? '找到 ' + visible + ' / ' + total + ' 门课程'
+              : '共 ' + total + ' 门课程，点击课程标题展开。';
+          }
+        };
+        input.addEventListener('input', apply);
+        apply();
+      });
+    }
+
     function shouldHideRawCopy(displayTitle, originalTitle, lines) {
       const title = String(displayTitle || originalTitle || '').replace(/\\*/g, '').trim();
       const text = [title, ...lines].join('\\n');
@@ -3256,6 +3575,7 @@ const html = `<!doctype html>
     renderToolbox();
     renderRawManual();
     renderMirrorRawPanels();
+    renderInteractiveQuestionLibraries();
     bindCompactCopy(document);
     initContentTabs();
     initWorkspaceTabs();

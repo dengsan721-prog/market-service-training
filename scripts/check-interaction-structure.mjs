@@ -73,7 +73,10 @@ assert(JSON.stringify(tabLabels) === JSON.stringify([
   '人才培养营',
   '市场服务',
   '总监思维',
-  '工具模型'
+  '工具模型',
+  '幸福驾校互动问句',
+  '主课互动问句',
+  '智疗互动问句'
 ]), `镜子库 tab 顺序不正确：${tabLabels.join(' / ')}`);
 assert(tabLabels.includes('榜样选拔与教练招募'), '镜子库缺少“榜样选拔与教练招募”tab');
 assert(tabLabels.includes('市场服务'), '镜子库缺少“市场服务”tab');
@@ -89,6 +92,45 @@ assert(activeContentStyle !== 'rgb(29, 29, 31)', '镜子库内容切换仍是黑
 for (const target of ['abilitySalonReview', 'abilityCamp7Review', 'modelCollection', 'abilityFramework', 'abilityThinking', 'abilityTools']) {
   const panelCopyCount = await page.locator(`#${target} > .band-inner > .copy-title-row [data-copy-panel="${target}"]`).count();
   assert(panelCopyCount === 1, `${target} 缺少模块级复制按钮`);
+}
+
+const questionChecks = [
+  { target: 'drivingQuestions', keyword: '叛逆', minCourses: 70 },
+  { target: 'mainCourseQuestions', keyword: '疾病', minCourses: 190 },
+  { target: 'therapyQuestions', keyword: '减肥', minCourses: 140 }
+];
+
+for (const check of questionChecks) {
+  await page.locator(`[data-content-target="${check.target}"]`).click();
+  await page.waitForTimeout(100);
+  const stats = await page.$eval(`#${check.target}`, (root) => ({
+    moduleCount: root.querySelectorAll('[data-question-module]').length,
+    courseCount: root.querySelectorAll('[data-question-course]').length,
+    searchCount: root.querySelectorAll('[data-question-search]').length,
+    lineCopyCount: root.querySelectorAll('.question-block [data-copy-text]').length,
+    courseCopyCount: root.querySelectorAll('.question-course summary [data-copy-text]').length,
+    firstCopyText: root.querySelector('.question-course summary [data-copy-text]')?.dataset.copyText || ''
+  }));
+  assert(stats.moduleCount >= 1, `${check.target} 没有模块`);
+  assert(stats.courseCount >= check.minCourses, `${check.target} 课程数量不足：${stats.courseCount}`);
+  assert(stats.searchCount === 1, `${check.target} 搜索框数量不正确`);
+  assert(stats.lineCopyCount === 0, `${check.target} 出现行级复制按钮`);
+  assert(stats.courseCopyCount === stats.courseCount, `${check.target} 课程级复制按钮数量不正确`);
+  assert(stats.firstCopyText.includes('互动问题') && stats.firstCopyText.includes('作业'), `${check.target} 复制内容没有同时包含问句和作业`);
+
+  await page.locator(`#${check.target} [data-question-search]`).fill(check.keyword);
+  await page.waitForTimeout(100);
+  const searchStats = await page.$eval(`#${check.target}`, (root) => ({
+    visibleCourses: [...root.querySelectorAll('[data-question-course]')].filter((course) => !course.hidden).length,
+    hiddenCourses: [...root.querySelectorAll('[data-question-course]')].filter((course) => course.hidden).length,
+    meta: root.querySelector('[data-question-meta]')?.textContent || ''
+  }));
+  assert(searchStats.visibleCourses > 0, `${check.target} 搜索关键词没有结果`);
+  assert(searchStats.hiddenCourses > 0, `${check.target} 搜索没有过滤课程`);
+  assert(searchStats.meta.includes('找到'), `${check.target} 搜索结果提示没有更新`);
+  await page.locator(`#${check.target} [data-question-course]:not([hidden]) summary`).first().click();
+  const firstOpen = await page.$eval(`#${check.target} [data-question-course]:not([hidden])`, (course) => course.open);
+  assert(firstOpen, `${check.target} 点击课程标题没有展开`);
 }
 
 await page.locator('[data-content-target="abilitySalonReview"]').click();
