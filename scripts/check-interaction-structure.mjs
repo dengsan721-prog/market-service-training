@@ -107,6 +107,8 @@ const salonScriptStats = await page.$eval('#salonScripts', (root) => ({
   copyCount: root.querySelectorAll('.salon-step-copy').length,
   firstCopyText: root.querySelector('.salon-step-copy')?.dataset.copyText || '',
   hasBody: (root.querySelector('.salon-script-body')?.textContent || '').includes('第一：邀约'),
+  firstStepOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
+  firstStepMaxHeight: getComputedStyle(root.querySelector('.salon-step-content')).maxHeight,
   accentSamples: [...root.querySelectorAll('.salon-step-card')]
     .slice(0, 3)
     .map((card) => getComputedStyle(card).borderLeftColor)
@@ -117,6 +119,8 @@ assert(salonScriptStats.stepCount === 8, `虽然但是沙龙没有拆成8步：$
 assert(salonScriptStats.copyCount === 8, `虽然但是沙龙步骤复制按钮数量不正确：${salonScriptStats.copyCount}`);
 assert(salonScriptStats.firstCopyText.includes('第一：邀约') && salonScriptStats.firstCopyText.includes('邀约公式'), '沙龙话术第一步复制内容不完整');
 assert(!salonScriptStats.firstCopyText.includes('副标题'), '沙龙话术第一步复制内容仍夹带整篇标题说明');
+assert(!['auto', 'scroll'].includes(salonScriptStats.firstStepOverflowY), `沙龙步骤正文仍存在内部滚动：${salonScriptStats.firstStepOverflowY}`);
+assert(salonScriptStats.firstStepMaxHeight === 'none', `沙龙步骤正文仍限制高度：${salonScriptStats.firstStepMaxHeight}`);
 assert(new Set(salonScriptStats.accentSamples).size >= 2, '沙龙话术步骤没有做颜色区分');
 assert(salonScriptStats.hasBody, '沙龙话术正文没有显示');
 await page.locator('#salonScriptTabs button', { hasText: '语气' }).click();

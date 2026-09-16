@@ -1874,8 +1874,6 @@ const html = `<!doctype html>
       font-weight: 950;
     }
     .salon-step-content {
-      max-height: min(48vh, 520px);
-      overflow: auto;
       padding: 10px 12px 12px;
     }
     .salon-step-card:nth-child(1) { --step-accent: #0071e3; --step-tint: rgba(0,113,227,.09); }
