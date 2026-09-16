@@ -109,6 +109,7 @@ const salonScriptStats = await page.$eval('#salonScripts', (root) => ({
   hasBody: (root.querySelector('.salon-script-body')?.textContent || '').includes('第一：邀约'),
   firstStepOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
   firstStepMaxHeight: getComputedStyle(root.querySelector('.salon-step-content')).maxHeight,
+  firstStepCardOverflow: getComputedStyle(root.querySelector('.salon-step-card')).overflowY,
   accentSamples: [...root.querySelectorAll('.salon-step-card')]
     .slice(0, 3)
     .map((card) => getComputedStyle(card).borderLeftColor)
@@ -121,6 +122,7 @@ assert(salonScriptStats.firstCopyText.includes('第一：邀约') && salonScript
 assert(!salonScriptStats.firstCopyText.includes('副标题'), '沙龙话术第一步复制内容仍夹带整篇标题说明');
 assert(!['auto', 'scroll'].includes(salonScriptStats.firstStepOverflowY), `沙龙步骤正文仍存在内部滚动：${salonScriptStats.firstStepOverflowY}`);
 assert(salonScriptStats.firstStepMaxHeight === 'none', `沙龙步骤正文仍限制高度：${salonScriptStats.firstStepMaxHeight}`);
+assert(salonScriptStats.firstStepCardOverflow === 'visible', `沙龙步骤卡片仍限制溢出：${salonScriptStats.firstStepCardOverflow}`);
 assert(new Set(salonScriptStats.accentSamples).size >= 2, '沙龙话术步骤没有做颜色区分');
 assert(salonScriptStats.hasBody, '沙龙话术正文没有显示');
 await page.locator('#salonScriptTabs button', { hasText: '语气' }).click();

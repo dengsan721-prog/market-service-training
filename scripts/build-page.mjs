@@ -1844,7 +1844,7 @@ const html = `<!doctype html>
       border: 1px solid rgba(0,0,0,.08);
       border-left: 4px solid var(--step-accent);
       background: #fff;
-      overflow: hidden;
+      overflow: visible;
     }
     .salon-step-head {
       display: grid;
@@ -1874,7 +1874,11 @@ const html = `<!doctype html>
       font-weight: 950;
     }
     .salon-step-content {
+      max-height: none !important;
+      overflow: visible !important;
       padding: 10px 12px 12px;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
     .salon-step-card:nth-child(1) { --step-accent: #0071e3; --step-tint: rgba(0,113,227,.09); }
     .salon-step-card:nth-child(2) { --step-accent: #34c759; --step-tint: rgba(52,199,89,.10); }
