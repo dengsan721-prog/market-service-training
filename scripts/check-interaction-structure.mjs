@@ -110,6 +110,9 @@ const salonScriptStats = await page.$eval('#salonScripts', (root) => ({
   firstStepOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
   firstStepMaxHeight: getComputedStyle(root.querySelector('.salon-step-content')).maxHeight,
   firstStepCardOverflow: getComputedStyle(root.querySelector('.salon-step-card')).overflowY,
+  markedLineTypes: [...new Set([...root.querySelectorAll('.salon-step-card:first-child .salon-line')]
+    .map((node) => [...node.classList].find((name) => name !== 'salon-line'))
+    .filter(Boolean))],
   accentSamples: [...root.querySelectorAll('.salon-step-card')]
     .slice(0, 3)
     .map((card) => getComputedStyle(card).borderLeftColor)
@@ -120,6 +123,9 @@ assert(salonScriptStats.stepCount === 8, `虽然但是沙龙没有拆成8步：$
 assert(salonScriptStats.copyCount === 8, `虽然但是沙龙步骤复制按钮数量不正确：${salonScriptStats.copyCount}`);
 assert(salonScriptStats.firstCopyText.includes('第一：邀约') && salonScriptStats.firstCopyText.includes('邀约公式'), '沙龙话术第一步复制内容不完整');
 assert(!salonScriptStats.firstCopyText.includes('副标题'), '沙龙话术第一步复制内容仍夹带整篇标题说明');
+assert(!salonScriptStats.firstCopyText.includes('顾\n客'), '沙龙话术复制内容仍保留PDF硬断行');
+assert(salonScriptStats.markedLineTypes.includes('formula'), '沙龙话术缺少公式重点标注');
+assert(salonScriptStats.markedLineTypes.includes('bracket'), '沙龙话术缺少顾客顾虑等括号标注');
 assert(!['auto', 'scroll'].includes(salonScriptStats.firstStepOverflowY), `沙龙步骤正文仍存在内部滚动：${salonScriptStats.firstStepOverflowY}`);
 assert(salonScriptStats.firstStepMaxHeight === 'none', `沙龙步骤正文仍限制高度：${salonScriptStats.firstStepMaxHeight}`);
 assert(salonScriptStats.firstStepCardOverflow === 'visible', `沙龙步骤卡片仍限制溢出：${salonScriptStats.firstStepCardOverflow}`);

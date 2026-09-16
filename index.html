@@ -691,6 +691,71 @@
       white-space: normal;
       overflow-wrap: anywhere;
     }
+    .salon-line-list {
+      display: grid;
+      gap: 7px;
+    }
+    .salon-line {
+      margin: 0;
+      color: #1d1d1f;
+      font-size: 14px;
+      line-height: 1.72;
+      font-weight: 730;
+      overflow-wrap: anywhere;
+    }
+    .salon-line.formula,
+    .salon-line.label,
+    .salon-line.step,
+    .salon-line.scene,
+    .salon-line.case,
+    .salon-line.task,
+    .salon-line.bracket,
+    .salon-line.question,
+    .salon-line.bullet {
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
+    .salon-line.formula,
+    .salon-line.label {
+      background: var(--step-tint);
+      border-left: 3px solid var(--step-accent);
+      font-weight: 920;
+    }
+    .salon-line.step {
+      background: rgba(0,113,227,.08);
+      color: #004f9e;
+      font-weight: 950;
+    }
+    .salon-line.scene {
+      background: rgba(52,199,89,.12);
+      color: #17662f;
+      font-weight: 950;
+    }
+    .salon-line.case {
+      background: rgba(255,149,0,.14);
+      color: #8a4b00;
+      font-weight: 880;
+    }
+    .salon-line.task {
+      background: rgba(175,82,222,.12);
+      color: #673087;
+      font-weight: 900;
+    }
+    .salon-line.bracket {
+      background: rgba(255,214,10,.18);
+      color: #5c4400;
+      font-weight: 880;
+    }
+    .salon-line.question {
+      background: rgba(88,86,214,.09);
+      color: #34338b;
+      font-weight: 880;
+    }
+    .salon-line.bullet {
+      background: rgba(52,199,89,.08);
+      color: #1f6b37;
+      font-weight: 860;
+    }
     .salon-step-card:nth-child(1) { --step-accent: #0071e3; --step-tint: rgba(0,113,227,.09); }
     .salon-step-card:nth-child(2) { --step-accent: #34c759; --step-tint: rgba(52,199,89,.10); }
     .salon-step-card:nth-child(3) { --step-accent: #ff9500; --step-tint: rgba(255,149,0,.12); }
@@ -2368,16 +2433,74 @@
     function renderSalonScriptSteps(content) {
       const steps = splitSalonScriptSteps(content);
       return steps.map((step, index) => {
-        const copyText = [step.title, ...step.lines].join('\n').trim();
+        const lineBlocks = buildSalonLineBlocks(step.lines);
+        const copyText = [step.title, ...lineBlocks.map((block) => block.text)].join('\n').trim();
         return '<section class="salon-step-card">' +
           '<div class="salon-step-head">' +
             '<span class="salon-step-index">' + (index + 1) + '</span>' +
             '<h4 class="salon-step-title">' + safeHtml(step.title) + '</h4>' +
             compactCopyButton(copyText, 'mini-copy salon-step-copy') +
           '</div>' +
-          '<div class="salon-step-content">' + formatDisplayText(step.lines.join('\n')) + '</div>' +
+          '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
         '</section>';
       }).join('');
+    }
+
+    function renderSalonLineBlocks(blocks) {
+      return '<div class="salon-line-list">' + blocks.map((block) => (
+        '<p class="salon-line ' + safeHtml(block.type) + '">' + formatSalonLine(block.text) + '</p>'
+      )).join('') + '</div>';
+    }
+
+    function buildSalonLineBlocks(lines) {
+      const blocks = [];
+      let current = null;
+      lines.map((line) => String(line || '').trim()).filter(Boolean).forEach((line) => {
+        const type = classifySalonLine(line);
+        if (!current || !shouldJoinSalonLine(current, line, type)) {
+          if (current) blocks.push(current);
+          current = { type, text: line };
+          return;
+        }
+        current.text = joinSalonText(current.text, line);
+      });
+      if (current) blocks.push(current);
+      return blocks;
+    }
+
+    function classifySalonLine(line) {
+      const text = String(line || '').trim();
+      if (/^步骤s*[0-9]+[：:]/.test(text)) return 'step';
+      if (/^场景[一二三四五六七八0-9]+/.test(text)) return 'scene';
+      if (/^（?案例s*[0-9一二三四五六七八]/.test(text) || /案例s*[0-9一二三四五六七八][：:]/.test(text)) return 'case';
+      if (/^d+[.．]/.test(text)) return 'question';
+      if (/^(\*|学习结束留作业|交作业的标准|作业提交方式|作业提交时间)/.test(text)) return 'task';
+      if (/^【/.test(text) || /^（[0-9]+[）)]/.test(text) || /^([0-9]+)/.test(text)) return 'bracket';
+      if (/^[①②③④⑤⑥⑦⑧]/.test(text) || /^第[一二三四]个开关/.test(text)) return 'bullet';
+      if (/^(邀约公式|讲发心|发心模版|互动游戏|心愿闭环|打开身体的开关|温馨提示|总结|今天教会我们)/.test(text)) return 'formula';
+      if (/^(第一个开关|第二个开关|第三个开关|第四个开关)/.test(text)) return 'bullet';
+      if (/^(XX 老师|xxx|换个语气|用生气的语气|生气的语气)/.test(text)) return 'label';
+      return 'plain';
+    }
+
+    function shouldJoinSalonLine(current, line, type) {
+      if (type !== 'plain') return false;
+      if (['task', 'question', 'scene'].includes(current.type)) return false;
+      return !/[。！？!?；;：:】）)”’》]$/.test(current.text);
+    }
+
+    function joinSalonText(left, right) {
+      const spacer = /[A-Za-z0-9]$/.test(left) && /^[A-Za-z0-9]/.test(right) ? ' ' : '';
+      return left + spacer + right;
+    }
+
+    function formatSalonLine(text) {
+      const raw = safeHtml(text);
+      return raw
+        .replace(/^([^：:]{2,16}[：:])/, '<strong>$1</strong>')
+        .replace(/(步骤s*[0-9]+[：:])/, '<strong>$1</strong>')
+        .replace(/(场景[一二三四五六七八0-9]+[^：:]*[：:])/, '<strong>$1</strong>')
+        .replace(/(案例s*[0-9一二三四五六七八][：:])/, '<strong>$1</strong>');
     }
 
     function splitSalonScriptSteps(content) {
