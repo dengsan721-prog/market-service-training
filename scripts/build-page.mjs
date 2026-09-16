@@ -68,6 +68,10 @@ const interactiveQuestionLibraryFile = path.join(repoRoot, 'data', 'interactive-
 const interactiveQuestionLibraries = fs.existsSync(interactiveQuestionLibraryFile)
   ? JSON.parse(fs.readFileSync(interactiveQuestionLibraryFile, 'utf8'))
   : [];
+const salonScriptTemplateFile = path.join(repoRoot, 'data', 'salon-script-templates.json');
+const salonScriptTemplates = fs.existsSync(salonScriptTemplateFile)
+  ? JSON.parse(fs.readFileSync(salonScriptTemplateFile, 'utf8'))
+  : [];
 
 function sliceByHeadings(content, startText, endText) {
   const start = content.indexOf(startText);
@@ -1173,7 +1177,7 @@ function applyMarkdownOverrides(baseData) {
   };
 }
 
-const data = applyMarkdownOverrides({ modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, camp7Review, flowGuide, masterFlow, modelCollection, toolbox, interactiveQuestionLibraries });
+const data = applyMarkdownOverrides({ modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, camp7Review, flowGuide, masterFlow, modelCollection, toolbox, interactiveQuestionLibraries, salonScriptTemplates });
 
 function escapeHtml(value) {
   return String(value)
@@ -1607,7 +1611,8 @@ const html = `<!doctype html>
     }
     .content-tabs {
       display: flex;
-      overflow-x: auto;
+      flex-wrap: wrap;
+      overflow-x: visible;
       gap: 8px;
       margin-top: 18px;
       padding-bottom: 2px;
@@ -1766,6 +1771,71 @@ const html = `<!doctype html>
       color: var(--muted);
       font-weight: 800;
       text-align: center;
+    }
+    .salon-script-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin: 14px 0 12px;
+      padding-bottom: 2px;
+      scrollbar-width: none;
+    }
+    .salon-script-tabs::-webkit-scrollbar { display: none; }
+    .salon-script-tabs button {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #1d1d1f;
+      padding: 9px 13px;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .salon-script-tabs button.active {
+      border-color: rgba(0,113,227,.35);
+      background: rgba(0,113,227,.10);
+      color: var(--blue);
+    }
+    .salon-script-card {
+      border-radius: 16px;
+      border: 1px solid rgba(0,0,0,.08);
+      background: #fff;
+      overflow: hidden;
+    }
+    .salon-script-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      background: rgba(0,113,227,.08);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .salon-script-head h3 {
+      margin: 0;
+      color: #1d1d1f;
+      font-size: 20px;
+      line-height: 1.25;
+    }
+    .salon-script-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 760;
+    }
+    .salon-script-body {
+      max-height: min(68vh, 760px);
+      overflow: auto;
+      padding: 14px;
+      background: rgba(255,255,255,.92);
+    }
+    .salon-script-body .split-line {
+      color: #1d1d1f;
+      font-size: 14px;
+      line-height: 1.7;
+      font-weight: 720;
     }
     .mirror-raw-panel {
       --mirror-tint: #f7f7f8;
@@ -2428,6 +2498,23 @@ const html = `<!doctype html>
       .question-course-body {
         padding: 0 8px 10px 22px;
       }
+      .salon-script-tabs {
+        gap: 6px;
+        margin: 10px 0;
+      }
+      .salon-script-tabs button {
+        padding: 8px 11px;
+        font-size: 12px;
+      }
+      .salon-script-head {
+        padding: 10px;
+      }
+      .salon-script-head h3 {
+        font-size: 17px;
+      }
+      .salon-script-body {
+        padding: 10px;
+      }
       .mirror-raw-head {
         display: grid;
         gap: 8px;
@@ -2528,6 +2615,7 @@ const html = `<!doctype html>
               <button type="button" data-content-target="abilityCamp7Review">7天训练营复盘</button>
               <button type="button" data-content-target="modelCollection">榜样采访</button>
               <button type="button" data-content-target="rawOther">榜样选拔与教练招募</button>
+              <button type="button" data-content-target="salonScripts">沙龙话术</button>
               <button type="button" data-content-target="rawTalent">人才培养营</button>
               <button type="button" data-content-target="abilityFramework">市场服务</button>
               <button type="button" data-content-target="abilityThinking">总监思维</button>
@@ -2724,6 +2812,15 @@ const html = `<!doctype html>
           </div>
         </section>
 
+        <section class="band ability-module-card content-panel" id="salonScripts" hidden>
+          <div class="band-inner">
+            <div class="copy-title-row"><h2>沙龙话术</h2></div>
+            <p>三款沙龙话术分开呈现：虽然但是、角度、语气。点击上方小按钮横向切换，对应话术可整块复制。</p>
+            <nav class="salon-script-tabs" id="salonScriptTabs" aria-label="沙龙话术切换"></nav>
+            <div id="salonScriptPanel"></div>
+          </div>
+        </section>
+
         <section class="band legacy-section" id="quickFlows" aria-hidden="true">
           <div class="band-inner">
             <div class="entry-grid" id="quickFlowGrid"></div>
@@ -2819,6 +2916,8 @@ const html = `<!doctype html>
     const rawToc = document.getElementById('rawToc');
     const contentTabs = document.getElementById('contentTabs');
     const workspaceTabs = document.getElementById('workspaceTabs');
+    const salonScriptTabs = document.getElementById('salonScriptTabs');
+    const salonScriptPanel = document.getElementById('salonScriptPanel');
 
     function repairAbilityCopy() {
       const model = document.getElementById('modelCollection');
@@ -3365,6 +3464,34 @@ const html = `<!doctype html>
       });
     }
 
+    function renderSalonScriptTemplates(activeIndex = 0) {
+      const templates = manual.salonScriptTemplates || [];
+      if (!salonScriptTabs || !salonScriptPanel) return;
+      if (!templates.length) {
+        salonScriptPanel.innerHTML = '<p class="question-empty">暂无沙龙话术</p>';
+        return;
+      }
+      const current = templates[activeIndex] || templates[0];
+      salonScriptTabs.innerHTML = templates.map((item, index) => (
+        '<button type="button" class="' + (index === activeIndex ? 'active' : '') + '" data-salon-script-index="' + index + '">' +
+          safeHtml(item.name) +
+        '</button>'
+      )).join('');
+      salonScriptPanel.innerHTML =
+        '<article class="salon-script-card" data-search-text="' + safeHtml([current.name, current.caption, current.content].join(' ')) + '">' +
+          '<div class="salon-script-head">' +
+            '<div><h3>' + safeHtml(current.name) + '</h3>' +
+            '<p>' + safeHtml(current.caption || '三款沙龙话术') + '</p></div>' +
+            compactCopyButton(current.content || '', 'mini-copy salon-script-copy') +
+          '</div>' +
+          '<div class="salon-script-body">' + formatDisplayText(current.content || '') + '</div>' +
+        '</article>';
+      salonScriptTabs.querySelectorAll('[data-salon-script-index]').forEach((button) => {
+        button.addEventListener('click', () => renderSalonScriptTemplates(Number(button.dataset.salonScriptIndex)));
+      });
+      bindCompactCopy(salonScriptPanel);
+    }
+
     function shouldHideRawCopy(displayTitle, originalTitle, lines) {
       const title = String(displayTitle || originalTitle || '').replace(/\\*/g, '').trim();
       const text = [title, ...lines].join('\\n');
@@ -3576,6 +3703,7 @@ const html = `<!doctype html>
     renderRawManual();
     renderMirrorRawPanels();
     renderInteractiveQuestionLibraries();
+    renderSalonScriptTemplates();
     bindCompactCopy(document);
     initContentTabs();
     initWorkspaceTabs();

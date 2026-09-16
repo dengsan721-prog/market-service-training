@@ -70,6 +70,7 @@ assert(JSON.stringify(tabLabels) === JSON.stringify([
   '7天训练营复盘',
   '榜样采访',
   '榜样选拔与教练招募',
+  '沙龙话术',
   '人才培养营',
   '市场服务',
   '总监思维',
@@ -88,6 +89,34 @@ assert(!tabLabels.includes('幸福早课人才培养营模块'), '镜子库仍�
 
 const activeContentStyle = await page.$eval('#contentTabs button.active', (button) => getComputedStyle(button).backgroundColor);
 assert(activeContentStyle !== 'rgb(29, 29, 31)', '镜子库内容切换仍是黑色色块');
+const contentTabsLayout = await page.$eval('#contentTabs', (root) => ({
+  flexWrap: getComputedStyle(root).flexWrap,
+  overflowX: getComputedStyle(root).overflowX,
+  scrollWidth: root.scrollWidth,
+  clientWidth: root.clientWidth
+}));
+assert(contentTabsLayout.flexWrap === 'wrap', '镜子库模块按钮没有换行展示');
+assert(contentTabsLayout.scrollWidth <= contentTabsLayout.clientWidth + 1, '镜子库模块按钮仍存在横向滚动');
+
+await page.locator('[data-content-target="salonScripts"]').click();
+await page.waitForTimeout(100);
+const salonScriptStats = await page.$eval('#salonScripts', (root) => ({
+  buttons: [...root.querySelectorAll('#salonScriptTabs button')].map((button) => button.textContent.trim()),
+  title: root.querySelector('.salon-script-head h3')?.textContent.trim() || '',
+  copyText: root.querySelector('.salon-script-copy')?.dataset.copyText || '',
+  hasBody: (root.querySelector('.salon-script-body')?.textContent || '').includes('第一：邀约')
+}));
+assert(JSON.stringify(salonScriptStats.buttons) === JSON.stringify(['虽然但是', '角度', '语气']), `沙龙话术三款切换不正确：${salonScriptStats.buttons.join(' / ')}`);
+assert(salonScriptStats.title === '虽然但是', '沙龙话术默认没有显示“虽然但是”');
+assert(salonScriptStats.copyText.includes('高情商表达方式') && salonScriptStats.copyText.includes('感谢大家的支持'), '沙龙话术复制内容不完整');
+assert(salonScriptStats.hasBody, '沙龙话术正文没有显示');
+await page.locator('#salonScriptTabs button', { hasText: '语气' }).click();
+const activeSalonScript = await page.$eval('#salonScripts', (root) => ({
+  title: root.querySelector('.salon-script-head h3')?.textContent.trim() || '',
+  copyText: root.querySelector('.salon-script-copy')?.dataset.copyText || ''
+}));
+assert(activeSalonScript.title === '语气', '沙龙话术不能切换到“语气”');
+assert(activeSalonScript.copyText.includes('语气沙龙'), '语气沙龙复制内容不正确');
 
 for (const target of ['abilitySalonReview', 'abilityCamp7Review', 'modelCollection', 'abilityFramework', 'abilityThinking', 'abilityTools']) {
   const panelCopyCount = await page.locator(`#${target} > .band-inner > .copy-title-row [data-copy-panel="${target}"]`).count();
