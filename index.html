@@ -637,8 +637,8 @@
       font-weight: 760;
     }
     .salon-script-body {
-      max-height: min(68vh, 760px);
-      overflow: auto;
+      display: grid;
+      gap: 12px;
       padding: 14px;
       background: rgba(255,255,255,.92);
     }
@@ -648,6 +648,55 @@
       line-height: 1.7;
       font-weight: 720;
     }
+    .salon-step-card {
+      --step-accent: #0071e3;
+      --step-tint: rgba(0,113,227,.08);
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.08);
+      border-left: 4px solid var(--step-accent);
+      background: #fff;
+      overflow: hidden;
+    }
+    .salon-step-head {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      background: var(--step-tint);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .salon-step-index {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--step-accent);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 950;
+    }
+    .salon-step-title {
+      min-width: 0;
+      color: #1d1d1f;
+      font-size: 17px;
+      line-height: 1.25;
+      font-weight: 950;
+    }
+    .salon-step-content {
+      max-height: min(48vh, 520px);
+      overflow: auto;
+      padding: 10px 12px 12px;
+    }
+    .salon-step-card:nth-child(1) { --step-accent: #0071e3; --step-tint: rgba(0,113,227,.09); }
+    .salon-step-card:nth-child(2) { --step-accent: #34c759; --step-tint: rgba(52,199,89,.10); }
+    .salon-step-card:nth-child(3) { --step-accent: #ff9500; --step-tint: rgba(255,149,0,.12); }
+    .salon-step-card:nth-child(4) { --step-accent: #af52de; --step-tint: rgba(175,82,222,.10); }
+    .salon-step-card:nth-child(5) { --step-accent: #ff3b30; --step-tint: rgba(255,59,48,.09); }
+    .salon-step-card:nth-child(6) { --step-accent: #00a7c7; --step-tint: rgba(0,167,199,.10); }
+    .salon-step-card:nth-child(7) { --step-accent: #5856d6; --step-tint: rgba(88,86,214,.10); }
+    .salon-step-card:nth-child(8) { --step-accent: #8e8e93; --step-tint: rgba(142,142,147,.12); }
     .mirror-raw-panel {
       --mirror-tint: #f7f7f8;
       --mirror-accent: #0071e3;
@@ -1325,6 +1374,22 @@
       }
       .salon-script-body {
         padding: 10px;
+      }
+      .salon-step-head {
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 8px;
+        padding: 9px;
+      }
+      .salon-step-index {
+        width: 26px;
+        height: 26px;
+        font-size: 12px;
+      }
+      .salon-step-title {
+        font-size: 15px;
+      }
+      .salon-step-content {
+        padding: 9px;
       }
       .mirror-raw-head {
         display: grid;
@@ -2293,14 +2358,50 @@
           '<div class="salon-script-head">' +
             '<div><h3>' + safeHtml(current.name) + '</h3>' +
             '<p>' + safeHtml(current.caption || '三款沙龙话术') + '</p></div>' +
-            compactCopyButton(current.content || '', 'mini-copy salon-script-copy') +
           '</div>' +
-          '<div class="salon-script-body">' + formatDisplayText(current.content || '') + '</div>' +
+          '<div class="salon-script-body">' + renderSalonScriptSteps(current.content || '') + '</div>' +
         '</article>';
       salonScriptTabs.querySelectorAll('[data-salon-script-index]').forEach((button) => {
         button.addEventListener('click', () => renderSalonScriptTemplates(Number(button.dataset.salonScriptIndex)));
       });
       bindCompactCopy(salonScriptPanel);
+    }
+
+    function renderSalonScriptSteps(content) {
+      const steps = splitSalonScriptSteps(content);
+      return steps.map((step, index) => {
+        const copyText = [step.title, ...step.lines].join('\n').trim();
+        return '<section class="salon-step-card">' +
+          '<div class="salon-step-head">' +
+            '<span class="salon-step-index">' + (index + 1) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(step.title) + '</h4>' +
+            compactCopyButton(copyText, 'mini-copy salon-step-copy') +
+          '</div>' +
+          '<div class="salon-step-content">' + formatDisplayText(step.lines.join('\n')) + '</div>' +
+        '</section>';
+      }).join('');
+    }
+
+    function splitSalonScriptSteps(content) {
+      const lines = String(content || '').split('\n').map((line) => line.trim()).filter(Boolean);
+      const steps = [];
+      const intro = [];
+      let current = null;
+      lines.forEach((line) => {
+        const match = line.match(/^第([一二三四五六七八])\s*[：:.．]\s*(.+)$/);
+        if (match) {
+          if (current) steps.push(current);
+          current = { title: line, lines: [] };
+          return;
+        }
+        if (current) current.lines.push(line);
+        else intro.push(line);
+      });
+      if (current) steps.push(current);
+      if (intro.length && steps.length) {
+        steps[0].lines = intro.concat(steps[0].lines);
+      }
+      return steps;
     }
 
     function shouldHideRawCopy(displayTitle, originalTitle, lines) {
