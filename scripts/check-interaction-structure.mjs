@@ -102,7 +102,7 @@ await page.locator('[data-content-target="salonScripts"]').click();
 await page.waitForTimeout(100);
 const salonScriptStats = await page.$eval('#salonScripts', (root) => ({
   buttons: [...root.querySelectorAll('#salonScriptTabs button')].map((button) => button.textContent.trim()),
-  title: root.querySelector('.salon-script-head h3')?.textContent.trim() || '',
+  fixedHeadCount: root.querySelectorAll('.salon-script-head').length,
   stepCount: root.querySelectorAll('.salon-step-card').length,
   copyCount: root.querySelectorAll('.salon-step-copy').length,
   firstCopyText: root.querySelector('.salon-step-copy')?.dataset.copyText || '',
@@ -112,19 +112,20 @@ const salonScriptStats = await page.$eval('#salonScripts', (root) => ({
     .map((card) => getComputedStyle(card).borderLeftColor)
 }));
 assert(JSON.stringify(salonScriptStats.buttons) === JSON.stringify(['虽然但是', '角度', '语气']), `沙龙话术三款切换不正确：${salonScriptStats.buttons.join(' / ')}`);
-assert(salonScriptStats.title === '虽然但是', '沙龙话术默认没有显示“虽然但是”');
+assert(salonScriptStats.fixedHeadCount === 0, '沙龙话术仍显示上方固定标题栏');
 assert(salonScriptStats.stepCount === 8, `虽然但是沙龙没有拆成8步：${salonScriptStats.stepCount}`);
 assert(salonScriptStats.copyCount === 8, `虽然但是沙龙步骤复制按钮数量不正确：${salonScriptStats.copyCount}`);
 assert(salonScriptStats.firstCopyText.includes('第一：邀约') && salonScriptStats.firstCopyText.includes('邀约公式'), '沙龙话术第一步复制内容不完整');
+assert(!salonScriptStats.firstCopyText.includes('副标题'), '沙龙话术第一步复制内容仍夹带整篇标题说明');
 assert(new Set(salonScriptStats.accentSamples).size >= 2, '沙龙话术步骤没有做颜色区分');
 assert(salonScriptStats.hasBody, '沙龙话术正文没有显示');
 await page.locator('#salonScriptTabs button', { hasText: '语气' }).click();
 const activeSalonScript = await page.$eval('#salonScripts', (root) => ({
-  title: root.querySelector('.salon-script-head h3')?.textContent.trim() || '',
+  activeButton: root.querySelector('#salonScriptTabs button.active')?.textContent.trim() || '',
   stepCount: root.querySelectorAll('.salon-step-card').length,
   copyText: root.querySelector('.salon-step-copy')?.dataset.copyText || ''
 }));
-assert(activeSalonScript.title === '语气', '沙龙话术不能切换到“语气”');
+assert(activeSalonScript.activeButton === '语气', '沙龙话术不能切换到“语气”');
 assert(activeSalonScript.stepCount === 8, `语气沙龙没有拆成8步：${activeSalonScript.stepCount}`);
 assert(activeSalonScript.copyText.includes('语气沙龙') || activeSalonScript.copyText.includes('第一：邀约'), '语气沙龙复制内容不正确');
 

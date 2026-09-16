@@ -2355,10 +2355,6 @@
       )).join('');
       salonScriptPanel.innerHTML =
         '<article class="salon-script-card" data-search-text="' + safeHtml([current.name, current.caption, current.content].join(' ')) + '">' +
-          '<div class="salon-script-head">' +
-            '<div><h3>' + safeHtml(current.name) + '</h3>' +
-            '<p>' + safeHtml(current.caption || '三款沙龙话术') + '</p></div>' +
-          '</div>' +
           '<div class="salon-script-body">' + renderSalonScriptSteps(current.content || '') + '</div>' +
         '</article>';
       salonScriptTabs.querySelectorAll('[data-salon-script-index]').forEach((button) => {
@@ -2398,9 +2394,6 @@
         else intro.push(line);
       });
       if (current) steps.push(current);
-      if (intro.length && steps.length) {
-        steps[0].lines = intro.concat(steps[0].lines);
-      }
       return steps;
     }
 
