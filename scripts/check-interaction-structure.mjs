@@ -178,7 +178,9 @@ for (const check of questionChecks) {
     searchCount: root.querySelectorAll('[data-question-search]').length,
     lineCopyCount: root.querySelectorAll('.question-block [data-copy-text]').length,
     courseCopyCount: root.querySelectorAll('.question-course summary [data-copy-text]').length,
-    firstCopyText: root.querySelector('.question-course summary [data-copy-text]')?.dataset.copyText || ''
+    firstCopyText: root.querySelector('.question-course summary [data-copy-text]')?.dataset.copyText || '',
+    courseTitleFontSize: getComputedStyle(root.querySelector('.question-course-title')).fontSize,
+    itemFontSize: getComputedStyle(root.querySelector('.question-block li')).fontSize
   }));
   assert(stats.moduleCount >= 1, `${check.target} 没有模块`);
   assert(stats.courseCount >= check.minCourses, `${check.target} 课程数量不足：${stats.courseCount}`);
@@ -186,6 +188,8 @@ for (const check of questionChecks) {
   assert(stats.lineCopyCount === 0, `${check.target} 出现行级复制按钮`);
   assert(stats.courseCopyCount === stats.courseCount, `${check.target} 课程级复制按钮数量不正确`);
   assert(stats.firstCopyText.includes('互动问题') && stats.firstCopyText.includes('作业'), `${check.target} 复制内容没有同时包含问句和作业`);
+  assert(parseFloat(stats.courseTitleFontSize) >= 14, `${check.target} 课程标题字号偏小：${stats.courseTitleFontSize}`);
+  assert(parseFloat(stats.itemFontSize) >= 14, `${check.target} 问句正文字号偏小：${stats.itemFontSize}`);
 
   await page.locator(`#${check.target} [data-question-search]`).fill(check.keyword);
   await page.waitForTimeout(100);
@@ -311,6 +315,10 @@ const modelCards = await page.$eval('#modelCollection', (root) => ({
   questionTemplateCopyCount: root.querySelectorAll('#collectionQuestionsCopy[data-copy-text]').length,
   firstStepCopyText: root.querySelector('.model-step-copy')?.dataset.copyText || '',
   questionsCopyText: root.querySelector('#collectionQuestionsCopy')?.dataset.copyText || '',
+  questionHeadHeight: root.querySelector('#collectionQuestions .salon-step-head')?.getBoundingClientRect().height || 0,
+  questionHeadBackground: getComputedStyle(root.querySelector('#collectionQuestions .salon-step-head')).backgroundColor,
+  questionTitleFontSize: getComputedStyle(root.querySelector('#collectionQuestions .salon-step-title')).fontSize,
+  questionLineFontSize: getComputedStyle(root.querySelector('#collectionQuestions .salon-line')).fontSize,
   gridColumns: getComputedStyle(root.querySelector('#collectionGrid')).gridTemplateColumns
 }));
 assert(modelCards.stepCount >= 4, '榜样采访步骤卡片数量不足');
@@ -320,6 +328,9 @@ assert(modelCards.questionCopyCount === 0, '榜样采访问句模板仍有单问
 assert(modelCards.questionTemplateCopyCount === 1, '榜样采访问句模板缺少整块复制按钮');
 assert(modelCards.firstStepCopyText.includes('共情') && modelCards.firstStepCopyText.includes('核心目的'), '榜样采访步骤复制内容不完整');
 assert(modelCards.questionsCopyText.includes('榜样采访问句模版') && modelCards.questionsCopyText.includes('1. 你当时是带着什么问题来的'), '榜样采访问句模板复制内容不完整');
+assert(modelCards.questionHeadHeight <= 40, `榜样采访问句标题色块占比过大：${modelCards.questionHeadHeight}`);
+assert(modelCards.questionHeadBackground === 'rgba(0, 0, 0, 0)', `榜样采访问句标题区仍是整块色块：${modelCards.questionHeadBackground}`);
+assert(Math.abs(parseFloat(modelCards.questionTitleFontSize) - parseFloat(modelCards.questionLineFontSize)) <= 1, `榜样采访问句标题正文比例不协调：${modelCards.questionTitleFontSize} / ${modelCards.questionLineFontSize}`);
 assert(!modelCards.gridColumns.includes(' '), '榜样采访步骤仍是多列网格，未统一成模块卡片单列');
 
 const mirrorCardChecks = [

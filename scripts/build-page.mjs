@@ -1874,7 +1874,7 @@ const html = `<!doctype html>
       font-size: 12px;
       font-weight: 950;
     }
-    .salon-step-title {
+    .salon-step-head .salon-step-title {
       min-width: 0;
       color: #1d1d1f;
       font-size: 15px;
@@ -1967,6 +1967,19 @@ const html = `<!doctype html>
       grid-template-columns: 1fr;
       gap: 12px;
       margin-top: 14px;
+    }
+    .mirror-standard-card .salon-step-head {
+      background: transparent;
+      border-bottom: 0;
+      padding: 7px 10px 2px;
+    }
+    .mirror-standard-card .salon-step-index {
+      width: 23px;
+      height: 23px;
+      font-size: 11.5px;
+    }
+    .mirror-standard-card .salon-step-content {
+      padding: 3px 10px 9px;
     }
     .mirror-standard-card.framework-card,
     .mirror-standard-card.collection-card,
@@ -2646,6 +2659,10 @@ const html = `<!doctype html>
       .question-module-head h3 {
         font-size: 15px;
       }
+      .question-course-title,
+      .question-block li {
+        font-size: 14px;
+      }
       .question-course summary {
         min-height: 40px;
         padding: 8px 8px 8px 10px;
@@ -2680,9 +2697,20 @@ const html = `<!doctype html>
         height: 24px;
         font-size: 12px;
       }
-      .salon-step-title {
+      .salon-step-head .salon-step-title {
         font-size: 14.5px;
         line-height: 1.32;
+      }
+      .mirror-standard-card .salon-step-head {
+        padding: 6px 8px 2px;
+      }
+      .mirror-standard-card .salon-step-index {
+        width: 22px;
+        height: 22px;
+        font-size: 11px;
+      }
+      .mirror-standard-card .salon-step-content {
+        padding: 3px 8px 8px;
       }
       .salon-step-content {
         padding: 8px;
@@ -2759,13 +2787,13 @@ const html = `<!doctype html>
         padding: 9px 10px;
       }
       .question-course-title {
-        font-size: 13px;
+        font-size: 14px;
       }
       .question-block {
         padding: 8px;
       }
       .question-block li {
-        font-size: 13px;
+        font-size: 14px;
       }
     }
   </style>
