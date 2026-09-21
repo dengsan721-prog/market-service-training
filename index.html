@@ -638,15 +638,15 @@
     }
     .salon-script-body {
       display: grid;
-      gap: 12px;
-      padding: 14px;
+      gap: 9px;
+      padding: 10px;
       background: rgba(255,255,255,.92);
     }
     .salon-script-body .split-line {
       color: #1d1d1f;
       font-size: 14px;
-      line-height: 1.7;
-      font-weight: 720;
+      line-height: 1.58;
+      font-weight: 680;
     }
     .salon-step-card {
       --step-accent: #0071e3;
@@ -660,47 +660,47 @@
     .salon-step-head {
       display: grid;
       grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: 10px;
+      gap: 8px;
       align-items: center;
-      padding: 10px 12px;
+      padding: 8px 10px;
       background: var(--step-tint);
       border-bottom: 1px solid rgba(0,0,0,.06);
     }
     .salon-step-index {
       display: grid;
       place-items: center;
-      width: 30px;
-      height: 30px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       background: var(--step-accent);
       color: #fff;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 950;
     }
     .salon-step-title {
       min-width: 0;
       color: #1d1d1f;
-      font-size: 17px;
-      line-height: 1.25;
-      font-weight: 950;
+      font-size: 15px;
+      line-height: 1.32;
+      font-weight: 880;
     }
     .salon-step-content {
       max-height: none !important;
       overflow: visible !important;
-      padding: 10px 12px 12px;
+      padding: 8px 10px 10px;
       white-space: normal;
       overflow-wrap: anywhere;
     }
     .salon-line-list {
       display: grid;
-      gap: 7px;
+      gap: 5px;
     }
-    .salon-line {
+    .salon-line-list .salon-line {
       margin: 0;
       color: #1d1d1f;
       font-size: 14px;
-      line-height: 1.72;
-      font-weight: 730;
+      line-height: 22px;
+      font-weight: 680;
       overflow-wrap: anywhere;
     }
     .salon-line.formula,
@@ -713,7 +713,7 @@
     .salon-line.question,
     .salon-line.bullet {
       border-radius: 10px;
-      padding: 8px 10px;
+      padding: 6px 8px;
     }
     .salon-line.formula,
     .salon-line.label {
@@ -813,11 +813,11 @@
     }
     .raw-copy-list {
       display: grid;
-      gap: 10px;
+      gap: 8px;
     }
     .raw-module-card {
       border-radius: 12px;
-      padding: 10px;
+      padding: 8px;
       background: #fff;
       border: 1px solid rgba(0,0,0,.08);
       border-left: 3px solid var(--mirror-accent);
@@ -828,7 +828,7 @@
       gap: 8px;
       align-items: start;
       border-radius: 10px;
-      padding: 8px 9px;
+      padding: 7px 8px;
       background: var(--mirror-tint);
     }
     .raw-module-title {
@@ -841,9 +841,9 @@
     }
     .raw-line-list {
       display: grid;
-      gap: 5px;
-      margin-top: 8px;
-      padding-top: 8px;
+      gap: 4px;
+      margin-top: 7px;
+      padding-top: 7px;
       border-top: 1px solid rgba(0,0,0,.08);
     }
     .raw-line {
@@ -871,7 +871,7 @@
     .raw-line span:last-child,
     .raw-module-card > p {
       color: #3a3a3c;
-      line-height: 1.56;
+      line-height: 1.52;
       font-size: 14.2px;
       font-weight: 640;
     }
@@ -1471,23 +1471,39 @@
         font-size: 17px;
       }
       .salon-script-body {
-        padding: 10px;
+        padding: 8px;
       }
       .salon-step-head {
         grid-template-columns: auto minmax(0, 1fr) auto;
-        gap: 8px;
-        padding: 9px;
+        gap: 7px;
+        padding: 7px 8px;
       }
       .salon-step-index {
-        width: 26px;
-        height: 26px;
+        width: 24px;
+        height: 24px;
         font-size: 12px;
       }
       .salon-step-title {
-        font-size: 15px;
+        font-size: 14.5px;
+        line-height: 1.32;
       }
       .salon-step-content {
-        padding: 9px;
+        padding: 8px;
+      }
+      .salon-line-list .salon-line {
+        font-size: 14px;
+        line-height: 22px;
+      }
+      .salon-line.formula,
+      .salon-line.label,
+      .salon-line.step,
+      .salon-line.scene,
+      .salon-line.case,
+      .salon-line.task,
+      .salon-line.bracket,
+      .salon-line.question,
+      .salon-line.bullet {
+        padding: 6px 8px;
       }
       .mirror-raw-head {
         display: grid;

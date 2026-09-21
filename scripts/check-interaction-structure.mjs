@@ -112,6 +112,12 @@ const salonScriptStats = await page.$eval('#salonScripts', (root) => ({
   firstStepOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
   firstStepMaxHeight: getComputedStyle(root.querySelector('.salon-step-content')).maxHeight,
   firstStepCardOverflow: getComputedStyle(root.querySelector('.salon-step-card')).overflowY,
+  titleFontSize: getComputedStyle(root.querySelector('.salon-step-title')).fontSize,
+  lineFontSize: getComputedStyle(root.querySelector('.salon-line')).fontSize,
+  lineHeight: getComputedStyle(root.querySelector('.salon-line')).lineHeight,
+  headPaddingTop: getComputedStyle(root.querySelector('.salon-step-head')).paddingTop,
+  contentPaddingTop: getComputedStyle(root.querySelector('.salon-step-content')).paddingTop,
+  markedPaddingTop: getComputedStyle(root.querySelector('.salon-line.formula, .salon-line.bracket, .salon-line.step')).paddingTop,
   markedLineTypes: [...new Set([...root.querySelectorAll('.salon-step-card:first-child .salon-line')]
     .map((node) => [...node.classList].find((name) => name !== 'salon-line'))
     .filter(Boolean))],
@@ -131,6 +137,11 @@ assert(salonScriptStats.markedLineTypes.includes('bracket'), '沙龙话术缺少
 assert(!['auto', 'scroll'].includes(salonScriptStats.firstStepOverflowY), `沙龙步骤正文仍存在内部滚动：${salonScriptStats.firstStepOverflowY}`);
 assert(salonScriptStats.firstStepMaxHeight === 'none', `沙龙步骤正文仍限制高度：${salonScriptStats.firstStepMaxHeight}`);
 assert(salonScriptStats.firstStepCardOverflow === 'visible', `沙龙步骤卡片仍限制溢出：${salonScriptStats.firstStepCardOverflow}`);
+assert(Math.abs(parseFloat(salonScriptStats.titleFontSize) - parseFloat(salonScriptStats.lineFontSize)) <= 1.5, `沙龙话术标题和正文不协调：${salonScriptStats.titleFontSize} / ${salonScriptStats.lineFontSize}`);
+assert(parseFloat(salonScriptStats.lineHeight) <= 23, `沙龙话术正文行高占位过大：${salonScriptStats.lineHeight}`);
+assert(parseFloat(salonScriptStats.headPaddingTop) <= 10, `沙龙话术标题区内边距过大：${salonScriptStats.headPaddingTop}`);
+assert(parseFloat(salonScriptStats.contentPaddingTop) <= 10, `沙龙话术正文区内边距过大：${salonScriptStats.contentPaddingTop}`);
+assert(parseFloat(salonScriptStats.markedPaddingTop) <= 8, `沙龙话术重点色块内边距过大：${salonScriptStats.markedPaddingTop}`);
 assert(new Set(salonScriptStats.accentSamples).size >= 2, '沙龙话术步骤没有做颜色区分');
 assert(salonScriptStats.hasBody, '沙龙话术正文没有显示');
 await page.locator('#salonScriptTabs button', { hasText: '语气' }).click();
@@ -203,6 +214,9 @@ const studentGrowth = await page.$eval('#studentGrowthSteps', (root) => ({
     .map((node) => [...node.classList].find((name) => name !== 'salon-line'))
     .filter(Boolean))],
   firstContentOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
+  titleFontSize: getComputedStyle(root.querySelector('.salon-step-title')).fontSize,
+  lineFontSize: getComputedStyle(root.querySelector('.salon-line')).fontSize,
+  lineHeight: getComputedStyle(root.querySelector('.salon-line')).lineHeight,
   accentSamples: [...root.querySelectorAll('.student-growth-card')]
     .slice(0, 4)
     .map((card) => getComputedStyle(card).borderLeftColor)
@@ -214,6 +228,8 @@ assert(studentGrowth.firstCopyText.includes('第一步，激活主动性') && st
 assert(studentGrowth.hasCoreTone, '学员成长四步缺少核心底色模块');
 assert(studentGrowth.markedLineTypes.includes('formula'), '学员成长四步缺少重点色块标注');
 assert(!['auto', 'scroll'].includes(studentGrowth.firstContentOverflowY), `学员成长四步正文仍存在内部滚动：${studentGrowth.firstContentOverflowY}`);
+assert(Math.abs(parseFloat(studentGrowth.titleFontSize) - parseFloat(studentGrowth.lineFontSize)) <= 1.5, `学员成长四步标题和正文不协调：${studentGrowth.titleFontSize} / ${studentGrowth.lineFontSize}`);
+assert(parseFloat(studentGrowth.lineHeight) <= 23, `学员成长四步正文行高占位过大：${studentGrowth.lineHeight}`);
 assert(new Set(studentGrowth.accentSamples).size >= 2, '学员成长四步模块没有颜色区分');
 
 await page.locator('[data-content-target="salonInterviewStandards"]').click();
@@ -229,6 +245,9 @@ const salonInterview = await page.$eval('#salonInterviewStandards', (root) => ({
     .map((node) => [...node.classList].find((name) => name !== 'salon-line'))
     .filter(Boolean))],
   firstContentOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
+  titleFontSize: getComputedStyle(root.querySelector('.salon-step-title')).fontSize,
+  lineFontSize: getComputedStyle(root.querySelector('.salon-line')).fontSize,
+  lineHeight: getComputedStyle(root.querySelector('.salon-line')).lineHeight,
   accentSamples: [...root.querySelectorAll('.salon-interview-card')]
     .slice(0, 4)
     .map((card) => getComputedStyle(card).borderLeftColor)
@@ -241,6 +260,8 @@ assert(salonInterview.hasFormula, '幸福沙龙采访缺少现场点评公式');
 assert(salonInterview.hasForbidden, '幸福沙龙采访缺少采访禁忌内容');
 assert(salonInterview.markedLineTypes.includes('formula'), '幸福沙龙采访缺少重点色块标注');
 assert(!['auto', 'scroll'].includes(salonInterview.firstContentOverflowY), `幸福沙龙采访正文仍存在内部滚动：${salonInterview.firstContentOverflowY}`);
+assert(Math.abs(parseFloat(salonInterview.titleFontSize) - parseFloat(salonInterview.lineFontSize)) <= 1.5, `幸福沙龙采访标题和正文不协调：${salonInterview.titleFontSize} / ${salonInterview.lineFontSize}`);
+assert(parseFloat(salonInterview.lineHeight) <= 23, `幸福沙龙采访正文行高占位过大：${salonInterview.lineHeight}`);
 assert(new Set(salonInterview.accentSamples).size >= 2, '幸福沙龙采访模块没有颜色区分');
 
 await page.locator('[data-content-target="abilitySalonReview"]').click();
@@ -316,6 +337,11 @@ for (const check of mirrorCardChecks) {
     lineCopyCount: root.querySelectorAll('.salon-line [data-copy-text]').length,
     firstCopyText: root.querySelector(check.copy)?.dataset.copyText || '',
     firstContentOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
+    titleFontSize: getComputedStyle(root.querySelector('.salon-step-title')).fontSize,
+    lineFontSize: getComputedStyle(root.querySelector('.salon-line')).fontSize,
+    lineHeight: getComputedStyle(root.querySelector('.salon-line')).lineHeight,
+    headPaddingTop: getComputedStyle(root.querySelector('.salon-step-head')).paddingTop,
+    contentPaddingTop: getComputedStyle(root.querySelector('.salon-step-content')).paddingTop,
     accentSamples: [...root.querySelectorAll(check.card)]
       .slice(0, 4)
       .map((card) => getComputedStyle(card).borderLeftColor)
@@ -325,6 +351,10 @@ for (const check of mirrorCardChecks) {
   assert(stats.lineCopyCount === 0, `${check.target} 出现行级复制按钮`);
   assert(stats.firstCopyText.includes(check.marker), `${check.target} 复制内容不完整`);
   assert(!['auto', 'scroll'].includes(stats.firstContentOverflowY), `${check.target} 正文仍存在内部滚动：${stats.firstContentOverflowY}`);
+  assert(Math.abs(parseFloat(stats.titleFontSize) - parseFloat(stats.lineFontSize)) <= 1.5, `${check.target} 标题和正文不协调：${stats.titleFontSize} / ${stats.lineFontSize}`);
+  assert(parseFloat(stats.lineHeight) <= 23, `${check.target} 正文行高占位过大：${stats.lineHeight}`);
+  assert(parseFloat(stats.headPaddingTop) <= 10, `${check.target} 标题区内边距过大：${stats.headPaddingTop}`);
+  assert(parseFloat(stats.contentPaddingTop) <= 10, `${check.target} 正文区内边距过大：${stats.contentPaddingTop}`);
   assert(new Set(stats.accentSamples).size >= 2, `${check.target} 模块没有颜色区分`);
 }
 
