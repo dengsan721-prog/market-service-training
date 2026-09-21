@@ -112,6 +112,8 @@ const salonScriptStats = await page.$eval('#salonScripts', (root) => ({
   firstStepOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
   firstStepMaxHeight: getComputedStyle(root.querySelector('.salon-step-content')).maxHeight,
   firstStepCardOverflow: getComputedStyle(root.querySelector('.salon-step-card')).overflowY,
+  headBackground: getComputedStyle(root.querySelector('.salon-step-head')).backgroundColor,
+  formulaBackground: getComputedStyle(root.querySelector('.salon-line.formula')).backgroundColor,
   titleFontSize: getComputedStyle(root.querySelector('.salon-step-title')).fontSize,
   lineFontSize: getComputedStyle(root.querySelector('.salon-line')).fontSize,
   lineHeight: getComputedStyle(root.querySelector('.salon-line')).lineHeight,
@@ -137,6 +139,8 @@ assert(salonScriptStats.markedLineTypes.includes('bracket'), '沙龙话术缺少
 assert(!['auto', 'scroll'].includes(salonScriptStats.firstStepOverflowY), `沙龙步骤正文仍存在内部滚动：${salonScriptStats.firstStepOverflowY}`);
 assert(salonScriptStats.firstStepMaxHeight === 'none', `沙龙步骤正文仍限制高度：${salonScriptStats.firstStepMaxHeight}`);
 assert(salonScriptStats.firstStepCardOverflow === 'visible', `沙龙步骤卡片仍限制溢出：${salonScriptStats.firstStepCardOverflow}`);
+assert(salonScriptStats.headBackground === 'rgba(0, 0, 0, 0)', `沙龙话术标题行仍是整条色块：${salonScriptStats.headBackground}`);
+assert(salonScriptStats.formulaBackground === 'rgba(0, 0, 0, 0)', `沙龙话术重点句仍是整条色块：${salonScriptStats.formulaBackground}`);
 assert(Math.abs(parseFloat(salonScriptStats.titleFontSize) - parseFloat(salonScriptStats.lineFontSize)) <= 1.5, `沙龙话术标题和正文不协调：${salonScriptStats.titleFontSize} / ${salonScriptStats.lineFontSize}`);
 assert(parseFloat(salonScriptStats.lineHeight) <= 23, `沙龙话术正文行高占位过大：${salonScriptStats.lineHeight}`);
 assert(parseFloat(salonScriptStats.headPaddingTop) <= 10, `沙龙话术标题区内边距过大：${salonScriptStats.headPaddingTop}`);
