@@ -69,6 +69,7 @@ assert(JSON.stringify(tabLabels) === JSON.stringify([
   '7天训练营',
   '7天训练营复盘',
   '榜样采访',
+  '幸福沙龙采访',
   '榜样选拔与教练招募',
   '沙龙话术',
   '人才培养营',
@@ -210,6 +211,33 @@ assert(studentGrowth.hasCoreTone, '学员成长四步缺少核心底色模块');
 assert(studentGrowth.markedLineTypes.includes('formula'), '学员成长四步缺少重点色块标注');
 assert(!['auto', 'scroll'].includes(studentGrowth.firstContentOverflowY), `学员成长四步正文仍存在内部滚动：${studentGrowth.firstContentOverflowY}`);
 assert(new Set(studentGrowth.accentSamples).size >= 2, '学员成长四步模块没有颜色区分');
+
+await page.locator('[data-content-target="salonInterviewStandards"]').click();
+await page.waitForTimeout(100);
+const salonInterview = await page.$eval('#salonInterviewStandards', (root) => ({
+  title: root.querySelector('h2')?.textContent.trim() || '',
+  moduleCount: root.querySelectorAll('.salon-interview-card').length,
+  copyCount: root.querySelectorAll('.salon-interview-copy').length,
+  firstCopyText: root.querySelector('.salon-interview-copy')?.dataset.copyText || '',
+  hasFormula: root.textContent.includes('抓细节 → 点不容易 → 点价值'),
+  hasForbidden: root.textContent.includes('不把采访变成考核、批评或成交'),
+  markedLineTypes: [...new Set([...root.querySelectorAll('.salon-interview-card:first-child .salon-line')]
+    .map((node) => [...node.classList].find((name) => name !== 'salon-line'))
+    .filter(Boolean))],
+  firstContentOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
+  accentSamples: [...root.querySelectorAll('.salon-interview-card')]
+    .slice(0, 4)
+    .map((card) => getComputedStyle(card).borderLeftColor)
+}));
+assert(salonInterview.title === '幸福沙龙采访', '幸福沙龙采访标题不正确');
+assert(salonInterview.moduleCount === 15, `幸福沙龙采访模块数量不正确：${salonInterview.moduleCount}`);
+assert(salonInterview.copyCount === 15, `幸福沙龙采访复制按钮数量不正确：${salonInterview.copyCount}`);
+assert(salonInterview.firstCopyText.includes('一、一句话定位') && salonInterview.firstCopyText.includes('被看见、被托举、被赋能'), '幸福沙龙采访第一模块复制内容不完整');
+assert(salonInterview.hasFormula, '幸福沙龙采访缺少现场点评公式');
+assert(salonInterview.hasForbidden, '幸福沙龙采访缺少采访禁忌内容');
+assert(salonInterview.markedLineTypes.includes('formula'), '幸福沙龙采访缺少重点色块标注');
+assert(!['auto', 'scroll'].includes(salonInterview.firstContentOverflowY), `幸福沙龙采访正文仍存在内部滚动：${salonInterview.firstContentOverflowY}`);
+assert(new Set(salonInterview.accentSamples).size >= 2, '幸福沙龙采访模块没有颜色区分');
 
 await page.locator('[data-content-target="abilitySalonReview"]').click();
 const salonReview = await page.$eval('#abilitySalonReview', (root) => {
