@@ -77,7 +77,8 @@ assert(JSON.stringify(tabLabels) === JSON.stringify([
   '工具模型',
   '幸福驾校互动问句',
   '主课互动问句',
-  '智疗互动问句'
+  '智疗互动问句',
+  '学员成长四步'
 ]), `镜子库 tab 顺序不正确：${tabLabels.join(' / ')}`);
 assert(tabLabels.includes('榜样选拔与教练招募'), '镜子库缺少“榜样选拔与教练招募”tab');
 assert(tabLabels.includes('市场服务'), '镜子库缺少“市场服务”tab');
@@ -184,6 +185,31 @@ for (const check of questionChecks) {
   const firstOpen = await page.$eval(`#${check.target} [data-question-course]:not([hidden])`, (course) => course.open);
   assert(firstOpen, `${check.target} 点击课程标题没有展开`);
 }
+
+await page.locator('[data-content-target="studentGrowthSteps"]').click();
+await page.waitForTimeout(100);
+const studentGrowth = await page.$eval('#studentGrowthSteps', (root) => ({
+  title: root.querySelector('h2')?.textContent.trim() || '',
+  stepCount: root.querySelectorAll('.student-growth-card').length,
+  copyCount: root.querySelectorAll('.student-growth-copy').length,
+  firstCopyText: root.querySelector('.student-growth-copy')?.dataset.copyText || '',
+  hasCoreTone: root.textContent.includes('去能力化、百姓化'),
+  markedLineTypes: [...new Set([...root.querySelectorAll('.student-growth-card:first-child .salon-line')]
+    .map((node) => [...node.classList].find((name) => name !== 'salon-line'))
+    .filter(Boolean))],
+  firstContentOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
+  accentSamples: [...root.querySelectorAll('.student-growth-card')]
+    .slice(0, 4)
+    .map((card) => getComputedStyle(card).borderLeftColor)
+}));
+assert(studentGrowth.title === '学员成长四步', '学员成长四步标题不正确');
+assert(studentGrowth.stepCount === 5, `学员成长四步模块数量不正确：${studentGrowth.stepCount}`);
+assert(studentGrowth.copyCount === 5, `学员成长四步复制按钮数量不正确：${studentGrowth.copyCount}`);
+assert(studentGrowth.firstCopyText.includes('第一步，激活主动性') && studentGrowth.firstCopyText.includes('核心逻辑是学员参与度决定改变效率'), '学员成长四步第一步复制内容不完整');
+assert(studentGrowth.hasCoreTone, '学员成长四步缺少核心底色模块');
+assert(studentGrowth.markedLineTypes.includes('formula'), '学员成长四步缺少重点色块标注');
+assert(!['auto', 'scroll'].includes(studentGrowth.firstContentOverflowY), `学员成长四步正文仍存在内部滚动：${studentGrowth.firstContentOverflowY}`);
+assert(new Set(studentGrowth.accentSamples).size >= 2, '学员成长四步模块没有颜色区分');
 
 await page.locator('[data-content-target="abilitySalonReview"]').click();
 const salonReview = await page.$eval('#abilitySalonReview', (root) => {

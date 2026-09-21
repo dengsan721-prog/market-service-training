@@ -72,6 +72,10 @@ const salonScriptTemplateFile = path.join(repoRoot, 'data', 'salon-script-templa
 const salonScriptTemplates = fs.existsSync(salonScriptTemplateFile)
   ? JSON.parse(fs.readFileSync(salonScriptTemplateFile, 'utf8'))
   : [];
+const studentGrowthStepFile = path.join(repoRoot, 'data', 'student-growth-steps.json');
+const studentGrowthSteps = fs.existsSync(studentGrowthStepFile)
+  ? JSON.parse(fs.readFileSync(studentGrowthStepFile, 'utf8'))
+  : { title: '学员成长四步', modules: [] };
 
 function sliceByHeadings(content, startText, endText) {
   const start = content.indexOf(startText);
@@ -1177,7 +1181,7 @@ function applyMarkdownOverrides(baseData) {
   };
 }
 
-const data = applyMarkdownOverrides({ modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, camp7Review, flowGuide, masterFlow, modelCollection, toolbox, interactiveQuestionLibraries, salonScriptTemplates });
+const data = applyMarkdownOverrides({ modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, camp7Review, flowGuide, masterFlow, modelCollection, toolbox, interactiveQuestionLibraries, salonScriptTemplates, studentGrowthSteps });
 
 function escapeHtml(value) {
   return String(value)
@@ -2755,6 +2759,7 @@ const html = `<!doctype html>
               <button type="button" data-content-target="drivingQuestions">幸福驾校互动问句</button>
               <button type="button" data-content-target="mainCourseQuestions">主课互动问句</button>
               <button type="button" data-content-target="therapyQuestions">智疗互动问句</button>
+              <button type="button" data-content-target="studentGrowthSteps">学员成长四步</button>
             </div>
           </div>
         </section>
@@ -2893,6 +2898,14 @@ const html = `<!doctype html>
               <p class="question-library-meta" data-question-meta="therapyQuestions"></p>
             </div>
             <div class="question-module-list" id="therapyQuestionsList"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card content-panel" id="studentGrowthSteps" hidden>
+          <div class="band-inner">
+            <div class="copy-title-row"><h2>学员成长四步</h2></div>
+            <p>按学员成长四步方法论拆成独立模块，重点内容做颜色区分，每个模块可单独复制。</p>
+            <div class="salon-script-body student-growth-list" id="studentGrowthList"></div>
           </div>
         </section>
 
@@ -3619,6 +3632,29 @@ const html = `<!doctype html>
       bindCompactCopy(salonScriptPanel);
     }
 
+    function renderStudentGrowthSteps() {
+      const target = document.getElementById('studentGrowthList');
+      const modules = manual.studentGrowthSteps?.modules || [];
+      if (!target) return;
+      if (!modules.length) {
+        target.innerHTML = '<p class="question-empty">暂无学员成长四步内容</p>';
+        return;
+      }
+      target.innerHTML = modules.map((module, index) => {
+        const lineBlocks = buildSalonLineBlocks(module.lines || []);
+        const copyText = [module.title, ...lineBlocks.map((block) => block.text)].join('\\n').trim();
+        return '<section class="salon-step-card student-growth-card">' +
+          '<div class="salon-step-head">' +
+            '<span class="salon-step-index">' + safeHtml(module.order || String(index + 1)) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(module.title || ('内容模块 ' + (index + 1))) + '</h4>' +
+            compactCopyButton(copyText, 'mini-copy student-growth-copy') +
+          '</div>' +
+          '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
+        '</section>';
+      }).join('');
+      bindCompactCopy(target);
+    }
+
     function renderSalonScriptSteps(content) {
       const steps = splitSalonScriptSteps(content);
       return steps.map((step, index) => {
@@ -3666,7 +3702,7 @@ const html = `<!doctype html>
       if (/^(\\*|学习结束留作业|交作业的标准|作业提交方式|作业提交时间)/.test(text)) return 'task';
       if (/^【/.test(text) || /^（[0-9]+[）)]/.test(text) || /^\([0-9]+\)/.test(text)) return 'bracket';
       if (/^[①②③④⑤⑥⑦⑧]/.test(text) || /^第[一二三四]个开关/.test(text)) return 'bullet';
-      if (/^(邀约公式|讲发心|发心模版|互动游戏|心愿闭环|打开身体的开关|温馨提示|总结|今天教会我们)/.test(text)) return 'formula';
+      if (/^(邀约公式|讲发心|发心模版|互动游戏|心愿闭环|打开身体的开关|温馨提示|总结|今天教会我们|核心逻辑|核心原则|分享几个已经验证过的融入方法|把改变梳理成了|具体做法|整个方法论的核心底色)/.test(text)) return 'formula';
       if (/^(第一个开关|第二个开关|第三个开关|第四个开关)/.test(text)) return 'bullet';
       if (/^(XX 老师|xxx|换个语气|用生气的语气|生气的语气)/.test(text)) return 'label';
       return 'plain';
@@ -3923,6 +3959,7 @@ const html = `<!doctype html>
     renderMirrorRawPanels();
     renderInteractiveQuestionLibraries();
     renderSalonScriptTemplates();
+    renderStudentGrowthSteps();
     bindCompactCopy(document);
     initContentTabs();
     initWorkspaceTabs();
