@@ -2031,9 +2031,9 @@ const html = `<!doctype html>
     .raw-module-title {
       margin: 0;
       color: #1d1d1f;
-      font-size: 15.5px;
+      font-size: 14.5px !important;
       line-height: 1.45;
-      font-weight: 950;
+      font-weight: 880;
       background: var(--mirror-tint);
     }
     .raw-line-list {
@@ -2069,8 +2069,8 @@ const html = `<!doctype html>
     .raw-module-card > p {
       color: #3a3a3c;
       line-height: 1.56;
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 14.2px;
+      font-weight: 640;
     }
     .raw-module-card > p {
       margin: 8px 0 0;
@@ -2698,8 +2698,11 @@ const html = `<!doctype html>
       }
       .raw-line span:last-child,
       .raw-module-card > p {
-        font-size: 13px;
+        font-size: 14px;
         line-height: 1.5;
+      }
+      .raw-module-title {
+        font-size: 14.4px !important;
       }
       .logic-card, .process-step, .flow-card, .framework-card,
       .section-block, .script-card, details.source-box {
@@ -2830,7 +2833,7 @@ const html = `<!doctype html>
         <section class="band ability-module-card ability-salon-review content-panel" id="abilitySalonReview">
           <span id="salonReview" class="anchor-sentinel" aria-hidden="true"></span>
           <div class="band-inner">
-            <div class="copy-title-row"><h2>沙龙复盘</h2></div>
+            <div class="copy-title-row"><h2>沙龙复盘</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilitySalonReview" onclick="copyPanelText(this)">复制</button></div>
             <p>按照原文标准整理关键问题，活动结束后对照核查。</p>
             <h3 class="ability-section-title">复盘清单</h3>
             <div class="salon-script-body mirror-card-list" id="reviewList"></div>
@@ -2868,7 +2871,7 @@ const html = `<!doctype html>
 
         <section class="band ability-module-card ability-camp7-review content-panel" id="abilityCamp7Review" hidden>
           <div class="band-inner">
-            <div class="copy-title-row"><h2>7天训练营复盘</h2></div>
+            <div class="copy-title-row"><h2>7天训练营复盘</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityCamp7Review" onclick="copyPanelText(this)">复制</button></div>
             <p>按照原文标准整理关键问题，重点看是否按要求参与、是否完成作业、是否及时反馈和筛选。</p>
             <div>
               <h4>关键问题</h4>
@@ -3047,7 +3050,7 @@ const html = `<!doctype html>
             <p>榜样采集不是随便聊天，而是把学员真实改变的场景、时间、细节、心情、结果完整采集出来，形成可传播的案例。</p>
             <div class="collection-grid" id="collectionGrid"></div>
             <div class="section-block" style="margin-top:14px">
-              <h4>榜样采访问句模版</h4>
+              <div class="copy-title-row"><h4>榜样采访问句模版</h4><button type="button" class="mini-copy panel-copy-btn" id="collectionQuestionsCopy">复制</button></div>
               <div class="salon-script-body mirror-card-list" id="collectionQuestions"></div>
             </div>
           </div>
@@ -3429,12 +3432,12 @@ const html = `<!doctype html>
 
     function renderReviewTools() {
       reviewList.innerHTML = manual.salonReview.map((item, index) => (
-        renderMirrorTextCard(index + 1, '复盘问题 ' + (index + 1), [item], 'review-copy')
+        renderMirrorTextCard(index + 1, '复盘问题 ' + (index + 1), [item])
       )).join('');
       const camp7ReviewList = document.getElementById('camp7ReviewList');
       if (camp7ReviewList) {
         camp7ReviewList.innerHTML = (manual.camp7Review || []).map((item, index) => (
-          renderMirrorTextCard(index + 1, '复盘问题 ' + (index + 1), [item], 'camp-review-copy')
+          renderMirrorTextCard(index + 1, '复盘问题 ' + (index + 1), [item])
         )).join('');
       }
       bindCompactCopy(reviewList);
@@ -3456,10 +3459,14 @@ const html = `<!doctype html>
         '</article>'
       )).join('');
       collectionQuestions.innerHTML = manual.modelCollection.questions.map((question, index) => (
-        renderMirrorTextCard(index + 1, '采访问题 ' + (index + 1), [question], 'model-question-copy')
+        renderMirrorTextCard(index + 1, '采访问题 ' + (index + 1), [question])
       )).join('');
+      const questionsCopy = document.getElementById('collectionQuestionsCopy');
+      if (questionsCopy) {
+        questionsCopy.dataset.copyText = buildCollectionQuestionsCopyText();
+      }
       bindCompactCopy(collectionGrid);
-      bindCompactCopy(collectionQuestions);
+      bindCompactCopy(document.getElementById('collectionQuestionsCopy')?.parentElement || document);
     }
 
     function renderToolbox() {
@@ -3480,17 +3487,23 @@ const html = `<!doctype html>
       bindCompactCopy(toolGrid);
     }
 
-    function renderMirrorTextCard(order, title, lines, copyClass) {
+    function renderMirrorTextCard(order, title, lines, copyClass = '') {
       const lineBlocks = buildSalonLineBlocks(lines || []);
       const copyText = [title, ...lineBlocks.map((block) => block.text)].join('\\n').trim();
       return '<article class="salon-step-card mirror-standard-card" data-search-text="' + safeHtml([title, ...(lines || [])].join(' ')) + '">' +
         '<div class="salon-step-head">' +
           '<span class="salon-step-index">' + safeHtml(order) + '</span>' +
           '<h4 class="salon-step-title">' + safeHtml(title) + '</h4>' +
-          compactCopyButton(copyText, 'mini-copy ' + copyClass) +
+          (copyClass ? compactCopyButton(copyText, 'mini-copy ' + copyClass) : '') +
         '</div>' +
         '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
       '</article>';
+    }
+
+    function buildCollectionQuestionsCopyText() {
+      return ['榜样采访问句模版']
+        .concat((manual.modelCollection.questions || []).map((question, index) => (index + 1) + '. ' + question))
+        .join('\\n');
     }
 
     function renderModules() {

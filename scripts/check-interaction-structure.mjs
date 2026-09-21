@@ -143,9 +143,13 @@ assert(activeSalonScript.activeButton === '语气', '沙龙话术不能切换到
 assert(activeSalonScript.stepCount === 8, `语气沙龙没有拆成8步：${activeSalonScript.stepCount}`);
 assert(activeSalonScript.copyText.includes('语气沙龙') || activeSalonScript.copyText.includes('第一：邀约'), '语气沙龙复制内容不正确');
 
-for (const target of ['abilitySalonReview', 'abilityCamp7Review', 'modelCollection', 'abilityFramework', 'abilityThinking', 'abilityTools']) {
+for (const target of ['modelCollection', 'abilityFramework', 'abilityThinking', 'abilityTools']) {
   const panelCopyCount = await page.locator(`#${target} > .band-inner > .copy-title-row [data-copy-panel="${target}"]`).count();
   assert(panelCopyCount === 0, `${target} 仍保留整页复制按钮，没有统一成模块级复制`);
+}
+for (const target of ['abilitySalonReview', 'abilityCamp7Review']) {
+  const panelCopyCount = await page.locator(`#${target} > .band-inner > .copy-title-row [data-copy-panel="${target}"]`).count();
+  assert(panelCopyCount === 1, `${target} 缺少整块复制按钮`);
 }
 
 const questionChecks = [
@@ -246,16 +250,18 @@ const salonReview = await page.$eval('#abilitySalonReview', (root) => {
   return {
     count: root.querySelectorAll('.mirror-standard-card').length,
     copyCount: root.querySelectorAll('.review-copy').length,
+    panelCopyCount: root.querySelectorAll('[data-copy-panel="abilitySalonReview"]').length,
     hasStepChip: root.querySelectorAll('.step-chip').length > 0,
     firstBackground: style?.backgroundColor || '',
     firstBorderRadius: style?.borderRadius || '',
-    firstCopyText: root.querySelector('.review-copy')?.dataset.copyText || '',
+    panelText: root.textContent || '',
     firstOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY
   };
 });
 assert(salonReview.count >= 10, '沙龙复盘清单数量不足');
-assert(salonReview.copyCount === salonReview.count, '沙龙复盘没有做到每个模块一个复制按钮');
-assert(salonReview.firstCopyText.includes('复盘问题 1'), '沙龙复盘复制内容不完整');
+assert(salonReview.copyCount === 0, '沙龙复盘仍有单条复制按钮');
+assert(salonReview.panelCopyCount === 1, '沙龙复盘没有整块复制按钮');
+assert(salonReview.panelText.includes('复盘问题 1'), '沙龙复盘内容不完整');
 assert(!salonReview.hasStepChip, '沙龙复盘清单仍使用胶囊元素');
 assert(salonReview.firstBackground !== 'rgba(0, 0, 0, 0)', `沙龙复盘卡片没有背景：${salonReview.firstBackground}`);
 assert(salonReview.firstBorderRadius !== '0px', `沙龙复盘卡片没有圆角：${salonReview.firstBorderRadius}`);
@@ -265,28 +271,34 @@ await page.locator('[data-content-target="abilityCamp7Review"]').click();
 const campReview = await page.$eval('#abilityCamp7Review', (root) => ({
   count: root.querySelectorAll('.mirror-standard-card').length,
   copyCount: root.querySelectorAll('.camp-review-copy').length,
+  panelCopyCount: root.querySelectorAll('[data-copy-panel="abilityCamp7Review"]').length,
   ulCount: root.querySelectorAll('ul li').length,
-  firstCopyText: root.querySelector('.camp-review-copy')?.dataset.copyText || ''
+  panelText: root.textContent || ''
 }));
 assert(campReview.count >= 7, '7天训练营复盘卡片数量不足');
-assert(campReview.copyCount === campReview.count, '7天训练营复盘没有做到每个模块一个复制按钮');
-assert(campReview.firstCopyText.includes('复盘问题 1'), '7天训练营复盘复制内容不完整');
+assert(campReview.copyCount === 0, '7天训练营复盘仍有单条复制按钮');
+assert(campReview.panelCopyCount === 1, '7天训练营复盘没有整块复制按钮');
+assert(campReview.panelText.includes('复盘问题 1'), '7天训练营复盘内容不完整');
 assert(campReview.ulCount === 0, '7天训练营复盘仍使用圆点列表');
 
 await page.locator('[data-content-target="modelCollection"]').click();
 const modelCards = await page.$eval('#modelCollection', (root) => ({
   stepCount: root.querySelectorAll('.collection-card').length,
   stepCopyCount: root.querySelectorAll('.model-step-copy').length,
-  questionCount: root.querySelectorAll('.model-question-copy').length,
+  questionCardCount: root.querySelectorAll('#collectionQuestions .mirror-standard-card').length,
+  questionCopyCount: root.querySelectorAll('.model-question-copy').length,
+  questionTemplateCopyCount: root.querySelectorAll('#collectionQuestionsCopy[data-copy-text]').length,
   firstStepCopyText: root.querySelector('.model-step-copy')?.dataset.copyText || '',
-  firstQuestionCopyText: root.querySelector('.model-question-copy')?.dataset.copyText || '',
+  questionsCopyText: root.querySelector('#collectionQuestionsCopy')?.dataset.copyText || '',
   gridColumns: getComputedStyle(root.querySelector('#collectionGrid')).gridTemplateColumns
 }));
 assert(modelCards.stepCount >= 4, '榜样采访步骤卡片数量不足');
 assert(modelCards.stepCopyCount === modelCards.stepCount, '榜样采访步骤没有每个模块复制');
-assert(modelCards.questionCount >= 16, '榜样采访问句卡片数量不足');
+assert(modelCards.questionCardCount >= 16, '榜样采访问句卡片数量不足');
+assert(modelCards.questionCopyCount === 0, '榜样采访问句模板仍有单问复制按钮');
+assert(modelCards.questionTemplateCopyCount === 1, '榜样采访问句模板缺少整块复制按钮');
 assert(modelCards.firstStepCopyText.includes('共情') && modelCards.firstStepCopyText.includes('核心目的'), '榜样采访步骤复制内容不完整');
-assert(modelCards.firstQuestionCopyText.includes('采访问题 1'), '榜样采访问句复制内容不完整');
+assert(modelCards.questionsCopyText.includes('榜样采访问句模版') && modelCards.questionsCopyText.includes('1. 你当时是带着什么问题来的'), '榜样采访问句模板复制内容不完整');
 assert(!modelCards.gridColumns.includes(' '), '榜样采访步骤仍是多列网格，未统一成模块卡片单列');
 
 const mirrorCardChecks = [
@@ -331,6 +343,21 @@ const rawSalonStyle = await page.$eval('#rawSalon .raw-module-card', (card) => {
 });
 assert(rawSalonStyle.titleBackground !== 'rgba(0, 0, 0, 0)', '沙龙模块标题没有单独色块');
 assert(rawSalonStyle.titleFontSize !== rawSalonStyle.lineFontSize, '沙龙模块标题和正文字号没有区分');
+assert(Math.abs(parseFloat(rawSalonStyle.titleFontSize) - parseFloat(rawSalonStyle.lineFontSize)) <= 1, `沙龙模块标题和正文字号差距过大：${rawSalonStyle.titleFontSize} / ${rawSalonStyle.lineFontSize}`);
+await page.locator('[data-content-target="rawCamp7"]').click();
+const rawCamp7Style = await page.$eval('#rawCamp7 .raw-module-card', (card) => {
+  const title = card.querySelector('.raw-module-title');
+  const titleStyle = title ? getComputedStyle(title) : null;
+  const line = card.querySelector('.raw-line span:last-child');
+  const lineStyle = line ? getComputedStyle(line) : null;
+  return {
+    titleFontSize: titleStyle?.fontSize || '',
+    lineFontSize: lineStyle?.fontSize || ''
+  };
+});
+assert(rawCamp7Style.titleFontSize !== rawCamp7Style.lineFontSize, '7天训练营模块标题和正文字号没有区分');
+assert(Math.abs(parseFloat(rawCamp7Style.titleFontSize) - parseFloat(rawCamp7Style.lineFontSize)) <= 1, `7天训练营模块标题和正文字号差距过大：${rawCamp7Style.titleFontSize} / ${rawCamp7Style.lineFontSize}`);
+await page.locator('[data-content-target="rawSalon"]').click();
 const rawSalonCopyStats = await page.$eval('#rawSalon', (root) => {
   const buttons = [...root.querySelectorAll('.raw-module-card [data-copy-text]')];
   const titles = [...root.querySelectorAll('.raw-module-title')].map((node) => node.textContent.trim());
