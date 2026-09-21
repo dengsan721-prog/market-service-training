@@ -145,7 +145,7 @@ assert(activeSalonScript.copyText.includes('语气沙龙') || activeSalonScript.
 
 for (const target of ['abilitySalonReview', 'abilityCamp7Review', 'modelCollection', 'abilityFramework', 'abilityThinking', 'abilityTools']) {
   const panelCopyCount = await page.locator(`#${target} > .band-inner > .copy-title-row [data-copy-panel="${target}"]`).count();
-  assert(panelCopyCount === 1, `${target} 缺少模块级复制按钮`);
+  assert(panelCopyCount === 0, `${target} 仍保留整页复制按钮，没有统一成模块级复制`);
 }
 
 const questionChecks = [
@@ -241,27 +241,80 @@ assert(new Set(salonInterview.accentSamples).size >= 2, '幸福沙龙采访模�
 
 await page.locator('[data-content-target="abilitySalonReview"]').click();
 const salonReview = await page.$eval('#abilitySalonReview', (root) => {
-  const first = root.querySelector('.review-list li');
+  const first = root.querySelector('.mirror-standard-card');
   const style = first ? getComputedStyle(first) : null;
   return {
-    count: root.querySelectorAll('.review-list li').length,
+    count: root.querySelectorAll('.mirror-standard-card').length,
+    copyCount: root.querySelectorAll('.review-copy').length,
     hasStepChip: root.querySelectorAll('.step-chip').length > 0,
     firstBackground: style?.backgroundColor || '',
-    firstBorderRadius: style?.borderRadius || ''
+    firstBorderRadius: style?.borderRadius || '',
+    firstCopyText: root.querySelector('.review-copy')?.dataset.copyText || '',
+    firstOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY
   };
 });
 assert(salonReview.count >= 10, '沙龙复盘清单数量不足');
+assert(salonReview.copyCount === salonReview.count, '沙龙复盘没有做到每个模块一个复制按钮');
+assert(salonReview.firstCopyText.includes('复盘问题 1'), '沙龙复盘复制内容不完整');
 assert(!salonReview.hasStepChip, '沙龙复盘清单仍使用胶囊元素');
-assert(salonReview.firstBackground === 'rgba(0, 0, 0, 0)', `沙龙复盘清单仍是色块背景：${salonReview.firstBackground}`);
-assert(salonReview.firstBorderRadius === '0px', `沙龙复盘清单仍有胶囊圆角：${salonReview.firstBorderRadius}`);
+assert(salonReview.firstBackground !== 'rgba(0, 0, 0, 0)', `沙龙复盘卡片没有背景：${salonReview.firstBackground}`);
+assert(salonReview.firstBorderRadius !== '0px', `沙龙复盘卡片没有圆角：${salonReview.firstBorderRadius}`);
+assert(!['auto', 'scroll'].includes(salonReview.firstOverflowY), `沙龙复盘卡片仍存在内部滚动：${salonReview.firstOverflowY}`);
 
 await page.locator('[data-content-target="abilityCamp7Review"]').click();
 const campReview = await page.$eval('#abilityCamp7Review', (root) => ({
-  count: root.querySelectorAll('ol.review-list li').length,
-  ulCount: root.querySelectorAll('ul li').length
+  count: root.querySelectorAll('.mirror-standard-card').length,
+  copyCount: root.querySelectorAll('.camp-review-copy').length,
+  ulCount: root.querySelectorAll('ul li').length,
+  firstCopyText: root.querySelector('.camp-review-copy')?.dataset.copyText || ''
 }));
-assert(campReview.count >= 7, '7天训练营复盘没有使用有序清单');
+assert(campReview.count >= 7, '7天训练营复盘卡片数量不足');
+assert(campReview.copyCount === campReview.count, '7天训练营复盘没有做到每个模块一个复制按钮');
+assert(campReview.firstCopyText.includes('复盘问题 1'), '7天训练营复盘复制内容不完整');
 assert(campReview.ulCount === 0, '7天训练营复盘仍使用圆点列表');
+
+await page.locator('[data-content-target="modelCollection"]').click();
+const modelCards = await page.$eval('#modelCollection', (root) => ({
+  stepCount: root.querySelectorAll('.collection-card').length,
+  stepCopyCount: root.querySelectorAll('.model-step-copy').length,
+  questionCount: root.querySelectorAll('.model-question-copy').length,
+  firstStepCopyText: root.querySelector('.model-step-copy')?.dataset.copyText || '',
+  firstQuestionCopyText: root.querySelector('.model-question-copy')?.dataset.copyText || '',
+  gridColumns: getComputedStyle(root.querySelector('#collectionGrid')).gridTemplateColumns
+}));
+assert(modelCards.stepCount >= 4, '榜样采访步骤卡片数量不足');
+assert(modelCards.stepCopyCount === modelCards.stepCount, '榜样采访步骤没有每个模块复制');
+assert(modelCards.questionCount >= 16, '榜样采访问句卡片数量不足');
+assert(modelCards.firstStepCopyText.includes('共情') && modelCards.firstStepCopyText.includes('核心目的'), '榜样采访步骤复制内容不完整');
+assert(modelCards.firstQuestionCopyText.includes('采访问题 1'), '榜样采访问句复制内容不完整');
+assert(!modelCards.gridColumns.includes(' '), '榜样采访步骤仍是多列网格，未统一成模块卡片单列');
+
+const mirrorCardChecks = [
+  { target: 'abilityFramework', card: '.framework-card', copy: '.mirror-card-copy', min: 7, marker: '一个服务理念' },
+  { target: 'abilityThinking', card: '.thinking-card', copy: '.mirror-card-copy', min: 7, marker: '角色共识' },
+  { target: 'abilityTools', card: '.tool-card', copy: '.tool-copy', min: 4, marker: '驿站主市场服务123456参考图' }
+];
+
+for (const check of mirrorCardChecks) {
+  await page.locator(`[data-content-target="${check.target}"]`).click();
+  await page.waitForTimeout(100);
+  const stats = await page.$eval(`#${check.target}`, (root, check) => ({
+    cardCount: root.querySelectorAll(check.card).length,
+    copyCount: root.querySelectorAll(check.copy).length,
+    lineCopyCount: root.querySelectorAll('.salon-line [data-copy-text]').length,
+    firstCopyText: root.querySelector(check.copy)?.dataset.copyText || '',
+    firstContentOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY,
+    accentSamples: [...root.querySelectorAll(check.card)]
+      .slice(0, 4)
+      .map((card) => getComputedStyle(card).borderLeftColor)
+  }), check);
+  assert(stats.cardCount >= check.min, `${check.target} 卡片数量不足：${stats.cardCount}`);
+  assert(stats.copyCount === stats.cardCount, `${check.target} 没有做到每个模块一个复制按钮`);
+  assert(stats.lineCopyCount === 0, `${check.target} 出现行级复制按钮`);
+  assert(stats.firstCopyText.includes(check.marker), `${check.target} 复制内容不完整`);
+  assert(!['auto', 'scroll'].includes(stats.firstContentOverflowY), `${check.target} 正文仍存在内部滚动：${stats.firstContentOverflowY}`);
+  assert(new Set(stats.accentSamples).size >= 2, `${check.target} 模块没有颜色区分`);
+}
 
 await page.locator('[data-content-target="rawSalon"]').click();
 const rawSalonStyle = await page.$eval('#rawSalon .raw-module-card', (card) => {
@@ -355,7 +408,7 @@ for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
 
 await page.locator('[data-content-target="abilityThinking"]').click();
 const thinking = await page.$eval('#abilityThinking', (root) => ({
-  numbers: [...root.querySelectorAll('.framework-number')].map((node) => node.textContent.trim())
+  numbers: [...root.querySelectorAll('.thinking-card .salon-step-index')].map((node) => node.textContent.trim())
 }));
 assert(thinking.numbers[0] === '1', '总监思维第一项没有序号 1');
 assert(thinking.numbers.includes('7'), '总监思维没有保留完整序号');

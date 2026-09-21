@@ -764,6 +764,37 @@
     .salon-step-card:nth-child(6) { --step-accent: #00a7c7; --step-tint: rgba(0,167,199,.10); }
     .salon-step-card:nth-child(7) { --step-accent: #5856d6; --step-tint: rgba(88,86,214,.10); }
     .salon-step-card:nth-child(8) { --step-accent: #8e8e93; --step-tint: rgba(142,142,147,.12); }
+    .content-panel .framework-grid,
+    .content-panel .collection-grid,
+    .content-panel .tool-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .mirror-standard-card.framework-card,
+    .mirror-standard-card.collection-card,
+    .mirror-standard-card.tool-card {
+      display: block;
+      padding: 0;
+      background: #fff;
+    }
+    .mirror-standard-card .tool-card-body {
+      padding: 10px 12px 12px;
+    }
+    .tool-image-preview {
+      display: block;
+      margin-top: 10px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.08);
+      background: #fff;
+    }
+    .tool-image-preview img {
+      width: 100%;
+      max-height: 260px;
+      object-fit: contain;
+      display: block;
+    }
     .mirror-raw-panel {
       --mirror-tint: #f7f7f8;
       --mirror-accent: #0071e3;
@@ -1602,10 +1633,10 @@
         <section class="band ability-module-card ability-salon-review content-panel" id="abilitySalonReview">
           <span id="salonReview" class="anchor-sentinel" aria-hidden="true"></span>
           <div class="band-inner">
-            <div class="copy-title-row"><h2>沙龙复盘</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilitySalonReview" onclick="copyPanelText(this)">复制</button></div>
+            <div class="copy-title-row"><h2>沙龙复盘</h2></div>
             <p>按照原文标准整理关键问题，活动结束后对照核查。</p>
             <h3 class="ability-section-title">复盘清单</h3>
-            <ol class="review-list" id="reviewList"></ol>
+            <div class="salon-script-body mirror-card-list" id="reviewList"></div>
           </div>
         </section>
 
@@ -1640,18 +1671,18 @@
 
         <section class="band ability-module-card ability-camp7-review content-panel" id="abilityCamp7Review" hidden>
           <div class="band-inner">
-            <div class="copy-title-row"><h2>7天训练营复盘</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityCamp7Review" onclick="copyPanelText(this)">复制</button></div>
+            <div class="copy-title-row"><h2>7天训练营复盘</h2></div>
             <p>按照原文标准整理关键问题，重点看是否按要求参与、是否完成作业、是否及时反馈和筛选。</p>
-            <div class="section-block">
+            <div>
               <h4>关键问题</h4>
-              <ol class="review-list" id="camp7ReviewList"></ol>
+              <div class="salon-script-body mirror-card-list" id="camp7ReviewList"></div>
             </div>
           </div>
         </section>
 
         <section class="band ability-module-card ability-other content-panel" id="abilityFramework" hidden>
           <div class="band-inner">
-            <div class="copy-title-row"><h2>市场服务</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityFramework" onclick="copyPanelText(this)">复制</button></div>
+            <div class="copy-title-row"><h2>市场服务</h2></div>
             <p>市场服务123456按结构查看，方便驿站主快速回忆角色、目标、流程、人才和工具。</p>
             <div class="framework-grid" id="frameworkGrid"></div>
           </div>
@@ -1659,7 +1690,7 @@
 
         <section class="band ability-module-card ability-other content-panel" id="abilityThinking" hidden>
           <div class="band-inner">
-            <div class="copy-title-row"><h2>总监思维</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityThinking" onclick="copyPanelText(this)">复制</button></div>
+            <div class="copy-title-row"><h2>总监思维</h2></div>
             <p>总监和驿站主的分工、心态辅导、顾虑处理、学习效果，单独放在这里照镜子。</p>
             <div class="framework-grid" id="thinkingGrid"></div>
           </div>
@@ -1667,7 +1698,7 @@
 
         <section class="band ability-module-card ability-other content-panel" id="abilityTools" hidden>
           <div class="band-inner">
-            <div class="copy-title-row"><h2>工具模型</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="abilityTools" onclick="copyPanelText(this)">复制</button></div>
+            <div class="copy-title-row"><h2>工具模型</h2></div>
             <p>自检表、优点清单、市场服务模型和123456参考图，作为现场辅助工具使用。</p>
             <div class="tool-grid" id="toolGrid"></div>
           </div>
@@ -1815,12 +1846,12 @@
         <section class="band ability-module-card ability-model content-panel" id="modelCollection" hidden>
           <div class="band-inner">
             <p class="eyebrow">榜样采集标准与流程</p>
-            <div class="copy-title-row"><h2>先激活情感，再按16问一次性采集完整。</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="modelCollection" onclick="copyPanelText(this)">复制</button></div>
+            <div class="copy-title-row"><h2>先激活情感，再按16问一次性采集完整。</h2></div>
             <p>榜样采集不是随便聊天，而是把学员真实改变的场景、时间、细节、心情、结果完整采集出来，形成可传播的案例。</p>
             <div class="collection-grid" id="collectionGrid"></div>
             <div class="section-block" style="margin-top:14px">
               <h4>榜样采访问句模版</h4>
-              <div class="question-list" id="collectionQuestions"></div>
+              <div class="salon-script-body mirror-card-list" id="collectionQuestions"></div>
             </div>
           </div>
         </section>
@@ -2173,58 +2204,96 @@
 
     function renderFramework() {
       frameworkGrid.innerHTML = manual.serviceFramework.map((item) => (
-        '<article class="framework-card" data-search-text="' + safeHtml([item.number, item.title, item.body].join(' ')) + '">' +
-          '<div class="framework-number">' + safeHtml(item.number) + '</div>' +
-          '<div><h3>' + safeHtml(item.title) + '</h3>' + formatDisplayText(item.body) + '</div>' +
+        '<article class="salon-step-card mirror-standard-card framework-card" data-search-text="' + safeHtml([item.number, item.title, item.body].join(' ')) + '">' +
+          '<div class="salon-step-head">' +
+            '<span class="salon-step-index">' + safeHtml(item.number) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(item.title) + '</h4>' +
+            compactCopyButton([item.number + ' ' + item.title, item.body].join('\n'), 'mini-copy mirror-card-copy') +
+          '</div>' +
+          '<div class="salon-step-content">' + renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(item.body))) + '</div>' +
         '</article>'
       )).join('');
+      bindCompactCopy(frameworkGrid);
     }
 
     function renderThinking() {
       thinkingGrid.innerHTML = manual.directorThinking.map((item, index) => (
-        '<article class="framework-card" data-search-text="' + safeHtml([item.title, item.body].join(' ')) + '">' +
-          '<div class="framework-number">' + (index + 1) + '</div>' +
-          '<div><h3>' + safeHtml(item.title) + '</h3>' + formatDisplayText(item.body) + '</div>' +
+        '<article class="salon-step-card mirror-standard-card thinking-card" data-search-text="' + safeHtml([item.title, item.body].join(' ')) + '">' +
+          '<div class="salon-step-head">' +
+            '<span class="salon-step-index">' + (index + 1) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(item.title) + '</h4>' +
+            compactCopyButton([(index + 1) + ' ' + item.title, item.body].join('\n'), 'mini-copy mirror-card-copy') +
+          '</div>' +
+          '<div class="salon-step-content">' + renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(item.body))) + '</div>' +
         '</article>'
       )).join('');
+      bindCompactCopy(thinkingGrid);
     }
 
     function renderReviewTools() {
-      reviewList.innerHTML = manual.salonReview.map((item) => (
-        '<li data-search-text="' + safeHtml(item) + '">' + safeHtml(item) + '</li>'
+      reviewList.innerHTML = manual.salonReview.map((item, index) => (
+        renderMirrorTextCard(index + 1, '复盘问题 ' + (index + 1), [item], 'review-copy')
       )).join('');
       const camp7ReviewList = document.getElementById('camp7ReviewList');
       if (camp7ReviewList) {
-        camp7ReviewList.innerHTML = (manual.camp7Review || []).map((item) => (
-          '<li data-search-text="' + safeHtml(item) + '">' + safeHtml(item) + '</li>'
+        camp7ReviewList.innerHTML = (manual.camp7Review || []).map((item, index) => (
+          renderMirrorTextCard(index + 1, '复盘问题 ' + (index + 1), [item], 'camp-review-copy')
         )).join('');
       }
+      bindCompactCopy(reviewList);
+      bindCompactCopy(camp7ReviewList);
     }
 
     function renderModelCollection() {
       collectionGrid.innerHTML = manual.modelCollection.steps.map((step, index) => (
-        '<article class="collection-card" data-search-text="' + safeHtml([step.title, step.body, step.purpose].join(' ')) + '">' +
-          '<span class="tag">第' + (index + 1) + '步</span>' +
-          '<h3>' + safeHtml(step.title) + '</h3>' +
-          formatDisplayText(step.body) +
-          '<div class="standard">' + formatPlainBreaks(step.purpose) + '</div>' +
+        '<article class="salon-step-card mirror-standard-card collection-card" data-search-text="' + safeHtml([step.title, step.body, step.purpose].join(' ')) + '">' +
+          '<div class="salon-step-head">' +
+            '<span class="salon-step-index">' + (index + 1) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(step.title) + '</h4>' +
+            compactCopyButton(['第' + (index + 1) + '步 ' + step.title, step.body, step.purpose].join('\n'), 'mini-copy model-step-copy') +
+          '</div>' +
+          '<div class="salon-step-content">' +
+            renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(step.body))) +
+            (step.purpose ? '<p class="salon-line formula"><strong>核心目的：</strong>' + safeHtml(step.purpose) + '</p>' : '') +
+          '</div>' +
         '</article>'
       )).join('');
       collectionQuestions.innerHTML = manual.modelCollection.questions.map((question, index) => (
-        '<div class="question-card" data-search-text="' + safeHtml(question) + '">' +
-          '<strong>' + (index + 1) + '.</strong> ' + safeHtml(question) +
-        '</div>'
+        renderMirrorTextCard(index + 1, '采访问题 ' + (index + 1), [question], 'model-question-copy')
       )).join('');
+      bindCompactCopy(collectionGrid);
+      bindCompactCopy(collectionQuestions);
     }
 
     function renderToolbox() {
       toolGrid.innerHTML = manual.toolbox.map((tool) => (
-        '<article class="tool-card" data-search-text="' + safeHtml([tool.title, tool.text].join(' ')) + '">' +
-          '<a href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener"><img src="' + safeHtml(tool.image) + '" alt="' + safeHtml(tool.title) + '"></a>' +
-          '<div class="tool-card-body"><h3>' + safeHtml(tool.title) + '</h3><p>' + safeHtml(tool.text) + '</p>' +
-          '<a class="image-link" href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener">查看原图</a></div>' +
+        '<article class="salon-step-card mirror-standard-card tool-card" data-search-text="' + safeHtml([tool.title, tool.text].join(' ')) + '">' +
+          '<div class="salon-step-head">' +
+            '<span class="salon-step-index">图</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(tool.title) + '</h4>' +
+            compactCopyButton([tool.title, tool.text].join('\n'), 'mini-copy tool-copy') +
+          '</div>' +
+          '<div class="salon-step-content tool-card-body">' +
+            renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(tool.text))) +
+            '<a class="image-link" href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener">查看原图</a>' +
+            '<a class="tool-image-preview" href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener"><img src="' + safeHtml(tool.image) + '" alt="' + safeHtml(tool.title) + '"></a>' +
+          '</div>' +
         '</article>'
       )).join('');
+      bindCompactCopy(toolGrid);
+    }
+
+    function renderMirrorTextCard(order, title, lines, copyClass) {
+      const lineBlocks = buildSalonLineBlocks(lines || []);
+      const copyText = [title, ...lineBlocks.map((block) => block.text)].join('\n').trim();
+      return '<article class="salon-step-card mirror-standard-card" data-search-text="' + safeHtml([title, ...(lines || [])].join(' ')) + '">' +
+        '<div class="salon-step-head">' +
+          '<span class="salon-step-index">' + safeHtml(order) + '</span>' +
+          '<h4 class="salon-step-title">' + safeHtml(title) + '</h4>' +
+          compactCopyButton(copyText, 'mini-copy ' + copyClass) +
+        '</div>' +
+        '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
+      '</article>';
     }
 
     function renderModules() {
