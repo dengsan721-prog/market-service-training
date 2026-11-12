@@ -34,7 +34,17 @@ assert(visibleExportLinks === 0, '页面仍显示 Word 或 MD 下载入口');
 const activeWorkspaceStyle = await page.$eval('#workspaceTabs button.active', (button) => getComputedStyle(button).backgroundColor);
 assert(activeWorkspaceStyle !== 'rgb(29, 29, 31)', '大流程/镜子库切换仍是黑色色块');
 
-await page.locator('[data-master-flow-index="2"]').click();
+await page.locator('[data-master-flow-index="0"]').click();
+const happinessMap = await page.$eval('.flow-stage-card', (root) => ({
+  title: root.querySelector('h3')?.textContent.trim() || '',
+  imageCount: root.querySelectorAll('.stage-image-item').length,
+  imageCopyCount: root.querySelectorAll('.stage-image-gallery [data-copy-text]').length
+}));
+assert(happinessMap.title === '幸福地图', `幸福地图模块标题不正确：${happinessMap.title}`);
+assert(happinessMap.imageCount === 5, `幸福地图原图数量不正确：${happinessMap.imageCount}`);
+assert(happinessMap.imageCopyCount === 1, '幸福地图缺少原图地址复制按钮');
+
+await page.locator('[data-master-flow-index="3"]').click();
 await page.waitForTimeout(100);
 const campOriginal = await page.$eval('.stage-original', (root) => {
   const groups = [...root.querySelectorAll('.stage-original-group')].map((group) => ({

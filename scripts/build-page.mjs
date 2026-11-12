@@ -678,6 +678,24 @@ const flowGuide = [
 
 const masterFlow = [
   {
+    number: '00',
+    title: '幸福地图',
+    tag: '从哪里来到哪里去',
+    goal: '用 5 张原图看清幸福驿站从需求者、学员到驿站主的完整行动路径。',
+    process: [],
+    standards: [],
+    script: [],
+    review: [],
+    source: '幸福地图原图：点击图片查看完整原图，标题右侧按钮可复制原图地址。',
+    images: [
+      { src: 'assets/happiness-map-01.png', alt: '幸福地图总览：来人先承接与免费幸福沙龙' },
+      { src: 'assets/happiness-map-02.png', alt: '幸福地图：驿站主的行动从哪里到哪里' },
+      { src: 'assets/happiness-map-03.png', alt: '幸福地图：驿站主的六步成长路径' },
+      { src: 'assets/happiness-map-04.png', alt: '幸福地图：学员的行动从哪里到哪里' },
+      { src: 'assets/happiness-map-05.png', alt: '幸福地图：并行路线' }
+    ]
+  },
+  {
     number: '01',
     title: '来人先承接',
     tag: '破冰 / 转介绍 / 直播间粉丝',
@@ -1565,6 +1583,36 @@ const html = `<!doctype html>
     .stage-source {
       grid-column: 1 / -1;
       background: rgba(245,245,247,.72);
+    }
+    .stage-image-gallery {
+      grid-column: 1 / -1;
+      background: #fff;
+    }
+    .stage-image-list {
+      display: grid;
+      gap: 14px;
+    }
+    .stage-image-item {
+      margin: 0;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,.08);
+      border-radius: 12px;
+      background: #fff;
+    }
+    .stage-image-item a {
+      display: block;
+    }
+    .stage-image-item img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+    .stage-image-item figcaption {
+      padding: 8px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
     }
     .stage-original {
       grid-column: 1 / -1;
@@ -3358,6 +3406,7 @@ const html = `<!doctype html>
             renderStageScript(stage.script) +
             renderStageList('stage-review', '复盘', stage.review) +
             renderStageOriginal(getStageOriginalLines(stage)) +
+            renderStageImages(stage.images) +
             '<div class="stage-block stage-source"><h4><span>内容库位置</span></h4><p>' + safeHtml(stage.source.replace('对应能力', '对应内容')) + '</p></div>' +
           '</div>' +
         '</article>';
@@ -3391,9 +3440,21 @@ const html = `<!doctype html>
     }
 
     function renderStageScript(lines) {
+      if (!lines || !lines.length) return '';
       return '<div class="stage-block stage-script"><h4><span>原话照搬</span>' + compactCopyButton(lines.join('\\n')) + '</h4><ol>' +
         lines.map((line) => '<li>' + safeHtml(line) + '</li>').join('') +
       '</ol></div>';
+    }
+
+    function renderStageImages(images) {
+      if (!images || !images.length) return '';
+      const copyText = images.map((image) => image.src).join('\\n');
+      return '<div class="stage-block stage-image-gallery"><h4><span>幸福地图原图</span>' + compactCopyButton(copyText) + '</h4>' +
+        '<div class="stage-image-list">' + images.map((image) => {
+          const alt = image.alt || image.title || '幸福地图原图';
+          return '<figure class="stage-image-item"><a href="' + safeHtml(image.src) + '" target="_blank" rel="noopener" aria-label="查看原图：' + safeHtml(alt) + '">' +
+            '<img src="' + safeHtml(image.src) + '" alt="' + safeHtml(alt) + '" loading="lazy"></a><figcaption>点击图片查看原图：' + safeHtml(alt) + '</figcaption></figure>';
+        }).join('') + '</div></div>';
     }
 
     function renderStageOriginal(lines) {
