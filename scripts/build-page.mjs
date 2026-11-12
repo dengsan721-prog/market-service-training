@@ -975,11 +975,6 @@ const toolbox = [
     text: '图片保留原参考图，页面上方“市场服务1234567”已按4.0文字内容更新。'
   },
   {
-    title: '幸福驿站市场服务模型',
-    image: 'assets/market-service-model.png',
-    text: '一个中心、两个基本点、四个步骤、三种学员不收、只收一种学员，适用于一对一、沙龙、直播等客户服务过程。'
-  },
-  {
     title: '幸福自检表',
     image: 'assets/happiness-self-check.png',
     text: '检测工具，覆盖亲子教育、夫妻相处、人际关系、身体健康、事业心态，让顾客的问题可视化。'

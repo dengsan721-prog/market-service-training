@@ -345,7 +345,7 @@ assert(!modelCards.gridColumns.includes(' '), '榜样采访步骤仍是多列网
 const mirrorCardChecks = [
   { target: 'abilityFramework', card: '.framework-card', copy: '.mirror-card-copy', min: 7, marker: '一个服务理念' },
   { target: 'abilityThinking', card: '.thinking-card', copy: '.mirror-card-copy', min: 7, marker: '角色共识' },
-  { target: 'abilityTools', card: '.tool-card', copy: '.tool-copy', min: 4, marker: '驿站主市场服务123456参考图' }
+  { target: 'abilityTools', card: '.tool-card', copy: '.tool-copy', min: 3, marker: '驿站主市场服务123456参考图', forbiddenTitle: '幸福驿站市场服务模型' }
 ];
 
 for (const check of mirrorCardChecks) {
@@ -364,12 +364,14 @@ for (const check of mirrorCardChecks) {
     contentPaddingTop: getComputedStyle(root.querySelector('.salon-step-content')).paddingTop,
     accentSamples: [...root.querySelectorAll(check.card)]
       .slice(0, 4)
-      .map((card) => getComputedStyle(card).borderLeftColor)
+      .map((card) => getComputedStyle(card).borderLeftColor),
+    titles: [...root.querySelectorAll(`${check.card} .salon-step-title`)].map((node) => node.textContent.trim())
   }), check);
   assert(stats.cardCount >= check.min, `${check.target} 卡片数量不足：${stats.cardCount}`);
   assert(stats.copyCount === stats.cardCount, `${check.target} 没有做到每个模块一个复制按钮`);
   assert(stats.lineCopyCount === 0, `${check.target} 出现行级复制按钮`);
   assert(stats.firstCopyText.includes(check.marker), `${check.target} 复制内容不完整`);
+  if (check.forbiddenTitle) assert(!stats.titles.includes(check.forbiddenTitle), `${check.target} 仍显示已删除卡片：${check.forbiddenTitle}`);
   assert(!['auto', 'scroll'].includes(stats.firstContentOverflowY), `${check.target} 正文仍存在内部滚动：${stats.firstContentOverflowY}`);
   assert(Math.abs(parseFloat(stats.titleFontSize) - parseFloat(stats.lineFontSize)) <= 1.5, `${check.target} 标题和正文不协调：${stats.titleFontSize} / ${stats.lineFontSize}`);
   assert(parseFloat(stats.lineHeight) <= 23, `${check.target} 正文行高占位过大：${stats.lineHeight}`);
