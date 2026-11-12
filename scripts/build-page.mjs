@@ -2804,6 +2804,7 @@ const html = `<!doctype html>
         <section class="band required-master-flow workspace-panel" id="marketFlow">
           <div class="band-inner">
             <h2>大流程|从陌生人到合作伙伴</h2>
+            <p>解决乱想的问题</p>
             <p>市场服务人员打开以后，只看自己处在哪一步：这一步做什么、标准是什么、原话怎么说、做完怎么复盘。</p>
             <nav class="main-flow-tabs" id="mainFlow" aria-label="必须掌握的主流程"></nav>
             <div class="flow-stage-panel" id="flowStagePanel"></div>
@@ -2813,16 +2814,17 @@ const html = `<!doctype html>
         <section class="band content-library workspace-panel" id="mirrorLibrary" hidden>
           <div class="band-inner">
             <h2>镜子库|用流程标准照镜子</h2>
+            <p>解决乱做的问题</p>
             <p>镜子库是大流程某一个环节的具体操作。需要哪一步，就切到对应模块，对照流程标准复盘自己有没有按要求执行。</p>
             <div class="content-tabs" id="contentTabs" role="tablist" aria-label="内容库切换">
               <button type="button" class="active" data-content-target="rawSalon">沙龙</button>
+              <button type="button" data-content-target="salonScripts">沙龙话术</button>
               <button type="button" data-content-target="abilitySalonReview">沙龙复盘</button>
               <button type="button" data-content-target="rawCamp7">7天训练营</button>
               <button type="button" data-content-target="abilityCamp7Review">7天训练营复盘</button>
               <button type="button" data-content-target="modelCollection">榜样采访</button>
               <button type="button" data-content-target="salonInterviewStandards">幸福沙龙采访</button>
               <button type="button" data-content-target="rawOther">榜样选拔与教练招募</button>
-              <button type="button" data-content-target="salonScripts">沙龙话术</button>
               <button type="button" data-content-target="rawTalent">人才培养营</button>
               <button type="button" data-content-target="abilityFramework">市场服务</button>
               <button type="button" data-content-target="abilityThinking">总监思维</button>

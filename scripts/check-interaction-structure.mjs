@@ -70,13 +70,13 @@ await page.waitForTimeout(100);
 const tabLabels = await page.$$eval('#contentTabs button', (buttons) => buttons.map((button) => button.textContent.trim()));
 assert(JSON.stringify(tabLabels) === JSON.stringify([
   '沙龙',
+  '沙龙话术',
   '沙龙复盘',
   '7天训练营',
   '7天训练营复盘',
   '榜样采访',
   '幸福沙龙采访',
   '榜样选拔与教练招募',
-  '沙龙话术',
   '人才培养营',
   '市场服务',
   '总监思维',
