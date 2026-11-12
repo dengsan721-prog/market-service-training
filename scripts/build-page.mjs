@@ -1375,11 +1375,27 @@ const html = `<!doctype html>
       display: none !important;
     }
     .workspace-panel .flow-subtitle {
-      margin: 10px 0 0;
+      margin: 0;
       color: var(--ink);
       font-size: clamp(20px, 2.2vw, 26px);
       font-weight: 800;
       line-height: 1.35;
+      white-space: nowrap;
+    }
+    .workspace-heading-row {
+      display: flex;
+      align-items: baseline;
+      gap: 18px;
+      flex-wrap: nowrap;
+    }
+    .workspace-heading-row h2 {
+      margin: 0;
+    }
+    @media (max-width: 760px) {
+      .workspace-heading-row {
+        flex-wrap: wrap;
+        gap: 4px 14px;
+      }
     }
     .sidebar {
       position: sticky;
@@ -2810,8 +2826,10 @@ const html = `<!doctype html>
 
         <section class="band required-master-flow workspace-panel" id="marketFlow">
           <div class="band-inner">
-            <h2>大流程|从陌生人到合作伙伴</h2>
-            <p class="flow-subtitle">解决思维混乱的问题</p>
+            <div class="workspace-heading-row">
+              <h2>大流程|从陌生人到合作伙伴</h2>
+              <p class="flow-subtitle">解决思维混乱的问题</p>
+            </div>
             <p>市场服务人员打开以后，只看自己处在哪一步：这一步做什么、标准是什么、原话怎么说、做完怎么复盘。</p>
             <nav class="main-flow-tabs" id="mainFlow" aria-label="必须掌握的主流程"></nav>
             <div class="flow-stage-panel" id="flowStagePanel"></div>
@@ -2820,8 +2838,10 @@ const html = `<!doctype html>
 
         <section class="band content-library workspace-panel" id="mirrorLibrary" hidden>
           <div class="band-inner">
-            <h2>镜子库|用流程标准照镜子</h2>
-            <p class="flow-subtitle">解决行动混乱的问题</p>
+            <div class="workspace-heading-row">
+              <h2>镜子库|用流程标准照镜子</h2>
+              <p class="flow-subtitle">解决行动混乱的问题</p>
+            </div>
             <p>镜子库是大流程某一个环节的具体操作。需要哪一步，就切到对应模块，对照流程标准复盘自己有没有按要求执行。</p>
             <div class="content-tabs" id="contentTabs" role="tablist" aria-label="内容库切换">
               <button type="button" class="active" data-content-target="rawSalon">沙龙</button>
