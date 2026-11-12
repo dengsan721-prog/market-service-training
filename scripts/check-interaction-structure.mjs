@@ -41,7 +41,7 @@ const happinessMap = await page.$eval('.flow-stage-card', (root) => ({
   imageCopyCount: root.querySelectorAll('.stage-image-gallery [data-copy-text]').length
 }));
 assert(happinessMap.title === '幸福地图', `幸福地图模块标题不正确：${happinessMap.title}`);
-assert(happinessMap.imageCount === 5, `幸福地图原图数量不正确：${happinessMap.imageCount}`);
+assert(happinessMap.imageCount === 4, `幸福地图原图数量不正确：${happinessMap.imageCount}`);
 assert(happinessMap.imageCopyCount === 1, '幸福地图缺少原图地址复制按钮');
 
 await page.locator('[data-master-flow-index="3"]').click();

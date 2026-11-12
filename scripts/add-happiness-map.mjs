@@ -19,7 +19,6 @@ const happinessMap = {
   review: [],
   source: '幸福地图原图：点击图片查看完整原图，标题右侧按钮可复制原图地址。',
   images: [
-    { src: 'assets/happiness-map-01.png', alt: '幸福地图总览：来人先承接与免费幸福沙龙' },
     { src: 'assets/happiness-map-02.png', alt: '幸福地图：驿站主的行动从哪里到哪里' },
     { src: 'assets/happiness-map-03.png', alt: '幸福地图：驿站主的六步成长路径' },
     { src: 'assets/happiness-map-04.png', alt: '幸福地图：学员的行动从哪里到哪里' },
