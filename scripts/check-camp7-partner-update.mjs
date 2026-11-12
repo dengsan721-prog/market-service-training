@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const root = path.resolve(import.meta.dirname, '..');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
@@ -32,6 +33,10 @@ const partner = manual.masterFlow?.find((stage) => stage.number === '05' && stag
 if (!partner?.image || partner.image.src !== 'assets/station-master-interview.png') {
   throw new Error('Partner interview image metadata is missing');
 }
+const imageStages = (manual.masterFlow || []).filter((stage) => stage.image);
+if (imageStages.length !== 1 || imageStages[0].number !== '05') {
+  throw new Error('Partner interview image must exist only on stage 05');
+}
 
 for (const asset of [...expectedCampImages, partner.image.src]) {
   if (!fs.existsSync(path.join(root, asset))) throw new Error(`Missing asset: ${asset}`);
@@ -39,6 +44,37 @@ for (const asset of [...expectedCampImages, partner.image.src]) {
 
 if (!html.includes('function renderStageImage') || !html.includes('stage-block stage-image')) {
   throw new Error('Partner interview image renderer is missing');
+}
+if (!html.includes('aria-label="查看原图：') || !html.includes('stage-image-help')) {
+  throw new Error('Partner interview image needs an accessible original-image label');
+}
+if (!html.includes('function renderRawBlockLines(lines, nextImage') || !html.includes('class="training-image"')) {
+  throw new Error('Camp image placeholders are not rendered as training images');
+}
+if (!html.includes('renderRawBlockLines(displayLines, nextImage)')) {
+  throw new Error('Camp image renderer is not connected to raw mirror panels');
+}
+if (!html.includes('.stage-image-link img') || !html.includes('max-width: 100%')) {
+  throw new Error('Partner image responsive CSS is missing');
+}
+
+const baseline = (() => {
+  try {
+    return execFileSync('git', ['show', 'HEAD:index.html'], { cwd: root, encoding: 'utf8' });
+  } catch {
+    return '';
+  }
+})();
+if (baseline) {
+  const baselineMatch = baseline.match(/<script type="application\/json" id="manualData">([\s\S]*?)<\/script>/);
+  if (baselineMatch) {
+    const baselineManual = JSON.parse(baselineMatch[1]);
+    for (const id of ['rawSalon', 'rawTalent', 'rawOther']) {
+      const currentContent = manual.rawMirrorSources.find((item) => item.id === id)?.content;
+      const baselineContent = baselineManual.rawMirrorSources.find((item) => item.id === id)?.content;
+      if (currentContent !== baselineContent) throw new Error(`${id} changed outside the camp update`);
+    }
+  }
 }
 
 console.log('PASS: 7-day camp content and partner interview image are present.');

@@ -13,7 +13,12 @@ function assert(condition, message) {
   }
 }
 
-const browser = await chromium.launch({ headless: true });
+const browser = await chromium.launch({
+  headless: true,
+  ...(process.env.PLAYWRIGHT_EXECUTABLE_PATH
+    ? { executablePath: process.env.PLAYWRIGHT_EXECUTABLE_PATH }
+    : {})
+});
 const page = await browser.newPage({
   viewport: { width: 390, height: 900 },
   deviceScaleFactor: 1,
@@ -464,7 +469,7 @@ for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
         .filter((card) => !card.querySelector('[data-copy-text]'))
         .map((card) => card.querySelector('.raw-module-title')?.textContent.trim() || ''),
       hasCloseModule: [...root.querySelectorAll('.raw-module-card')]
-        .some((card) => card.textContent.includes('发心心愿拔高') && card.textContent.includes('流程复制要求'))
+        .some((card) => card.textContent.includes('发心心愿拔高') && card.textContent.includes('先让每个人分享7天下来的收获和感受'))
     };
   });
   const lineCopyCount = await page.locator(`#${target} .raw-line [data-copy-text]`).count();

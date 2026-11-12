@@ -40,7 +40,7 @@
 - Consumes: 参考站 `data/camp7-course.txt` 与两张 7 天训练营配图。
 - Produces: `rawCamp7` 的完整课程正文和 `images` 元数据；目标站其它 `manualData` 字段保持不变。
 
-- [ ] **Step 1: 添加同步验收脚本并运行一次，确认当前目标站缺少新版内容时失败**
+- [x] **Step 1: 添加同步验收脚本并运行一次，确认当前目标站缺少新版内容时失败**
 
   验收脚本解析 `index.html` 的 `manualData`，检查开营 + 7 个训练日标题、两张课程配图和第 05 阶段图片字段。
 
@@ -48,15 +48,15 @@
 
   Expected: FAIL，指出课程标题或合作伙伴图片元数据尚未存在。
 
-- [ ] **Step 2: 复制参考站课程源文件和配图**
+- [x] **Step 2: 复制参考站课程源文件和配图**
 
   将参考站 `data/camp7-course.txt`、`assets/camp7-essay.jpg`、`assets/camp7-review-example.jpg`复制到目标站对应路径；不改写源文本。
 
-- [ ] **Step 3: 创建 `scripts/update-camp7-content.mjs`**
+- [x] **Step 3: 创建 `scripts/update-camp7-content.mjs`**
 
   复用参考站同步逻辑：读取源文本，验证恰好存在 8 个 `🌲` 标题；定位 `rawCamp7` 的标准正文边界；保留边界前内容，将源课程正文接在后面；写入两张配图的相对路径；同时给 `masterFlow` 中 `number === '05'` 的阶段写入 `image: { src: 'assets/station-master-interview.png', alt: '驿站主面试流程' }`；序列化时转义 `<`。
 
-- [ ] **Step 4: 运行同步脚本并重新运行验收脚本**
+- [x] **Step 4: 运行同步脚本并重新运行验收脚本**
 
   Run: `node scripts/update-camp7-content.mjs data/camp7-course.txt`
 
@@ -72,15 +72,15 @@
 - Consumes: Task 1 写入的 `stage.image` 对象。
 - Produces: 合作伙伴阶段中可见、可点击查看原图的响应式图片块。
 
-- [ ] **Step 1: 在 `index.html` 的样式区增加 `.stage-image` 样式**
+- [x] **Step 1: 在 `index.html` 的样式区增加 `.stage-image` 样式**
 
   图片块占据整行；图片 `display: block`、`width: 100%`、`max-width: 100%`、`height: auto`，沿用现有卡片圆角和边框，确保窄屏不横向溢出。
 
-- [ ] **Step 2: 增加 `renderStageImage(image)` 并接入 `renderMasterStage()`**
+- [x] **Step 2: 增加 `renderStageImage(image)` 并接入 `renderMasterStage()`**
 
   空值时返回空字符串；有值时渲染标题、`alt`、相对路径图片和“查看原图”链接，并对文本和 URL 使用现有 `safeHtml()`。
 
-- [ ] **Step 3: 添加用户图片并运行本地结构验收**
+- [x] **Step 3: 添加用户图片并运行本地结构验收**
 
   将用户附件复制为 `assets/station-master-interview.png`，确认渲染代码引用的路径与文件名一致。
 
@@ -97,15 +97,15 @@
 - Consumes: 已更新的 `index.html`、静态资源和验收脚本。
 - Produces: 可在 GitHub Pages 子路径运行的静态页面。
 
-- [ ] **Step 1: 启动本地静态服务器并检查两个入口**
+- [x] **Step 1: 启动本地静态服务器并检查两个入口**
 
   用现有本地预览方式启动站点，打开目标页；切换到“镜子库 → 7天训练营”，确认新版开营及第 1～7 天内容；切换到“大流程 → 合作伙伴”，确认图片可见并可打开原图。
 
-- [ ] **Step 2: 检查窄屏布局**
+- [x] **Step 2: 检查窄屏布局**
 
   在约 420px 宽视口检查图片、阶段卡和内容切换无横向滚动，中文标题和正文可读。
 
-- [ ] **Step 3: 运行完整验证命令**
+- [x] **Step 3: 运行完整验证命令**
 
   Run: `node scripts/check-camp7-partner-update.mjs; node scripts/check-interaction-structure.mjs`
 
