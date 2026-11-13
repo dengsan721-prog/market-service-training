@@ -80,6 +80,10 @@ const salonInterviewStandardFile = path.join(repoRoot, 'data', 'salon-interview-
 const salonInterviewStandards = fs.existsSync(salonInterviewStandardFile)
   ? JSON.parse(fs.readFileSync(salonInterviewStandardFile, 'utf8'))
   : { title: '幸福沙龙采访', modules: [] };
+const happinessFamilyAnswerBankFile = path.join(repoRoot, 'data', 'happiness-family-answer-bank.json');
+const happinessFamilyAnswerBank = fs.existsSync(happinessFamilyAnswerBankFile)
+  ? JSON.parse(fs.readFileSync(happinessFamilyAnswerBankFile, 'utf8'))
+  : { title: '幸福家庭答案库', description: '', itemCount: 0, modules: [] };
 
 function sliceByHeadings(content, startText, endText) {
   const start = content.indexOf(startText);
@@ -854,7 +858,7 @@ const masterFlow = [
   },
   {
     number: '04',
-    title: '系统学习',
+    title: '《幸福驾校》',
     tag: '掌握一辈子幸福能力',
     goal: '7天训练营筛选出真正愿意改变的人，进入系统学习环境，持续学习，持续改变，掌握一辈子幸福的能力。',
     process: [
@@ -882,7 +886,7 @@ const masterFlow = [
   },
   {
     number: '05',
-    title: '合作伙伴',
+    title: '成为驿站主',
     tag: '参与幸福驿站事业',
     goal: '从受益学员、榜样、教练中筛选愿意帮助别人、愿意严格复制流程的人，参与幸福驿站事业。',
     process: [
@@ -1197,7 +1201,7 @@ function applyMarkdownOverrides(baseData) {
   };
 }
 
-const data = applyMarkdownOverrides({ modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, camp7Review, flowGuide, masterFlow, modelCollection, toolbox, interactiveQuestionLibraries, salonScriptTemplates, studentGrowthSteps, salonInterviewStandards });
+const data = applyMarkdownOverrides({ modules, scriptLibrary, sources, rawMirrorSources, quickFlows, serviceFramework, directorThinking, salonReview, camp7Review, flowGuide, masterFlow, modelCollection, toolbox, interactiveQuestionLibraries, salonScriptTemplates, studentGrowthSteps, salonInterviewStandards, happinessFamilyAnswerBank });
 
 function escapeHtml(value) {
   return String(value)
@@ -1741,6 +1745,148 @@ const html = `<!doctype html>
       font-size: 13px;
       line-height: 1.55;
       font-weight: 760;
+    }
+    .happiness-answer-toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      margin: 12px 0 10px;
+    }
+    .happiness-answer-search {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      padding: 0 14px;
+      color: #1d1d1f;
+      font-size: 14px;
+      font-weight: 750;
+      outline: none;
+    }
+    .happiness-answer-search:focus {
+      border-color: rgba(52,199,89,.48);
+      box-shadow: 0 0 0 4px rgba(52,199,89,.11);
+    }
+    .happiness-answer-meta {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      font-weight: 760;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .happiness-answer-toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 12px;
+    }
+    .happiness-answer-toc button {
+      border: 1px solid rgba(52,199,89,.22);
+      border-radius: 999px;
+      background: rgba(52,199,89,.08);
+      color: #17662f;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 820;
+      cursor: pointer;
+    }
+    .happiness-answer-toc button.active {
+      border-color: rgba(52,199,89,.5);
+      background: rgba(52,199,89,.18);
+      color: #0f5425;
+    }
+    .happiness-answer-modules {
+      display: grid;
+      gap: 10px;
+    }
+    .happiness-answer-module {
+      border: 1px solid rgba(52,199,89,.18);
+      border-left: 4px solid #34c759;
+      border-radius: 12px;
+      background: rgba(255,255,255,.74);
+      overflow: hidden;
+    }
+    .happiness-answer-module[hidden] { display: none; }
+    .happiness-answer-module-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 11px;
+      background: rgba(52,199,89,.07);
+    }
+    .happiness-answer-module-head h3 {
+      margin: 0;
+      color: #17662f;
+      font-size: 16px;
+      line-height: 1.3;
+      font-weight: 900;
+    }
+    .happiness-answer-module-count {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+    .happiness-answer-list {
+      display: grid;
+      gap: 6px;
+      padding: 8px;
+    }
+    .happiness-answer-item {
+      border: 1px solid rgba(0,0,0,.07);
+      border-radius: 9px;
+      background: #fff;
+    }
+    .happiness-answer-item[hidden] { display: none; }
+    .happiness-answer-item summary {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 9px;
+      color: #1d1d1f;
+      cursor: pointer;
+      list-style: none;
+      font-size: 13px;
+      line-height: 1.42;
+      font-weight: 820;
+    }
+    .happiness-answer-item summary::-webkit-details-marker { display: none; }
+    .happiness-answer-item summary::before {
+      content: '＋';
+      color: #34a853;
+      font-size: 15px;
+      font-weight: 900;
+    }
+    .happiness-answer-item[open] summary::before { content: '−'; }
+    .happiness-answer-order {
+      color: #34a853;
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+    .happiness-answer-copy { justify-self: end; }
+    .happiness-answer-body {
+      display: grid;
+      gap: 5px;
+      padding: 0 10px 10px 39px;
+      color: #3d3d42;
+      font-size: 13px;
+      line-height: 1.55;
+      font-weight: 620;
+    }
+    .happiness-answer-body p { margin: 0; }
+    .happiness-answer-empty {
+      margin: 0;
+      padding: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
     }
     .question-module-list {
       display: grid;
@@ -2711,6 +2857,19 @@ const html = `<!doctype html>
         min-height: 38px;
         font-size: 14px;
       }
+      .happiness-answer-toolbar {
+        grid-template-columns: 1fr;
+      }
+      .happiness-answer-meta {
+        text-align: left;
+      }
+      .happiness-answer-item summary {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+      .happiness-answer-copy {
+        grid-column: 2;
+        justify-self: start;
+      }
       .question-module-list {
         gap: 8px;
       }
@@ -2907,6 +3066,7 @@ const html = `<!doctype html>
               <button type="button" data-content-target="mainCourseQuestions">主课互动问句</button>
               <button type="button" data-content-target="therapyQuestions">智疗互动问句</button>
               <button type="button" data-content-target="studentGrowthSteps">学员成长四步</button>
+              <button type="button" data-content-target="happinessFamilyAnswers">幸福家庭答案库</button>
             </div>
           </div>
         </section>
@@ -3061,6 +3221,19 @@ const html = `<!doctype html>
             <div class="copy-title-row"><h2>幸福沙龙采访</h2></div>
             <p>按幸福沙龙榜样采访标准拆成独立模块，采访、点评、筛选、禁忌和心法都可以单独复制。</p>
             <div class="salon-script-body" id="salonInterviewList"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card content-panel" id="happinessFamilyAnswers" hidden>
+          <div class="band-inner">
+            <div class="copy-title-row"><h2>幸福家庭答案库</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="happinessFamilyAnswers" onclick="copyPanelText(this)">复制</button></div>
+            <p id="happinessFamilyAnswerDescription">按家庭关系、亲子沟通、情绪相处等模块整理家庭问题与回答，支持关键词搜索、模块筛选和目录浏览。</p>
+            <div class="happiness-answer-toolbar">
+              <input class="happiness-answer-search" type="search" placeholder="搜索关键词、标题或回答内容" data-happiness-answer-search aria-label="搜索幸福家庭答案库">
+              <p class="happiness-answer-meta" data-happiness-answer-meta></p>
+            </div>
+            <nav class="happiness-answer-toc" data-happiness-answer-toc aria-label="幸福家庭答案库目录"></nav>
+            <div class="happiness-answer-modules" id="happinessFamilyAnswerModules"></div>
           </div>
         </section>
 
@@ -3894,6 +4067,78 @@ const html = `<!doctype html>
       bindCompactCopy(target);
     }
 
+    function renderHappinessFamilyAnswers() {
+      const data = manual.happinessFamilyAnswerBank || {};
+      const target = document.getElementById('happinessFamilyAnswerModules');
+      const toc = document.querySelector('[data-happiness-answer-toc]');
+      const input = document.querySelector('[data-happiness-answer-search]');
+      const meta = document.querySelector('[data-happiness-answer-meta]');
+      const description = document.getElementById('happinessFamilyAnswerDescription');
+      const modules = data.modules || [];
+      if (!target || !toc || !input || !meta) return;
+      if (description && data.description) description.textContent = data.description;
+      if (!modules.length) {
+        target.innerHTML = '<p class="happiness-answer-empty">暂无幸福家庭答案库内容</p>';
+        return;
+      }
+
+      toc.innerHTML = '<button type="button" class="active" data-happiness-answer-module="all">全部 ' + safeHtml(String(data.itemCount || 0)) + '</button>' +
+        modules.map((module, index) => '<button type="button" data-happiness-answer-module="' + index + '">' + safeHtml(module.title) + ' ' + safeHtml(String((module.items || []).length)) + '</button>').join('');
+      target.innerHTML = modules.map((module, index) => {
+        const items = module.items || [];
+        return '<section class="happiness-answer-module" id="happiness-answer-module-' + index + '" data-happiness-answer-module-section="' + index + '">' +
+          '<div class="happiness-answer-module-head"><h3>' + safeHtml(module.title) + '</h3><span class="happiness-answer-module-count" data-happiness-answer-module-count>' + items.length + ' 条</span></div>' +
+          '<div class="happiness-answer-list">' + items.map((item) => {
+            const lines = item.lines || [];
+            const copyText = [item.order + '. ' + item.title, ...lines].join('\n').trim();
+            const searchText = [module.title, item.order, item.title, ...lines].join(' ');
+            return '<details class="happiness-answer-item" data-happiness-answer-item data-search-text="' + safeHtml(searchText) + '">' +
+              '<summary><span class="happiness-answer-order">' + safeHtml(String(item.order)) + '</span><span>' + safeHtml(item.title) + '</span>' + compactCopyButton(copyText, 'mini-copy happiness-answer-copy') + '</summary>' +
+              '<div class="happiness-answer-body">' + lines.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' +
+            '</details>';
+          }).join('') + '</div>' +
+        '</section>';
+      }).join('');
+      bindCompactCopy(target);
+
+      const apply = (selectedModule = 'all') => {
+        const keyword = input.value.trim().toLowerCase();
+        let visible = 0;
+        target.querySelectorAll('[data-happiness-answer-module-section]').forEach((moduleSection, index) => {
+          const moduleMatches = selectedModule === 'all' || selectedModule === String(index);
+          let moduleVisible = 0;
+          moduleSection.querySelectorAll('[data-happiness-answer-item]').forEach((item) => {
+            const text = (item.dataset.searchText || '').toLowerCase();
+            const matched = moduleMatches && (!keyword || text.includes(keyword));
+            item.hidden = !matched;
+            if (!matched) item.open = false;
+            if (matched) {
+              moduleVisible += 1;
+              visible += 1;
+            }
+          });
+          moduleSection.hidden = moduleVisible === 0;
+          const count = moduleSection.querySelector('[data-happiness-answer-module-count]');
+          if (count) count.textContent = moduleVisible + ' / ' + (moduleSection.querySelectorAll('[data-happiness-answer-item]').length || 0) + ' 条';
+        });
+        meta.textContent = keyword || selectedModule !== 'all'
+          ? '找到 ' + visible + ' / ' + (data.itemCount || 0) + ' 条'
+          : '共 ' + (data.itemCount || 0) + ' 条，按模块浏览或展开条目查看回答。';
+      };
+
+      toc.querySelectorAll('[data-happiness-answer-module]').forEach((button) => {
+        button.addEventListener('click', () => {
+          toc.querySelectorAll('[data-happiness-answer-module]').forEach((item) => item.classList.toggle('active', item === button));
+          apply(button.dataset.happinessAnswerModule || 'all');
+        });
+      });
+      input.addEventListener('input', () => {
+        const active = toc.querySelector('[data-happiness-answer-module].active');
+        apply(active?.dataset.happinessAnswerModule || 'all');
+      });
+      apply('all');
+    }
+
     function renderSalonScriptSteps(content) {
       const steps = splitSalonScriptSteps(content);
       return steps.map((step, index) => {
@@ -4200,6 +4445,7 @@ const html = `<!doctype html>
     renderSalonScriptTemplates();
     renderStudentGrowthSteps();
     renderSalonInterviewStandards();
+    renderHappinessFamilyAnswers();
     bindCompactCopy(document);
     initContentTabs();
     initWorkspaceTabs();

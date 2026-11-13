@@ -29,7 +29,7 @@ const campImages = (camp.images || []).map((image) => image.src);
 const missingCampImages = expectedCampImages.filter((src) => !campImages.includes(src));
 if (missingCampImages.length) throw new Error(`Missing camp images: ${missingCampImages.join(', ')}`);
 
-const partner = manual.masterFlow?.find((stage) => stage.number === '05' && stage.title === '合作伙伴');
+const partner = manual.masterFlow?.find((stage) => stage.number === '05' && stage.title === '成为驿站主');
 if (!partner?.image || partner.image.src !== 'assets/station-master-interview.png') {
   throw new Error('Partner interview image metadata is missing');
 }
