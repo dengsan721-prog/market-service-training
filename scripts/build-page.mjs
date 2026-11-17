@@ -1666,6 +1666,7 @@ const html = `<!doctype html>
       line-height: 1;
       font-weight: 900;
       cursor: pointer;
+      white-space: nowrap;
     }
     .mini-copy {
       padding: 6px 8px;
@@ -1845,7 +1846,7 @@ const html = `<!doctype html>
     .happiness-answer-item[hidden] { display: none; }
     .happiness-answer-item summary {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       gap: 8px;
       align-items: center;
       padding: 8px 9px;
@@ -1857,13 +1858,17 @@ const html = `<!doctype html>
       font-weight: 820;
     }
     .happiness-answer-item summary::-webkit-details-marker { display: none; }
-    .happiness-answer-item summary::before {
-      content: '＋';
-      color: #34a853;
-      font-size: 15px;
-      font-weight: 900;
+    .happiness-answer-item-title {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 7px;
     }
-    .happiness-answer-item[open] summary::before { content: '−'; }
+    .happiness-answer-item-title-text {
+      min-width: 0;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
     .happiness-answer-order {
       color: #34a853;
       font-size: 12px;
@@ -1881,16 +1886,6 @@ const html = `<!doctype html>
       font-weight: 620;
     }
     .happiness-answer-body p { margin: 0; }
-    .minute-copy-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 6px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-    }
     .happiness-answer-empty {
       margin: 0;
       padding: 12px;
@@ -1939,7 +1934,7 @@ const html = `<!doctype html>
     }
     .question-course summary {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       gap: 10px;
       align-items: center;
       min-height: 44px;
@@ -1956,16 +1951,8 @@ const html = `<!doctype html>
       font-size: 14px;
       line-height: 1.35;
       font-weight: 900;
-    }
-    .question-course-title::before {
-      content: "＋";
-      display: inline-block;
-      width: 18px;
-      color: var(--question-accent);
-      font-weight: 950;
-    }
-    .question-course[open] .question-course-title::before {
-      content: "－";
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
     .question-course-body {
       display: grid;
@@ -2077,12 +2064,19 @@ const html = `<!doctype html>
     }
     .salon-step-head {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       gap: 8px;
       align-items: center;
       padding: 7px 10px 2px;
       background: transparent;
       border-bottom: 0;
+    }
+    .salon-step-head::-webkit-details-marker { display: none; }
+    .salon-step-title-wrap {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 8px;
     }
     .salon-step-index {
       display: grid;
@@ -2097,10 +2091,37 @@ const html = `<!doctype html>
     }
     .salon-step-head .salon-step-title {
       min-width: 0;
+      margin: 0;
       color: #1d1d1f;
       font-size: 15px;
       line-height: 1.32;
       font-weight: 880;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+    .salon-step-toggle,
+    .happiness-answer-toggle,
+    .question-course-toggle,
+    .raw-module-toggle {
+      display: grid;
+      place-items: center;
+      width: 22px;
+      height: 22px;
+      flex: 0 0 22px;
+      color: var(--step-accent, var(--mirror-accent, var(--blue)));
+      font-size: 17px;
+      line-height: 1;
+      font-weight: 950;
+    }
+    .salon-step-toggle::before,
+    .happiness-answer-toggle::before,
+    .question-course-toggle::before,
+    .raw-module-toggle::before { content: '＋'; }
+    .salon-step-card[open] .salon-step-toggle::before,
+    .happiness-answer-item[open] .happiness-answer-toggle::before,
+    .question-course[open] .question-course-toggle::before,
+    .raw-module-card[open] .raw-module-toggle::before { content: '－'; }
+    .salon-step-card[open] { background: #fff; }
     }
     .salon-step-content {
       max-height: none !important;
@@ -2254,12 +2275,19 @@ const html = `<!doctype html>
     }
     .raw-module-head {
       display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
+      grid-template-columns: minmax(0, 1fr) auto auto;
       gap: 8px;
       align-items: start;
       border-radius: 10px;
       padding: 7px 8px;
       background: var(--mirror-tint);
+    }
+    .raw-module-head::-webkit-details-marker { display: none; }
+    .raw-module-title-wrap {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 8px;
     }
     .raw-module-title {
       margin: 0;
@@ -2268,6 +2296,9 @@ const html = `<!doctype html>
       line-height: 1.45;
       font-weight: 880;
       background: var(--mirror-tint);
+      min-width: 0;
+      white-space: normal;
+      overflow-wrap: anywhere;
     }
     .raw-line-list {
       display: grid;
@@ -2874,11 +2905,11 @@ const html = `<!doctype html>
         text-align: left;
       }
       .happiness-answer-item summary {
-        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-columns: minmax(0, 1fr) auto auto;
       }
       .happiness-answer-copy {
-        grid-column: 2;
-        justify-self: start;
+        grid-column: auto;
+        justify-self: end;
       }
       .question-module-list {
         gap: 8px;
@@ -2921,7 +2952,7 @@ const html = `<!doctype html>
         padding: 8px;
       }
       .salon-step-head {
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) auto auto;
         gap: 7px;
         padding: 6px 8px 2px;
       }
@@ -2965,7 +2996,7 @@ const html = `<!doctype html>
         padding: 8px 9px;
       }
       .raw-module-head {
-        grid-template-columns: auto minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) auto auto;
       }
       .raw-line span:last-child,
       .raw-module-card > p {
@@ -3722,28 +3753,30 @@ const html = `<!doctype html>
 
     function renderFramework() {
       frameworkGrid.innerHTML = manual.serviceFramework.map((item) => (
-        '<article class="salon-step-card mirror-standard-card framework-card" data-search-text="' + safeHtml([item.number, item.title, item.body].join(' ')) + '">' +
-          '<div class="salon-step-head">' +
-            '<span class="salon-step-index">' + safeHtml(item.number) + '</span>' +
-            '<h4 class="salon-step-title">' + safeHtml(item.title) + '</h4>' +
+        '<details class="salon-step-card mirror-standard-card framework-card" data-search-text="' + safeHtml([item.number, item.title, item.body].join(' ')) + '">' +
+          '<summary class="salon-step-head">' +
+            '<span class="salon-step-title-wrap"><span class="salon-step-index">' + safeHtml(item.number) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(item.title) + '</h4></span>' +
             compactCopyButton([item.number + ' ' + item.title, item.body].join('\\n'), 'mini-copy mirror-card-copy') +
-          '</div>' +
+            '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+          '</summary>' +
           '<div class="salon-step-content">' + renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(item.body))) + '</div>' +
-        '</article>'
+        '</details>'
       )).join('');
       bindCompactCopy(frameworkGrid);
     }
 
     function renderThinking() {
       thinkingGrid.innerHTML = manual.directorThinking.map((item, index) => (
-        '<article class="salon-step-card mirror-standard-card thinking-card" data-search-text="' + safeHtml([item.title, item.body].join(' ')) + '">' +
-          '<div class="salon-step-head">' +
-            '<span class="salon-step-index">' + (index + 1) + '</span>' +
-            '<h4 class="salon-step-title">' + safeHtml(item.title) + '</h4>' +
+        '<details class="salon-step-card mirror-standard-card thinking-card" data-search-text="' + safeHtml([item.title, item.body].join(' ')) + '">' +
+          '<summary class="salon-step-head">' +
+            '<span class="salon-step-title-wrap"><span class="salon-step-index">' + (index + 1) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(item.title) + '</h4></span>' +
             compactCopyButton([(index + 1) + ' ' + item.title, item.body].join('\\n'), 'mini-copy mirror-card-copy') +
-          '</div>' +
+            '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+          '</summary>' +
           '<div class="salon-step-content">' + renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(item.body))) + '</div>' +
-        '</article>'
+        '</details>'
       )).join('');
       bindCompactCopy(thinkingGrid);
     }
@@ -3764,17 +3797,18 @@ const html = `<!doctype html>
 
     function renderModelCollection() {
       collectionGrid.innerHTML = manual.modelCollection.steps.map((step, index) => (
-        '<article class="salon-step-card mirror-standard-card collection-card" data-search-text="' + safeHtml([step.title, step.body, step.purpose].join(' ')) + '">' +
-          '<div class="salon-step-head">' +
-            '<span class="salon-step-index">' + (index + 1) + '</span>' +
-            '<h4 class="salon-step-title">' + safeHtml(step.title) + '</h4>' +
+        '<details class="salon-step-card mirror-standard-card collection-card" data-search-text="' + safeHtml([step.title, step.body, step.purpose].join(' ')) + '">' +
+          '<summary class="salon-step-head">' +
+            '<span class="salon-step-title-wrap"><span class="salon-step-index">' + (index + 1) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(step.title) + '</h4></span>' +
             compactCopyButton(['第' + (index + 1) + '步 ' + step.title, step.body, step.purpose].join('\\n'), 'mini-copy model-step-copy') +
-          '</div>' +
+            '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+          '</summary>' +
           '<div class="salon-step-content">' +
             renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(step.body))) +
             (step.purpose ? '<p class="salon-line formula"><strong>核心目的：</strong>' + safeHtml(step.purpose) + '</p>' : '') +
           '</div>' +
-        '</article>'
+        '</details>'
       )).join('');
       collectionQuestions.innerHTML = manual.modelCollection.questions.map((question, index) => (
         renderMirrorTextCard(index + 1, '采访问题 ' + (index + 1), [question])
@@ -3789,18 +3823,19 @@ const html = `<!doctype html>
 
     function renderToolbox() {
       toolGrid.innerHTML = manual.toolbox.map((tool) => (
-        '<article class="salon-step-card mirror-standard-card tool-card" data-search-text="' + safeHtml([tool.title, tool.text].join(' ')) + '">' +
-          '<div class="salon-step-head">' +
-            '<span class="salon-step-index">图</span>' +
-            '<h4 class="salon-step-title">' + safeHtml(tool.title) + '</h4>' +
+        '<details class="salon-step-card mirror-standard-card tool-card" data-search-text="' + safeHtml([tool.title, tool.text].join(' ')) + '">' +
+          '<summary class="salon-step-head">' +
+            '<span class="salon-step-title-wrap"><span class="salon-step-index">图</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(tool.title) + '</h4></span>' +
             compactCopyButton([tool.title, tool.text].join('\\n'), 'mini-copy tool-copy') +
-          '</div>' +
+            '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+          '</summary>' +
           '<div class="salon-step-content tool-card-body">' +
             renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(tool.text))) +
             '<a class="image-link" href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener">查看原图</a>' +
             '<a class="tool-image-preview" href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener"><img src="' + safeHtml(tool.image) + '" alt="' + safeHtml(tool.title) + '"></a>' +
           '</div>' +
-        '</article>'
+        '</details>'
       )).join('');
       bindCompactCopy(toolGrid);
     }
@@ -3808,14 +3843,15 @@ const html = `<!doctype html>
     function renderMirrorTextCard(order, title, lines, copyClass = '') {
       const lineBlocks = buildSalonLineBlocks(lines || []);
       const copyText = [title, ...lineBlocks.map((block) => block.text)].join('\\n').trim();
-      return '<article class="salon-step-card mirror-standard-card" data-search-text="' + safeHtml([title, ...(lines || [])].join(' ')) + '">' +
-        '<div class="salon-step-head">' +
-          '<span class="salon-step-index">' + safeHtml(order) + '</span>' +
-          '<h4 class="salon-step-title">' + safeHtml(title) + '</h4>' +
-          (copyClass ? compactCopyButton(copyText, 'mini-copy ' + copyClass) : '') +
-        '</div>' +
+      return '<details class="salon-step-card mirror-standard-card" data-search-text="' + safeHtml([title, ...(lines || [])].join(' ')) + '">' +
+        '<summary class="salon-step-head">' +
+          '<span class="salon-step-title-wrap"><span class="salon-step-index">' + safeHtml(order) + '</span>' +
+          '<h4 class="salon-step-title">' + safeHtml(title) + '</h4></span>' +
+          (copyClass ? compactCopyButton(copyText, 'mini-copy ' + copyClass) : '<span></span>') +
+          '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+        '</summary>' +
         '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
-      '</article>';
+      '</details>';
     }
 
     function buildCollectionQuestionsCopyText() {
@@ -3909,14 +3945,15 @@ const html = `<!doctype html>
           const copyMarkup = shouldHideRawCopy(displayTitle, block.title, displayLines)
             ? ''
             : compactCopyButton(moduleText, 'mini-copy raw-copy-btn');
-          return '<article class="raw-module-card" data-search-text="' + safeHtml([source.title, moduleText].join(' ')) + '">' +
-            '<div class="raw-module-head">' +
-              '<span class="raw-order' + (block.order ? '' : ' empty') + '">' + safeHtml(block.order) + '</span>' +
-              '<h3 class="raw-module-title">' + safeHtml(displayTitle || ('内容模块 ' + (index + 1))) + '</h3>' +
+          return '<details class="raw-module-card" data-search-text="' + safeHtml([source.title, moduleText].join(' ')) + '">' +
+            '<summary class="raw-module-head">' +
+              '<span class="raw-module-title-wrap"><span class="raw-order' + (block.order ? '' : ' empty') + '">' + safeHtml(block.order) + '</span>' +
+              '<h3 class="raw-module-title">' + safeHtml(displayTitle || ('内容模块 ' + (index + 1))) + '</h3></span>' +
               copyMarkup +
-            '</div>' +
+              '<span class="raw-module-toggle" aria-hidden="true"></span>' +
+            '</summary>' +
             renderRawBlockLines(displayLines) +
-          '</article>';
+          '</details>';
         }).join('');
       });
     }
@@ -3959,6 +3996,7 @@ const html = `<!doctype html>
         '<summary>' +
           '<span class="question-course-title">' + safeHtml(course.title) + '</span>' +
           compactCopyButton(copyText, 'mini-copy question-copy-btn') +
+          '<span class="question-course-toggle" aria-hidden="true"></span>' +
         '</summary>' +
         '<div class="question-course-body">' +
           renderQuestionItems('互动问题', course.questions || []) +
@@ -4056,14 +4094,15 @@ const html = `<!doctype html>
       target.innerHTML = modules.map((module, index) => {
         const lineBlocks = buildSalonLineBlocks(module.lines || []);
         const copyText = [module.title, ...lineBlocks.map((block) => block.text)].join('\\n').trim();
-        return '<section class="salon-step-card student-growth-card">' +
-          '<div class="salon-step-head">' +
-            '<span class="salon-step-index">' + safeHtml(module.order || String(index + 1)) + '</span>' +
-            '<h4 class="salon-step-title">' + safeHtml(module.title || ('内容模块 ' + (index + 1))) + '</h4>' +
+        return '<details class="salon-step-card student-growth-card">' +
+          '<summary class="salon-step-head">' +
+            '<span class="salon-step-title-wrap"><span class="salon-step-index">' + safeHtml(module.order || String(index + 1)) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(module.title || ('内容模块 ' + (index + 1))) + '</h4></span>' +
             compactCopyButton(copyText, 'mini-copy student-growth-copy') +
-          '</div>' +
+            '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+          '</summary>' +
           '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
-        '</section>';
+        '</details>';
       }).join('');
       bindCompactCopy(target);
     }
@@ -4079,14 +4118,15 @@ const html = `<!doctype html>
       target.innerHTML = modules.map((module, index) => {
         const lineBlocks = buildSalonLineBlocks(module.lines || []);
         const copyText = [module.title, ...lineBlocks.map((block) => block.text)].join('\\n').trim();
-        return '<section class="salon-step-card salon-interview-card">' +
-          '<div class="salon-step-head">' +
-            '<span class="salon-step-index">' + safeHtml(module.order || String(index + 1)) + '</span>' +
-            '<h4 class="salon-step-title">' + safeHtml(module.title || ('内容模块 ' + (index + 1))) + '</h4>' +
+        return '<details class="salon-step-card salon-interview-card">' +
+          '<summary class="salon-step-head">' +
+            '<span class="salon-step-title-wrap"><span class="salon-step-index">' + safeHtml(module.order || String(index + 1)) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(module.title || ('内容模块 ' + (index + 1))) + '</h4></span>' +
             compactCopyButton(copyText, 'mini-copy salon-interview-copy') +
-          '</div>' +
+            '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+          '</summary>' +
           '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
-        '</section>';
+        '</details>';
       }).join('');
       bindCompactCopy(target);
     }
@@ -4117,7 +4157,7 @@ const html = `<!doctype html>
             const copyText = [item.order + '. ' + item.title, ...lines].join('\\n').trim();
             const searchText = [module.title, item.order, item.title, ...lines].join(' ');
             return '<details class="happiness-answer-item" data-happiness-answer-item data-search-text="' + safeHtml(searchText) + '">' +
-              '<summary><span class="happiness-answer-order">' + safeHtml(String(item.order)) + '</span><span>' + safeHtml(item.title) + '</span>' + compactCopyButton(copyText, 'mini-copy happiness-answer-copy') + '</summary>' +
+              '<summary><span class="happiness-answer-item-title"><span class="happiness-answer-order">' + safeHtml(String(item.order)) + '</span><span class="happiness-answer-item-title-text">' + safeHtml(item.title) + '</span></span>' + compactCopyButton(copyText, 'mini-copy happiness-answer-copy') + '<span class="happiness-answer-toggle" aria-hidden="true"></span></summary>' +
               '<div class="happiness-answer-body">' + lines.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' +
             '</details>';
           }).join('') + '</div>' +
@@ -4193,8 +4233,8 @@ const html = `<!doctype html>
               const itemTitle = (item.order ? '第' + item.order + '条：' : '') + item.title;
               const searchText = [category.title, item.order, item.title, ...lines].join(' ');
               return '<details class="happiness-answer-item" data-six-minute-item data-search-text="' + safeHtml(searchText) + '">' +
-                '<summary><span class="happiness-answer-order">' + safeHtml(item.order ? '第' + item.order + '条' : '') + '</span><span>' + safeHtml(item.title) + '</span>' + compactCopyButton(itemTitle, 'mini-copy happiness-answer-copy', '复制标题') + '</summary>' +
-                '<div class="happiness-answer-body"><div class="minute-copy-row"><span>正文</span>' + compactCopyButton(lines.join('\\n'), 'mini-copy', '复制正文') + '</div>' + lines.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' +
+                '<summary><span class="happiness-answer-item-title"><span class="happiness-answer-order">' + safeHtml(item.order ? '第' + item.order + '条' : '') + '</span><span class="happiness-answer-item-title-text">' + safeHtml(item.title) + '</span></span>' + compactCopyButton([itemTitle, ...lines].join('\\n'), 'mini-copy happiness-answer-copy') + '<span class="happiness-answer-toggle" aria-hidden="true"></span></summary>' +
+                '<div class="happiness-answer-body">' + lines.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' +
               '</details>';
             }).join('') + '</div>' +
           '</section>';
@@ -4247,14 +4287,15 @@ const html = `<!doctype html>
       return steps.map((step, index) => {
         const lineBlocks = buildSalonLineBlocks(step.lines);
         const copyText = [step.title, ...lineBlocks.map((block) => block.text)].join('\\n').trim();
-        return '<section class="salon-step-card">' +
-          '<div class="salon-step-head">' +
-            '<span class="salon-step-index">' + (index + 1) + '</span>' +
-            '<h4 class="salon-step-title">' + safeHtml(step.title) + '</h4>' +
+        return '<details class="salon-step-card">' +
+          '<summary class="salon-step-head">' +
+            '<span class="salon-step-title-wrap"><span class="salon-step-index">' + (index + 1) + '</span>' +
+            '<h4 class="salon-step-title">' + safeHtml(step.title) + '</h4></span>' +
             compactCopyButton(copyText, 'mini-copy salon-step-copy') +
-          '</div>' +
+            '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+          '</summary>' +
           '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
-        '</section>';
+        '</details>';
       }).join('');
     }
 
