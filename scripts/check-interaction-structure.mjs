@@ -95,7 +95,8 @@ assert(JSON.stringify(tabLabels) === JSON.stringify([
   '主课互动问句',
   '智疗互动问句',
   '学员成长四步',
-  '幸福家庭答案库'
+  '幸福家庭答案库',
+  '六类一分钟合集'
 ]), `镜子库 tab 顺序不正确：${tabLabels.join(' / ')}`);
 assert(tabLabels.includes('榜样选拔与教练招募'), '镜子库缺少“榜样选拔与教练招募”tab');
 assert(tabLabels.includes('市场服务'), '镜子库缺少“市场服务”tab');

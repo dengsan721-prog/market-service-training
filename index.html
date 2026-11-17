@@ -691,6 +691,16 @@
       font-weight: 620;
     }
     .happiness-answer-body p { margin: 0; }
+    .minute-copy-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
     .happiness-answer-empty {
       margin: 0;
       padding: 12px;
@@ -1891,6 +1901,7 @@
               <button type="button" data-content-target="therapyQuestions">智疗互动问句</button>
               <button type="button" data-content-target="studentGrowthSteps">学员成长四步</button>
               <button type="button" data-content-target="happinessFamilyAnswers">幸福家庭答案库</button>
+              <button type="button" data-content-target="sixMinuteCollection">六类一分钟合集</button>
             </div>
           </div>
         </section>
@@ -2058,6 +2069,19 @@
             </div>
             <nav class="happiness-answer-toc" data-happiness-answer-toc aria-label="幸福家庭答案库目录"></nav>
             <div class="happiness-answer-modules" id="happinessFamilyAnswerModules"></div>
+          </div>
+        </section>
+
+        <section class="band ability-module-card content-panel" id="sixMinuteCollection" hidden>
+          <div class="band-inner">
+            <div class="copy-title-row"><h2>六类一分钟合集</h2><button type="button" class="mini-copy panel-copy-btn" data-copy-panel="sixMinuteCollection" onclick="copyPanelText(this)">复制</button></div>
+            <p id="sixMinuteCollectionDescription">正在加载六类一分钟学习内容……</p>
+            <div class="happiness-answer-toolbar">
+              <input class="happiness-answer-search" type="search" placeholder="搜索标题或正文关键词" data-six-minute-search aria-label="搜索六类一分钟合集">
+              <p class="happiness-answer-meta" data-six-minute-meta></p>
+            </div>
+            <nav class="happiness-answer-toc" data-six-minute-toc aria-label="六类一分钟合集目录"></nav>
+            <div class="happiness-answer-modules" id="sixMinuteCollectionModules"></div>
           </div>
         </section>
 
@@ -2317,8 +2341,8 @@
       }
     }
 
-    function compactCopyButton(text, className = 'mini-copy') {
-      return '<button type="button" class="' + className + '" data-copy-text="' + safeHtml(text) + '" aria-label="复制">复制</button>';
+    function compactCopyButton(text, className = 'mini-copy', label = '复制') {
+      return '<button type="button" class="' + className + '" data-copy-text="' + safeHtml(text) + '" aria-label="' + safeHtml(label) + '">' + safeHtml(label) + '</button>';
     }
 
     async function copyCompactText(button) {
@@ -2976,6 +3000,85 @@
       apply('all');
     }
 
+    async function renderSixMinuteCollection() {
+      const target = document.getElementById('sixMinuteCollectionModules');
+      const toc = document.querySelector('[data-six-minute-toc]');
+      const input = document.querySelector('[data-six-minute-search]');
+      const meta = document.querySelector('[data-six-minute-meta]');
+      const description = document.getElementById('sixMinuteCollectionDescription');
+      if (!target || !toc || !input || !meta) return;
+
+      try {
+        const response = await fetch('data/six-one-minute-collection.json');
+        if (!response.ok) throw new Error('six-minute-collection request failed');
+        const data = await response.json();
+        const categories = data.categories || [];
+        if (description && data.description) description.textContent = data.description;
+        if (!categories.length) {
+          target.innerHTML = '<p class="happiness-answer-empty">暂无六类一分钟学习内容</p>';
+          return;
+        }
+
+        toc.innerHTML = '<button type="button" class="active" data-six-minute-category="all">全部 ' + safeHtml(String(data.itemCount || 0)) + '</button>' +
+          categories.map((category, index) => '<button type="button" data-six-minute-category="' + index + '">' + safeHtml(category.title) + ' ' + safeHtml(String((category.items || []).length)) + '</button>').join('');
+        target.innerHTML = categories.map((category, index) => {
+          const items = category.items || [];
+          return '<section class="happiness-answer-module" id="six-minute-category-' + index + '" data-six-minute-section="' + index + '">' +
+            '<div class="happiness-answer-module-head"><h3>' + safeHtml(category.title) + '</h3><span class="happiness-answer-module-count" data-six-minute-count>' + items.length + ' 条</span></div>' +
+            '<div class="happiness-answer-list">' + items.map((item) => {
+              const lines = item.lines || [];
+              const itemTitle = (item.order ? '第' + item.order + '条：' : '') + item.title;
+              const searchText = [category.title, item.order, item.title, ...lines].join(' ');
+              return '<details class="happiness-answer-item" data-six-minute-item data-search-text="' + safeHtml(searchText) + '">' +
+                '<summary><span class="happiness-answer-order">' + safeHtml(item.order ? '第' + item.order + '条' : '') + '</span><span>' + safeHtml(item.title) + '</span>' + compactCopyButton(itemTitle, 'mini-copy happiness-answer-copy', '复制标题') + '</summary>' +
+                '<div class="happiness-answer-body"><div class="minute-copy-row"><span>正文</span>' + compactCopyButton(lines.join('\n'), 'mini-copy', '复制正文') + '</div>' + lines.map((line) => '<p>' + safeHtml(line) + '</p>').join('') + '</div>' +
+              '</details>';
+            }).join('') + '</div>' +
+          '</section>';
+        }).join('');
+        bindCompactCopy(target);
+
+        const apply = (selectedCategory = 'all') => {
+          const keyword = normalizeText(input.value);
+          let visible = 0;
+          target.querySelectorAll('[data-six-minute-section]').forEach((categorySection, index) => {
+            const categoryMatches = selectedCategory === 'all' || selectedCategory === String(index);
+            let categoryVisible = 0;
+            categorySection.querySelectorAll('[data-six-minute-item]').forEach((item) => {
+              const matched = categoryMatches && (!keyword || normalizeText(item.dataset.searchText).includes(keyword));
+              item.hidden = !matched;
+              if (!matched) item.open = false;
+              if (matched) {
+                categoryVisible += 1;
+                visible += 1;
+              }
+            });
+            categorySection.hidden = categoryVisible === 0;
+            const count = categorySection.querySelector('[data-six-minute-count]');
+            if (count) count.textContent = categoryVisible + ' / ' + categorySection.querySelectorAll('[data-six-minute-item]').length + ' 条';
+          });
+          meta.textContent = keyword || selectedCategory !== 'all'
+            ? '找到 ' + visible + ' / ' + (data.itemCount || 0) + ' 条'
+            : '共 ' + (data.itemCount || 0) + ' 条，按类别浏览或搜索关键词。';
+        };
+
+        toc.querySelectorAll('[data-six-minute-category]').forEach((button) => {
+          button.addEventListener('click', () => {
+            toc.querySelectorAll('[data-six-minute-category]').forEach((item) => item.classList.toggle('active', item === button));
+            apply(button.dataset.sixMinuteCategory || 'all');
+          });
+        });
+        input.addEventListener('input', () => {
+          const active = toc.querySelector('[data-six-minute-category].active');
+          apply(active?.dataset.sixMinuteCategory || 'all');
+        });
+        apply('all');
+      } catch (error) {
+        target.innerHTML = '<p class="happiness-answer-empty">六类一分钟内容加载失败，请刷新页面后重试。</p>';
+        meta.textContent = '';
+      }
+    }
+
     function renderSalonScriptSteps(content) {
       const steps = splitSalonScriptSteps(content);
       return steps.map((step, index) => {
@@ -3291,6 +3394,7 @@
     renderStudentGrowthSteps();
     renderSalonInterviewStandards();
     renderHappinessFamilyAnswers();
+    renderSixMinuteCollection();
     bindCompactCopy(document);
     initContentTabs();
     initWorkspaceTabs();
