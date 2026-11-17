@@ -2134,6 +2134,27 @@ const html = `<!doctype html>
       display: grid;
       gap: 5px;
     }
+    .salon-merged-group + .salon-merged-group {
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px solid rgba(0,0,0,.08);
+    }
+    .salon-merged-group-title {
+      margin: 0 0 5px;
+      color: #1d1d1f;
+      font-size: 14px;
+      line-height: 1.45;
+      font-weight: 900;
+      overflow-wrap: anywhere;
+    }
+    .merged-mirror-card .salon-line-list {
+      gap: 0;
+    }
+    .merged-mirror-card .salon-line + .salon-line {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px solid rgba(0,0,0,.07);
+    }
     .salon-line-list .salon-line {
       margin: 0;
       color: #1d1d1f;
@@ -2285,7 +2306,7 @@ const html = `<!doctype html>
     .raw-module-head::-webkit-details-marker { display: none; }
     .raw-module-title-wrap {
       display: flex;
-      align-items: center;
+      align-items: baseline;
       min-width: 0;
       gap: 8px;
     }
@@ -2300,12 +2321,29 @@ const html = `<!doctype html>
       white-space: normal;
       overflow-wrap: anywhere;
     }
+    .raw-module-preview,
+    .raw-line span:last-child,
+    .raw-module-card > p {
+      min-width: 0;
+      white-space: normal;
+      overflow: visible;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+    .raw-module-preview {
+      flex: 1 1 auto;
+      color: #3a3a3c;
+      line-height: 1.52;
+      font-size: 14.2px;
+      font-weight: 640;
+    }
     .raw-line-list {
       display: grid;
-      gap: 4px;
+      gap: 7px;
       margin-top: 7px;
       padding-top: 7px;
       border-top: 1px solid rgba(0,0,0,.08);
+      max-width: 900px;
     }
     .raw-line {
       display: grid;
@@ -2313,6 +2351,33 @@ const html = `<!doctype html>
       gap: 8px;
       align-items: start;
       list-style: none;
+      padding: 2px 0;
+    }
+    .raw-line.raw-line-step,
+    .raw-line.raw-line-case,
+    .raw-line.raw-line-notice {
+      padding: 6px 8px;
+      border-radius: 8px;
+      border-left: 3px solid var(--mirror-accent);
+      background: rgba(0,0,0,.025);
+    }
+    .raw-line.raw-line-step {
+      color: #004f9e;
+      font-weight: 760;
+    }
+    .raw-line.raw-line-case {
+      border-left-color: #ff9500;
+      color: #8a4b00;
+    }
+    .raw-line.raw-line-notice {
+      border-left-color: #ff3b30;
+      color: #8f1d18;
+      background: rgba(255,59,48,.06);
+    }
+    .raw-line.raw-line-label {
+      padding-top: 6px;
+      color: #1d1d1f;
+      font-weight: 900;
     }
     .raw-order {
       min-width: 24px;
@@ -3711,7 +3776,7 @@ const html = `<!doctype html>
 
     function renderNumberedTextLine(line) {
       const parsed = parseRawOrder(line);
-      return '<div class="raw-line">' +
+      return '<div class="raw-line' + rawLineTone(parsed.text || line) + '">' +
         '<span class="raw-order' + (parsed.order ? '' : ' empty') + '">' + safeHtml(parsed.order) + '</span>' +
         '<span>' + formatRawLine(parsed.text || line) + '</span>' +
       '</div>';
@@ -3782,37 +3847,33 @@ const html = `<!doctype html>
     }
 
     function renderReviewTools() {
-      reviewList.innerHTML = manual.salonReview.map((item, index) => (
-        renderMirrorTextCard(index + 1, '复盘问题 ' + (index + 1), [item])
-      )).join('');
+      reviewList.innerHTML = renderMergedMirrorTextCard('复盘清单', manual.salonReview);
       const camp7ReviewList = document.getElementById('camp7ReviewList');
       if (camp7ReviewList) {
-        camp7ReviewList.innerHTML = (manual.camp7Review || []).map((item, index) => (
-          renderMirrorTextCard(index + 1, '复盘问题 ' + (index + 1), [item])
-        )).join('');
+        camp7ReviewList.innerHTML = renderMergedMirrorTextCard('关键问题', manual.camp7Review || []);
       }
       bindCompactCopy(reviewList);
       bindCompactCopy(camp7ReviewList);
     }
 
     function renderModelCollection() {
-      collectionGrid.innerHTML = manual.modelCollection.steps.map((step, index) => (
-        '<details class="salon-step-card mirror-standard-card collection-card" data-search-text="' + safeHtml([step.title, step.body, step.purpose].join(' ')) + '">' +
-          '<summary class="salon-step-head">' +
-            '<span class="salon-step-title-wrap"><span class="salon-step-index">' + (index + 1) + '</span>' +
-            '<h4 class="salon-step-title">' + safeHtml(step.title) + '</h4></span>' +
-            compactCopyButton(['第' + (index + 1) + '步 ' + step.title, step.body, step.purpose].join('\\n'), 'mini-copy model-step-copy') +
-            '<span class="salon-step-toggle" aria-hidden="true"></span>' +
-          '</summary>' +
-          '<div class="salon-step-content">' +
-            renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(step.body))) +
-            (step.purpose ? '<p class="salon-line formula"><strong>核心目的：</strong>' + safeHtml(step.purpose) + '</p>' : '') +
-          '</div>' +
-        '</details>'
-      )).join('');
-      collectionQuestions.innerHTML = manual.modelCollection.questions.map((question, index) => (
-        renderMirrorTextCard(index + 1, '采访问题 ' + (index + 1), [question])
-      )).join('');
+      const collectionSteps = manual.modelCollection.steps || [];
+      collectionGrid.innerHTML = (collectionSteps.length ? renderMergedModelCollectionCard(collectionSteps.slice(0, 4)) : '') +
+        collectionSteps.slice(4).map((step, index) => (
+          '<details class="salon-step-card mirror-standard-card collection-card" data-search-text="' + safeHtml([step.title, step.body, step.purpose].join(' ')) + '">' +
+            '<summary class="salon-step-head">' +
+              '<span class="salon-step-title-wrap"><span class="salon-step-index">' + (index + 5) + '</span>' +
+              '<h4 class="salon-step-title">' + safeHtml(step.title) + '</h4></span>' +
+              compactCopyButton(['第' + (index + 5) + '步 ' + step.title, step.body, step.purpose].join('\\n'), 'mini-copy model-step-copy') +
+              '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+            '</summary>' +
+            '<div class="salon-step-content">' +
+              renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(step.body))) +
+              (step.purpose ? '<p class="salon-line formula"><strong>核心目的：</strong>' + safeHtml(step.purpose) + '</p>' : '') +
+            '</div>' +
+          '</details>'
+        )).join('');
+      collectionQuestions.innerHTML = renderMergedMirrorTextCard('17个采访问题', manual.modelCollection.questions || []);
       const questionsCopy = document.getElementById('collectionQuestionsCopy');
       if (questionsCopy) {
         questionsCopy.dataset.copyText = buildCollectionQuestionsCopyText();
@@ -3823,7 +3884,7 @@ const html = `<!doctype html>
 
     function renderToolbox() {
       toolGrid.innerHTML = manual.toolbox.map((tool) => (
-        '<details class="salon-step-card mirror-standard-card tool-card" data-search-text="' + safeHtml([tool.title, tool.text].join(' ')) + '">' +
+        '<details class="salon-step-card mirror-standard-card tool-card" data-search-text="' + safeHtml([tool.title, tool.text].join(' ')) + '" open>' +
           '<summary class="salon-step-head">' +
             '<span class="salon-step-title-wrap"><span class="salon-step-index">图</span>' +
             '<h4 class="salon-step-title">' + safeHtml(tool.title) + '</h4></span>' +
@@ -3833,7 +3894,7 @@ const html = `<!doctype html>
           '<div class="salon-step-content tool-card-body">' +
             renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(tool.text))) +
             '<a class="image-link" href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener">查看原图</a>' +
-            '<a class="tool-image-preview" href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener"><img src="' + safeHtml(tool.image) + '" alt="' + safeHtml(tool.title) + '"></a>' +
+            '<a class="tool-image-preview" href="' + safeHtml(tool.image) + '" target="_blank" rel="noopener"><img src="' + safeHtml(tool.image) + '" alt="' + safeHtml(tool.title) + '" loading="lazy"></a>' +
           '</div>' +
         '</details>'
       )).join('');
@@ -3851,6 +3912,40 @@ const html = `<!doctype html>
           '<span class="salon-step-toggle" aria-hidden="true"></span>' +
         '</summary>' +
         '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
+      '</details>';
+    }
+
+    function renderMergedMirrorTextCard(title, lines, copyClass = '') {
+      const normalizedLines = (lines || []).map((line) => String(line || '').trim()).filter(Boolean);
+      const numberedLines = normalizedLines.map((line, index) => (index + 1) + '. ' + line);
+      const lineBlocks = buildSalonLineBlocks(numberedLines);
+      const copyText = [title, ...numberedLines].join('\\n').trim();
+      return '<details class="salon-step-card mirror-standard-card merged-mirror-card" data-search-text="' + safeHtml([title, ...normalizedLines].join(' ')) + '">' +
+        '<summary class="salon-step-head">' +
+          '<span class="salon-step-title-wrap"><h4 class="salon-step-title">' + safeHtml(title) + '</h4></span>' +
+          (copyClass ? compactCopyButton(copyText, 'mini-copy ' + copyClass) : '<span></span>') +
+          '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+        '</summary>' +
+        '<div class="salon-step-content">' + renderSalonLineBlocks(lineBlocks) + '</div>' +
+      '</details>';
+    }
+
+    function renderMergedModelCollectionCard(steps) {
+      const copyLines = steps.flatMap((step, index) => ['第' + (index + 1) + '步 ' + step.title, step.body, step.purpose].filter(Boolean));
+      const body = steps.map((step, index) => (
+        '<div class="salon-merged-group">' +
+          '<h5 class="salon-merged-group-title">第' + (index + 1) + '步 ' + safeHtml(step.title) + '</h5>' +
+          renderSalonLineBlocks(buildSalonLineBlocks(splitDisplayLines(step.body))) +
+          (step.purpose ? '<p class="salon-line formula"><strong>核心目的：</strong>' + safeHtml(step.purpose) + '</p>' : '') +
+        '</div>'
+      )).join('');
+      return '<details class="salon-step-card mirror-standard-card collection-card merged-mirror-card" data-search-text="' + safeHtml(copyLines.join(' ')) + '">' +
+        '<summary class="salon-step-head">' +
+          '<span class="salon-step-title-wrap"><span class="salon-step-index">1-4</span><h4 class="salon-step-title">1-4 采集流程</h4></span>' +
+          compactCopyButton(copyLines.join('\\n'), 'mini-copy model-step-copy') +
+          '<span class="salon-step-toggle" aria-hidden="true"></span>' +
+        '</summary>' +
+        '<div class="salon-step-content">' + body + '</div>' +
       '</details>';
     }
 
@@ -3941,18 +4036,22 @@ const html = `<!doctype html>
         target.innerHTML = blocks.map((block, index) => {
           const displayTitle = simplifyRawBlockTitle(block.title, block.lines);
           const displayLines = getRawDisplayLines(source.id, displayTitle, block.lines.length ? block.lines : [block.title]);
+          const previewLine = shouldMergeRawPreview(displayTitle, displayLines[0]) ? displayLines[0] : '';
+          const remainingLines = previewLine ? displayLines.slice(1) : displayLines;
           const moduleText = [block.order ? block.order + ' ' + displayTitle : displayTitle, ...displayLines].join('\\n');
           const copyMarkup = shouldHideRawCopy(displayTitle, block.title, displayLines)
             ? ''
             : compactCopyButton(moduleText, 'mini-copy raw-copy-btn');
+          const previewMarkup = previewLine ? '<span class="raw-module-preview">：' + safeHtml(previewLine) + '</span>' : '';
+          const toggleMarkup = remainingLines.length ? '<span class="raw-module-toggle" aria-hidden="true"></span>' : '';
           return '<details class="raw-module-card" data-search-text="' + safeHtml([source.title, moduleText].join(' ')) + '">' +
             '<summary class="raw-module-head">' +
               '<span class="raw-module-title-wrap"><span class="raw-order' + (block.order ? '' : ' empty') + '">' + safeHtml(block.order) + '</span>' +
-              '<h3 class="raw-module-title">' + safeHtml(displayTitle || ('内容模块 ' + (index + 1))) + '</h3></span>' +
+              '<h3 class="raw-module-title">' + safeHtml(displayTitle || ('内容模块 ' + (index + 1))) + '</h3>' + previewMarkup + '</span>' +
               copyMarkup +
-              '<span class="raw-module-toggle" aria-hidden="true"></span>' +
+              toggleMarkup +
             '</summary>' +
-            renderRawBlockLines(displayLines) +
+            renderRawBlockLines(remainingLines) +
           '</details>';
         }).join('');
       });
@@ -4094,7 +4193,7 @@ const html = `<!doctype html>
       target.innerHTML = modules.map((module, index) => {
         const lineBlocks = buildSalonLineBlocks(module.lines || []);
         const copyText = [module.title, ...lineBlocks.map((block) => block.text)].join('\\n').trim();
-        return '<details class="salon-step-card student-growth-card">' +
+        return '<details class="salon-step-card student-growth-card" open>' +
           '<summary class="salon-step-head">' +
             '<span class="salon-step-title-wrap"><span class="salon-step-index">' + safeHtml(module.order || String(index + 1)) + '</span>' +
             '<h4 class="salon-step-title">' + safeHtml(module.title || ('内容模块 ' + (index + 1))) + '</h4></span>' +
@@ -4337,9 +4436,7 @@ const html = `<!doctype html>
     }
 
     function shouldJoinSalonLine(current, line, type) {
-      if (type !== 'plain') return false;
-      if (['task', 'question', 'scene'].includes(current.type)) return false;
-      return !/[。！？!?；;：:】）)”’》]$/.test(current.text);
+      return false;
     }
 
     function joinSalonText(left, right) {
@@ -4357,7 +4454,8 @@ const html = `<!doctype html>
     }
 
     function splitSalonScriptSteps(content) {
-      const lines = String(content || '').split('\\n').map((line) => line.trim()).filter(Boolean);
+      const normalizedContent = String(content || '').replace(/顾\\n客/g, '顾客');
+      const lines = normalizedContent.split('\\n').map((line) => line.trim()).filter(Boolean);
       const steps = [];
       const intro = [];
       let current = null;
@@ -4386,10 +4484,21 @@ const html = `<!doctype html>
       return false;
     }
 
+    function shouldMergeRawPreview(displayTitle, line) {
+      const title = String(displayTitle || '').trim();
+      const preview = String(line || '').trim();
+      if (!title || !preview || preview === '[图片]' || preview === title) return false;
+      if (title === '说明') return preview.length <= 42;
+      if (title.length > 18 || preview.length > 36) return false;
+      const titleChars = [...title.replace(/[^一-龥A-Za-z0-9]/g, '')];
+      const sharedChars = new Set(titleChars.filter((char) => preview.includes(char)));
+      return preview.includes(title) || (titleChars.length > 0 && sharedChars.size >= Math.max(2, Math.ceil(titleChars.length * 0.75)));
+    }
+
     function getRawDisplayLines(sourceId, displayTitle, lines) {
       if (sourceId === 'rawSalon' && String(displayTitle || '').includes('注意事项')) {
         return [
-          '1. 如果对方没有回应，还是重新回到第一步',
+          '如果对方没有回应，还是重新回到第一步',
           '激活，连续两次、三次没有激活，今天的沟通暂停。',
           '2. 如时机场合不对，直接暂停。'
         ];
@@ -4400,11 +4509,10 @@ const html = `<!doctype html>
     function simplifyRawBlockTitle(title, lines) {
       const text = String(title || '').trim();
       if (!text) return '';
-      if (text.startsWith('💕')) return text.length > 22 ? text.slice(0, 20) + '…' : text;
+      if (text.startsWith('💕')) return text;
       if (!lines.length && text.length > 18) return '说明';
       if (text.includes('流程与标准')) return '流程标准';
       if (text.includes('若想最高效')) return '标准说明';
-      if (text.length > 22) return text.slice(0, 20) + '…';
       return text;
     }
 
@@ -4489,11 +4597,20 @@ const html = `<!doctype html>
       if (!lines.length) return '';
       return '<div class="raw-line-list">' + lines.map((line) => {
         const parsed = parseRawOrder(line);
-        return '<div class="raw-line">' +
+        return '<div class="raw-line' + rawLineTone(parsed.text || line) + '">' +
           '<span class="raw-order' + (parsed.order ? '' : ' empty') + '">' + safeHtml(parsed.order) + '</span>' +
           '<span>' + formatRawLine(parsed.text || line) + '</span>' +
         '</div>';
       }).join('') + '</div>';
+    }
+
+    function rawLineTone(line) {
+      const text = String(line || '').trim();
+      if (/^(注意|注意事项|提醒|警告|不要|禁止|切记|⚠)/.test(text)) return ' raw-line-notice';
+      if (/^(步骤|第[0-9一二三四五六七八九十]+步|正式训练第|场景)/.test(text)) return ' raw-line-step';
+      if (/^(案例|（案例|\(案例)/.test(text)) return ' raw-line-case';
+      if (/^(说明|流程标准|作业要求|学习要求|复制标准)/.test(text)) return ' raw-line-label';
+      return '';
     }
 
     function parseRawOrder(line) {
@@ -4558,10 +4675,7 @@ const html = `<!doctype html>
     function splitDenseLine(line) {
       const compact = String(line || '').trim();
       if (!compact) return [];
-      const expanded = compact.length > 70
-        ? compact.replace(/([。！？；;])(?=[^”’）】\\]\\s])/g, '$1\\n')
-        : compact;
-      return expanded
+      return compact
         .replace(/([。！？；;])(?=(第[0-9一二三四五六七八九十]+[步天]|[0-9]{1,2}[.、]|[①②③④⑤⑥⑦⑧⑨⑩]|✅|⚠|💡|😇|😄|📢|⛏|🚀|🥇|🍀|🌟))/g, '$1\\n')
         .replace(/([^\\\\n\\d])(?=(第[0-9一二三四五六七八九十]+步[:：]|[0-9]{1,2}[.、](?!\\\\d)|[①②③④⑤⑥⑦⑧⑨⑩]|✅|⚠|💡|😇|😄|📢|⛏|🚀|🥇|🍀|🌟))/g, '$1\\n')
         .replace(/([^\\\\n])(?=(一个服务理念|一类角色定位|两个沟通心法|两种开拓方法|三个必做目标|三大核心关注|四步服务流程|四阶人才漏斗|四种人才特征|四步个人服务步骤|五步标准沟通|五步人才培养|六个销售武器|我们的共同约定|对于幸福驿站市场服务的认识|三种学员不收|只收一种学员))/g, '$1\\n')
@@ -4570,7 +4684,7 @@ const html = `<!doctype html>
 
     function getResultTitle(item) {
       const cardTitle = item.querySelector('h3')?.textContent || item.closest('.band')?.querySelector('h2')?.textContent || item.textContent;
-      return cardTitle.trim().slice(0, 42);
+      return cardTitle.trim();
     }
 
     repairAbilityCopy();

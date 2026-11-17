@@ -304,10 +304,10 @@ const salonReview = await page.$eval('#abilitySalonReview', (root) => {
     firstOverflowY: getComputedStyle(root.querySelector('.salon-step-content')).overflowY
   };
 });
-assert(salonReview.count >= 10, '沙龙复盘清单数量不足');
+assert(salonReview.count === 1, '沙龙复盘清单应合并为一个模块：' + salonReview.count);
 assert(salonReview.copyCount === 0, '沙龙复盘仍有单条复制按钮');
 assert(salonReview.panelCopyCount === 1, '沙龙复盘没有整块复制按钮');
-assert(salonReview.panelText.includes('复盘问题 1'), '沙龙复盘内容不完整');
+assert(salonReview.panelText.includes('角色定位是否清楚'), '沙龙复盘内容不完整');
 assert(!salonReview.hasStepChip, '沙龙复盘清单仍使用胶囊元素');
 assert(salonReview.firstBackground !== 'rgba(0, 0, 0, 0)', `沙龙复盘卡片没有背景：${salonReview.firstBackground}`);
 assert(salonReview.firstBorderRadius !== '0px', `沙龙复盘卡片没有圆角：${salonReview.firstBorderRadius}`);
@@ -321,10 +321,10 @@ const campReview = await page.$eval('#abilityCamp7Review', (root) => ({
   ulCount: root.querySelectorAll('ul li').length,
   panelText: root.textContent || ''
 }));
-assert(campReview.count >= 7, '7天训练营复盘卡片数量不足');
+assert(campReview.count === 1, '7天训练营复盘应合并为一个模块：' + campReview.count);
 assert(campReview.copyCount === 0, '7天训练营复盘仍有单条复制按钮');
 assert(campReview.panelCopyCount === 1, '7天训练营复盘没有整块复制按钮');
-assert(campReview.panelText.includes('复盘问题 1'), '7天训练营复盘内容不完整');
+assert(campReview.panelText.includes('学员是不是从沙龙或者转介绍筛选来的'), '7天训练营复盘内容不完整');
 assert(campReview.ulCount === 0, '7天训练营复盘仍使用圆点列表');
 
 await page.locator('[data-content-target="modelCollection"]').click();
@@ -342,9 +342,9 @@ const modelCards = await page.$eval('#modelCollection', (root) => ({
   questionLineFontSize: getComputedStyle(root.querySelector('#collectionQuestions .salon-line')).fontSize,
   gridColumns: getComputedStyle(root.querySelector('#collectionGrid')).gridTemplateColumns
 }));
-assert(modelCards.stepCount >= 4, '榜样采访步骤卡片数量不足');
+assert(modelCards.stepCount === 1, '榜样采访前四步应合并为一个模块：' + modelCards.stepCount);
 assert(modelCards.stepCopyCount === modelCards.stepCount, '榜样采访步骤没有每个模块复制');
-assert(modelCards.questionCardCount >= 16, '榜样采访问句卡片数量不足');
+assert(modelCards.questionCardCount === 1, '榜样采访问句应合并为一个模块：' + modelCards.questionCardCount);
 assert(modelCards.questionCopyCount === 0, '榜样采访问句模板仍有单问复制按钮');
 assert(modelCards.questionTemplateCopyCount === 1, '榜样采访问句模板缺少整块复制按钮');
 assert(modelCards.firstStepCopyText.includes('共情') && modelCards.firstStepCopyText.includes('核心目的'), '榜样采访步骤复制内容不完整');
@@ -396,7 +396,7 @@ await page.locator('[data-content-target="rawSalon"]').click();
 const rawSalonStyle = await page.$eval('#rawSalon .raw-module-card', (card) => {
   const title = card.querySelector('.raw-module-title');
   const titleStyle = title ? getComputedStyle(title) : null;
-  const line = card.querySelector('.raw-line span:last-child');
+  const line = card.querySelector('.raw-module-preview, .raw-line span:last-child');
   const lineStyle = line ? getComputedStyle(line) : null;
   return {
     titleBackground: titleStyle?.backgroundColor || '',
@@ -412,7 +412,7 @@ await page.locator('[data-content-target="rawCamp7"]').click();
 const rawCamp7Style = await page.$eval('#rawCamp7 .raw-module-card', (card) => {
   const title = card.querySelector('.raw-module-title');
   const titleStyle = title ? getComputedStyle(title) : null;
-  const line = card.querySelector('.raw-line span:last-child');
+  const line = card.querySelector('.raw-module-preview, .raw-line span:last-child');
   const lineStyle = line ? getComputedStyle(line) : null;
   return {
     titleFontSize: titleStyle?.fontSize || '',
@@ -444,7 +444,10 @@ const salonNotice = await page.$eval('#rawSalon', (root) => {
   const noticeCard = [...root.querySelectorAll('.raw-module-card')]
     .find((card) => card.querySelector('.raw-module-title')?.textContent.includes('注意事项'));
   return {
-    lines: noticeCard ? [...noticeCard.querySelectorAll('.raw-line span:last-child')].map((node) => node.textContent.trim()) : [],
+    lines: noticeCard ? [
+      ...(noticeCard.querySelector('.raw-module-preview')?.textContent.trim().replace(/^：/, '') ? [noticeCard.querySelector('.raw-module-preview').textContent.trim().replace(/^：/, '')] : []),
+      ...[...noticeCard.querySelectorAll('.raw-line span:last-child')].map((node) => node.textContent.trim())
+    ] : [],
     hasTalkPurposeCard: [...root.querySelectorAll('.raw-module-title')]
       .some((node) => node.textContent.includes('讲发心'))
   };
