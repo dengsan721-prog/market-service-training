@@ -265,6 +265,7 @@ const salonInterview = await page.$eval('#salonInterviewStandards', (root) => ({
   copyCount: root.querySelectorAll('.salon-interview-copy').length,
   firstCopyText: root.querySelector('.salon-interview-copy')?.dataset.copyText || '',
   hasFormula: root.textContent.includes('抓细节 → 点不容易 → 点价值'),
+  hasMergedReviewMethods: ['三类点评法：没做到', '三类点评法：做到了', '三类点评法：暂时没做到'].every((text) => root.textContent.includes(text)),
   hasForbidden: root.textContent.includes('不把采访变成考核、批评或成交'),
   markedLineTypes: [...new Set([...root.querySelectorAll('.salon-interview-card:first-child .salon-line')]
     .map((node) => [...node.classList].find((name) => name !== 'salon-line'))
@@ -278,10 +279,11 @@ const salonInterview = await page.$eval('#salonInterviewStandards', (root) => ({
     .map((card) => getComputedStyle(card).borderLeftColor)
 }));
 assert(salonInterview.title === '幸福沙龙采访', '幸福沙龙采访标题不正确');
-assert(salonInterview.moduleCount === 15, `幸福沙龙采访模块数量不正确：${salonInterview.moduleCount}`);
-assert(salonInterview.copyCount === 15, `幸福沙龙采访复制按钮数量不正确：${salonInterview.copyCount}`);
+assert(salonInterview.moduleCount === 12, `幸福沙龙采访模块数量不正确：${salonInterview.moduleCount}`);
+assert(salonInterview.copyCount === 12, `幸福沙龙采访复制按钮数量不正确：${salonInterview.copyCount}`);
 assert(salonInterview.firstCopyText.includes('一、一句话定位') && salonInterview.firstCopyText.includes('被看见、被托举、被赋能'), '幸福沙龙采访第一模块复制内容不完整');
 assert(salonInterview.hasFormula, '幸福沙龙采访缺少现场点评公式');
+assert(salonInterview.hasMergedReviewMethods, '幸福沙龙采访三类点评法没有合并到点评核心');
 assert(salonInterview.hasForbidden, '幸福沙龙采访缺少采访禁忌内容');
 assert(salonInterview.markedLineTypes.includes('formula'), '幸福沙龙采访缺少重点色块标注');
 assert(!['auto', 'scroll'].includes(salonInterview.firstContentOverflowY), `幸福沙龙采访正文仍存在内部滚动：${salonInterview.firstContentOverflowY}`);
