@@ -358,7 +358,7 @@ assert(!modelCards.gridColumns.includes(' '), '榜样采访步骤仍是多列网
 
 const mirrorCardChecks = [
   { target: 'abilityFramework', card: '.framework-card', copy: '.mirror-card-copy', min: 7, marker: '一个服务理念' },
-  { target: 'abilityThinking', card: '.thinking-card', copy: '.mirror-card-copy', min: 7, marker: '角色共识' },
+  { target: 'abilityThinking', card: '.thinking-card', copy: '.mirror-card-copy', min: 8, marker: '一、角色定位' },
   { target: 'abilityTools', card: '.tool-card', copy: '.tool-copy', min: 3, marker: '驿站主市场服务123456参考图', forbiddenTitle: '幸福驿站市场服务模型' }
 ];
 
@@ -512,8 +512,8 @@ const thinking = await page.$eval('#abilityThinking', (root) => ({
   firstBody: root.querySelector('.thinking-card .salon-step-content')?.textContent.trim() || ''
 }));
 assert(thinking.numbers[0] === '1', '总监思维第一项没有序号 1');
-assert(thinking.numbers.includes('7'), '总监思维没有保留完整序号');
-assert(/^1\. /.test(thinking.firstBody), '总监思维正文环节缺少序号');
+assert(thinking.numbers.includes('8'), '总监思维没有保留完整序号');
+assert(thinking.firstBody.includes('所有人的角色都是受益分享者'), '总监思维正文内容没有保留角色定位原文');
 
 const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1 || document.body.scrollWidth > window.innerWidth + 1);
 assert(!overflow, '390px 手机宽度出现横向溢出');
