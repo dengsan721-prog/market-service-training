@@ -576,31 +576,31 @@ const salonReview = [
 const directorThinking = [
   {
     title: '角色共识',
-    body: '所有人的角色都是受益分享者，不是老师，不是导师，不是大师。总监干三件事：育人才、挖沙子、淘金子；驿站主干两件事：挖沙子、淘金子。'
+    body: '1. 所有人的角色都是受益分享者，不是老师，不是导师，不是大师。\\n2. 总监干三件事：育人才、挖沙子、淘金子。\\n3. 驿站主干两件事：挖沙子、淘金子。'
   },
   {
     title: '共同做四件事',
-    body: '用锄头：用点评、音频、视频、文字、图片等激活别人，也激活自己。挖沙子：用沙龙育人，也育自己，严格按照标准通关、操作、复盘。造筛子：按照标准发掘榜样，用榜样工具激活更多人行动。淘金子：用行动筛选，任何发出的要求都要有收回动作。'
+    body: '1. 用锄头：用点评、音频、视频、文字、图片等激活别人，也激活自己。\\n2. 挖沙子：用沙龙育人，也育自己，严格按照标准通关、操作、复盘。\\n3. 造筛子：按照标准发掘榜样，用榜样工具激活更多人行动。\\n4. 淘金子：用行动筛选，任何发出的要求都要有收回动作。'
   },
   {
     title: '总监育人才三步',
-    body: '前10次约人由总监完成，让筛选出来的伙伴讲，破除邀约恐惧；要求把人讲死，不是讲活，破除担心讲坏的恐惧；讲完用标准复盘，破除随意修改流程标准的行为。'
+    body: '1. 前10次约人由总监完成，让筛选出来的伙伴讲，破除邀约恐惧。\\n2. 要求把人讲死，不是讲活，破除担心讲坏的恐惧。\\n3. 讲完用标准复盘，破除随意修改流程标准的行为。'
   },
   {
     title: '幸福事业五步',
-    body: '榜样工具邀约来人，幸福沙龙挖沙子淘金子，幸福转念训练营继续筛选，进入平台学习，梦想合并并重复前面三步。'
+    body: '1. 榜样工具邀约来人。\\n2. 幸福沙龙挖沙子淘金子。\\n3. 幸福转念训练营继续筛选。\\n4. 进入平台学习。\\n5. 梦想合并并重复前面三步。'
   },
   {
     title: '伙伴求助的两个辅导',
-    body: '先调心态：相信流程是在激活人的善，心态对了才会行动。再问细节：用方向和流程标准复盘具体动作，问怎么做、做了多少次、对方怎么反应，最后定计划、提要求、收反馈。'
+    body: '1. 先调心态：相信流程是在激活人的善，心态对了才会行动。\\n2. 再问细节：用方向和流程标准复盘具体动作，问怎么做、做了多少次、对方怎么反应，最后定计划、提要求、收反馈。'
   },
   {
     title: '顾客学习前四个顾虑',
-    body: '听不懂、学不会、没效果、副作用。对应解决方式是沙龙体验、榜样案例、真实细节变化、观察关系是否越来越好以及身边人是否反馈自己变好了。'
+    body: '1. 顾虑：听不懂、学不会、没效果、副作用。\\n2. 对应解决方式：沙龙体验、榜样案例、真实细节变化、观察关系是否越来越好以及身边人是否反馈自己变好了。'
   },
   {
     title: '学习后五种效果',
-    body: '问题不再恶化、问题解决、其他问题解决、掌握能力、合并梦想。任何学员面前只有三条路：放任不管、自己摸索、进入环境持续学习持续改变。'
+    body: '1. 问题不再恶化。\\n2. 问题解决。\\n3. 其他问题解决。\\n4. 掌握能力。\\n5. 合并梦想。\\n补充：任何学员面前只有三条路：放任不管、自己摸索、进入环境持续学习持续改变。'
   }
 ];
 
@@ -3920,7 +3920,8 @@ const html = `<!doctype html>
       const numberedLines = normalizedLines.map((line, index) => (index + 1) + '. ' + line);
       const lineBlocks = buildSalonLineBlocks(numberedLines);
       const copyText = [title, ...numberedLines].join('\\n').trim();
-      return '<details class="salon-step-card mirror-standard-card merged-mirror-card" data-search-text="' + safeHtml([title, ...normalizedLines].join(' ')) + '">' +
+      const openAttr = title === '复盘清单' || title === '关键问题' ? ' open' : '';
+      return '<details class="salon-step-card mirror-standard-card merged-mirror-card" data-search-text="' + safeHtml([title, ...normalizedLines].join(' ')) + '"' + openAttr + '>' +
         '<summary class="salon-step-head">' +
           '<span class="salon-step-title-wrap"><h4 class="salon-step-title">' + safeHtml(title) + '</h4></span>' +
           (copyClass ? compactCopyButton(copyText, 'mini-copy ' + copyClass) : '<span></span>') +
@@ -4034,17 +4035,21 @@ const html = `<!doctype html>
           .filter(Boolean);
         const blocks = buildRawMirrorBlocks(lines, source.title, source.id);
         target.innerHTML = blocks.map((block, index) => {
-          const displayTitle = simplifyRawBlockTitle(block.title, block.lines);
-          const displayLines = getRawDisplayLines(source.id, displayTitle, block.lines.length ? block.lines : [block.title]);
+          const headingParts = splitRawHeadingBody(block.title);
+          const displayTitle = simplifyRawBlockTitle(headingParts.title, block.lines);
+          const sourceLines = headingParts.body ? [headingParts.body, ...block.lines] : block.lines;
+          const displayLines = getRawDisplayLines(source.id, displayTitle, sourceLines.length ? sourceLines : [headingParts.title]);
+          const bodyLines = displayLines[0] && isSameRawTitleLine(displayTitle, displayLines[0]) ? displayLines.slice(1) : displayLines;
           const previewLine = shouldMergeRawPreview(displayTitle, displayLines[0]) ? displayLines[0] : '';
-          const remainingLines = previewLine ? displayLines.slice(1) : displayLines;
-          const moduleText = [block.order ? block.order + ' ' + displayTitle : displayTitle, ...displayLines].join('\\n');
+          const remainingLines = previewLine ? displayLines.slice(1) : bodyLines;
+          const moduleText = [block.order ? block.order + ' ' + displayTitle : displayTitle, ...bodyLines].join('\\n');
           const copyMarkup = shouldHideRawCopy(displayTitle, block.title, displayLines)
             ? ''
             : compactCopyButton(moduleText, 'mini-copy raw-copy-btn');
           const previewMarkup = previewLine ? '<span class="raw-module-preview">：' + safeHtml(previewLine) + '</span>' : '';
           const toggleMarkup = remainingLines.length ? '<span class="raw-module-toggle" aria-hidden="true"></span>' : '';
-          return '<details class="raw-module-card" data-search-text="' + safeHtml([source.title, moduleText].join(' ')) + '">' +
+          const openAttr = /注意事项|请附上实战截图/.test(String(displayTitle || '')) ? ' open' : '';
+          return '<details class="raw-module-card" data-search-text="' + safeHtml([source.title, moduleText].join(' ')) + '"' + openAttr + '>' +
             '<summary class="raw-module-head">' +
               '<span class="raw-module-title-wrap"><span class="raw-order' + (block.order ? '' : ' empty') + '">' + safeHtml(block.order) + '</span>' +
               '<h3 class="raw-module-title">' + safeHtml(displayTitle || ('内容模块 ' + (index + 1))) + '</h3>' + previewMarkup + '</span>' +
@@ -4495,10 +4500,25 @@ const html = `<!doctype html>
       return preview.includes(title) || (titleChars.length > 0 && sharedChars.size >= Math.max(2, Math.ceil(titleChars.length * 0.75)));
     }
 
+    function splitRawHeadingBody(title) {
+      const text = String(title || '').trim();
+      const match = text.match(/^(.+?)[：:]\s*(1[.、）)]\s*.+)$/);
+      return match ? { title: match[1].trim(), body: match[2].trim() } : { title: text, body: '' };
+    }
+
+    function isSameRawTitleLine(title, line) {
+      const normalize = (value) => String(value || '')
+        .replace(/^[\\s⚠️💕🌲✅📚🌈💡]+/, '')
+        .replace(/[：:。！？!?；;]+$/, '')
+        .replace(/\\s+/g, '')
+        .trim();
+      return normalize(title) && normalize(title) === normalize(line);
+    }
+
     function getRawDisplayLines(sourceId, displayTitle, lines) {
       if (sourceId === 'rawSalon' && String(displayTitle || '').includes('注意事项')) {
         return [
-          '如果对方没有回应，还是重新回到第一步',
+          '1. 如果对方没有回应，还是重新回到第一步',
           '激活，连续两次、三次没有激活，今天的沟通暂停。',
           '2. 如时机场合不对，直接暂停。'
         ];
@@ -4668,13 +4688,14 @@ const html = `<!doctype html>
         .replace(/\\u00a0/g, ' ')
         .split('\\n')
         .flatMap((line) => splitDenseLine(line))
-        .map((line) => line.trim())
+        .map((line) => line.replace(/^\\s*\\*+\\s*/, '').trim())
         .filter(Boolean);
     }
 
     function splitDenseLine(line) {
       const compact = String(line || '').trim();
       if (!compact) return [];
+      if (/^💕[^\\\\n]*心愿闭环（[^）]+）$/.test(compact)) return [compact];
       return compact
         .replace(/([。！？；;])(?=(第[0-9一二三四五六七八九十]+[步天]|[0-9]{1,2}[.、]|[①②③④⑤⑥⑦⑧⑨⑩]|✅|⚠|💡|😇|😄|📢|⛏|🚀|🥇|🍀|🌟))/g, '$1\\n')
         .replace(/([^\\\\n\\d])(?=(第[0-9一二三四五六七八九十]+步[:：]|[0-9]{1,2}[.、](?!\\\\d)|[①②③④⑤⑥⑦⑧⑨⑩]|✅|⚠|💡|😇|😄|📢|⛏|🚀|🥇|🍀|🌟))/g, '$1\\n')

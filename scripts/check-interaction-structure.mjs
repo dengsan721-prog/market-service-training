@@ -446,16 +446,20 @@ const salonNotice = await page.$eval('#rawSalon', (root) => {
   return {
     lines: noticeCard ? [
       ...(noticeCard.querySelector('.raw-module-preview')?.textContent.trim().replace(/^：/, '') ? [noticeCard.querySelector('.raw-module-preview').textContent.trim().replace(/^：/, '')] : []),
-      ...[...noticeCard.querySelectorAll('.raw-line span:last-child')].map((node) => node.textContent.trim())
+      ...[...noticeCard.querySelectorAll('.raw-line')].map((line) => {
+        const order = line.querySelector('.raw-order')?.textContent.trim() || '';
+        const text = line.querySelector('span:last-child')?.textContent.trim() || '';
+        return (order ? order + ' ' : '') + text;
+      })
     ] : [],
     hasTalkPurposeCard: [...root.querySelectorAll('.raw-module-title')]
       .some((node) => node.textContent.includes('讲发心'))
   };
 });
 assert(JSON.stringify(salonNotice.lines) === JSON.stringify([
-  '如果对方没有回应，还是重新回到第一步',
+  '1. 如果对方没有回应，还是重新回到第一步',
   '激活，连续两次、三次没有激活，今天的沟通暂停。',
-  '如时机场合不对，直接暂停。'
+  '2. 如时机场合不对，直接暂停。'
 ]), `沙龙注意事项内容不正确：${salonNotice.lines.join(' / ')}`);
 assert(salonNotice.hasTalkPurposeCard, '沙龙讲发心内容没有独立成模块');
 
@@ -502,10 +506,12 @@ for (const target of ['rawCamp7', 'rawTalent', 'rawOther']) {
 
 await page.locator('[data-content-target="abilityThinking"]').click();
 const thinking = await page.$eval('#abilityThinking', (root) => ({
-  numbers: [...root.querySelectorAll('.thinking-card .salon-step-index')].map((node) => node.textContent.trim())
+  numbers: [...root.querySelectorAll('.thinking-card .salon-step-index')].map((node) => node.textContent.trim()),
+  firstBody: root.querySelector('.thinking-card .salon-step-content')?.textContent.trim() || ''
 }));
 assert(thinking.numbers[0] === '1', '总监思维第一项没有序号 1');
 assert(thinking.numbers.includes('7'), '总监思维没有保留完整序号');
+assert(/^1\. /.test(thinking.firstBody), '总监思维正文环节缺少序号');
 
 const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1 || document.body.scrollWidth > window.innerWidth + 1);
 assert(!overflow, '390px 手机宽度出现横向溢出');
